@@ -1,0 +1,7 @@
+%!TEX root = ../../report.tex
+\chapter{Introduction}
+
+Mobile robot navigation today is highly based on offline generated maps of the environment. This is adequate in a lot of applications but this approach has issues. As the discrepancy between the internal map of the robot and the true state of the environment increases, tasks like path planning and localization will be based on more and more erroneous data. To overcome these challenges it would be beneficial to incorporate the dynamics into the perception the robot has of the world.
+
+As the environment changes a robot which navigation is based on a predetermined static map will be prone to plan paths where there might be placed an obstacle since the map was generated and the time of planning. This will force the robot to replan the path thus wasting time or causing the robot to fail to reach its goal. Likewise will a map based navigation be subject to errors as the map increasingly misrepresents the environment. The most simple solution to these problems would be to add or remove obstacles based on the last observation. This, however, will likely clutter the map with highly dynamical obstacles like people moving through or vehicles driving by and thus has a high risk of blocking large parts of the map. Therefore it is necessary to consider which obstacle should be included and which should be left out and furthermore how this selection is to be done.  The question of how relates to another consideration, namely how are obstacles and the environment represented in the robot.
+
