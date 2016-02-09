@@ -1,0 +1,45 @@
+\documentclass{book}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{tocbibind}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\addbibresource{references.bib}
+
+\title{Mapping of dynamic environments for effective navigation of mobile robots}
+\date{June 1, 2016}
+\author{Anders Birkehoej Jensen}
+\author{Martin Groth Alboege}
+\affil{Faculty of Engineering\\University of Southern Denmark}
+
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents
+%\listoftables
+%\listoffigures
+
+\include{chapters/preface/abstract}
+\tableofcontents
+
+\mainmatter
+\include{chapters/problem_analysis/problem_analysis}
+\include{chapters/theory/theory}
+\include{chapters/implementation/implementation}
+\include{chapters/evaluation/evaluation}
+\include{chapters/conclusion/conclusion}
+
+\pagebreak
+\pagenumbering{roman}
+\appendix
+\include{chapters/appendix/appendix}
+
+\backmatter
+\printbibliography[heading=bibintoc]
+\end{document}
