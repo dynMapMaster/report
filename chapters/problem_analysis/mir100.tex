@@ -1,19 +1,17 @@
 %!TEX root = ../../report.tex
 \section{MIR 100 platform}
-
-Drives almost constantly with 5 km/h.
+The MIR100 platform is a differential steered mobile robot platform.
+It uses two SICK S30B-2011ca Lidar sensor to locate itself in the environment. 
+When navigating the strategy of the robot is to accelerate as quickly as possible to its marching speed of approximately 5 km/h.
 
 \subsection{LiDar}
-LiDar in 16 cm height
+The two Lidars are mounted at a height of 16 cm and so all obstacles are detected at this height. As they each provide a 270 degree view and are placed diagonally oposite each other they give the robot a 360 degree scan capability. The range of the sensors are 30 m and their standard deviation is 1 cm.
 
-Range = 30m
-
-LiDar type: SICK S30B-2011ca
-
-std. deviation = 1cm.
 
 \subsection{AMCL localization}
-MIR uses a ROS implementation of the adaptive monte carlo localization (AMCL), which uses a particle filter to track the pose of a robot against a known map (http://wiki.ros.org/amcl ). Today this is done by matching laser range scans with a static map. In dynamic environments with mismatch between the observed world and the map, the localization would be wrong. By adding semi static obstacles to the map the amount of mismatches is lowered, but location would still be wrong in highly unpredictable regions. It would be advantageous to identify these regions to take proper precautions.
+For localization the robot system uses the ROS implementation of the adaptive monte carlo localization. It uses a particle filter to track the robot pose against a known map. 
+Currently this map is the offline generated static map and thus grows out of sync with the environment.
+By adding semi static obstacles to the map the amount of mismatches is lowered, but location would still be wrong in highly unpredictable regions. It would be advantageous to identify these regions to take proper precautions.
 
 
 

@@ -1,19 +1,25 @@
 % \cite{tdoa_book}
 \section{Path Planning in Dynamic Environments}
+One of the problems that arises when using a robot with an  offline map in a dynamic environment is the difficulty of path planning.
+As the environment changes the generated paths might not be collision free when the robot traverses it. 
+
+
 –	Generelt problem – planning I dynamiske miljøer
 
 
 \subsection{Costmap in path planner}
-Plans a path through a grid based map with the lowest possible cost. 
-cost -> obstacles, obstacle vicenity, user-definements
+The planner uses a grid based costmap to calculate the lowest cost path. Obstacles from the static map are added to the costmap as highcost areas and their vicinities are also gradually increased. 
+Additionally some areas have been assigned a cost by the user which will discourage or encourage planning through a particular area. 
+Adapting the internal map representation to accommodate dynamic environments should retain the capability to represent the user defined ares.  
 
-MIR enables users to refine the static map by inserting costs that control the paths the robot follows. It is as an example possible to insert non-lethal or lethal obstacles in it. These user-preferences should also be present in a dynamic map.
 
 \subsection{Ineffective Global Navigation in Static Maps}
-Previously use static map in dynamic environments -> replan
-
-
-Too much MIR
-When the MIR100 navigates, it plans a global obstacle free path in the static map. In case the path goes through obstacles, since they are not present in the static map, the local planner will try to avoid the obstacle, while trying to follow the global path as good as possible. In some cases, the local planner might be stuck in a blocked corridor and hence recovery behaviors must try to find a solution. This is both ineffective and annoying for users (Kilde Niels). This can be avoided by adding observed obstacles to the static map, but by doing so the map might be cluttered with highly dynamic obstacles, which makes it impossible to plan a path. Therefore, the highly dynamic obstacles should not be included in the map. 
+When navigating based on an internal map the robot calculates a path through the environment, which in its map, is collision free. 
+However as the environment is not static this might not be the case after some time. 
+A path based on the static map might cause the robot to fail completing the path thus having to stop and calculate a new path. 
+This is highly undesirable as it wastes time and causes dissatisfaction from the customer. 
+If the map is not updated the same mistakes might be repeated over and over. 
+A simple solution would be to adjust the map with the last observation of different areas but this risks cluttering the map with highly dynamic obstacles, making it useless for planning.
+To properly make the map useful for representing a dynamic environment it must be carefully considered which types of obstacles are included. 
 
 

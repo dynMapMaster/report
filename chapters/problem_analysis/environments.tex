@@ -1,16 +1,18 @@
 %!TEX root = ../../report.tex
 \section{Characteristics in industrial environments}
-When mapping dynamic environment it is important to distinguish between objects.
+The environment in which this project operates are primarily industrial settings such as factory floors and warehouses. 
+In this type of environment the robot is expected to meet both humans, various types of vehicles and more static obstacles like heavy machinery and pallets. To separate the different types three different types are used to categories them. 
 
- that certainly moves in between the robot parses it and objects that.
-\subsection{Highly Dynamically Moving Objects}
-60 seconds
-Humans, animals, vehicles
-Objects moving within the field of view of the robot.
+\subsection{Highly Dynamically or Moving Objects}
+The Highly dynamical or moving objects are obstacles that does not maintain their position in more than approximately 60 seconds. 
+In this category obstacles such as humans, animals and moving vehicles are to be found. All these objects are expected to be moving during the time they are in the field of view of the robot.
+This type of obstacle is not desired on the map. 
+
 \subsection{Semi-Static Obstacles}
-Objects that moves without field of view of the object.
-Parked vehicles, pallets, standing humans, doors, 
+Semi-static obstacle are obstacles the might move but not while the robot observes them. In this category there are objects like parked vehicles, pallets and doors. Standing humans could fall into this category if they remain stationary for some time.
+Obstacles in this category should be represented in the dynamic map and affect the path planning. 
+
 \subsection{Static Obstacles}
-Steady for weeks
-fixedly mounted equipment like a New wall, heavy machinery
-Significant probability for observing a obstacle in the next observation.
+The last category are the static obstacles. 
+These obstacles are very stationary and never or hardly ever moving. This could be obstacles like walls, heavy machinery and fixedly mounted equipment. 
+Obstacles in this category are expected, with a very high degree of certainty, to be present at the next observation. 
