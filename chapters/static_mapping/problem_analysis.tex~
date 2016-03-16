@@ -1,0 +1,6 @@
+%!TEX root = ../../report.tex
+\chapter{Static mapping}
+% \cite{tdoa_book}
+
+\input{chapters/problem_analysis/path_planning}
+
