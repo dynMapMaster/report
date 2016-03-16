@@ -1,14 +1,16 @@
 %!TEX root = ../../report.tex
-\section{Timing and measurements}
+\section{Timing and Measurements}
+\label{sec:time_and_measurements}
+To learn the dynamics of semi-static obstacles correctly it is important to consider how often it moves, how often measurements are taken and how often it is observed.
 
 \subsection{Dependency of Measurements}
-If Time scales on Laser scan measurements is much less than the time between movements, then it is very likely that consecutive measurements are the same. 
-So when trying to observe whether obstacles have moved or not, each measurement is not very describing.
+It is important to account for the fact that measurements taken at a much higher rate than obstacles move cannot be considered as observations of its dynamics. 
+
+So each LiDar measurement taken with fractions of a seconds in between has a very little probability of capturing a movement occurring ones every minute. 
+% hard to explain :-|
 \subsection{Partial Observability}
-When trying to model the dynamics of the environment it would be ideal to be able to observe the entire environment all the time to make sure all changes would be observed. 
-It is impossible to estimate the dynamic of an obstacle if it moves in between observations.
+When trying to model the dynamics of the environment it would be ideal to be able to observe the entire environment all the time to ensure that all changes would be observed.
+It is impossible to calculate the dynamic of an obstacle if it moves in between observations.
 
 This is of cause impossible in all but the most simple test setups and consequently this problem of partial observability must be considered and solved or at least, the effects of it should be minimized.
-
-
 

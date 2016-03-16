@@ -6,13 +6,13 @@ In this type of environment the robot is expected to meet both humans, various t
 \subsection{Highly Dynamically or Moving Objects}
 The Highly dynamical or moving objects are obstacles that does not maintain their position in more than approximately 60 seconds. 
 In this category obstacles such as humans, animals and moving vehicles are to be found. All these objects are expected to be moving during the time they are in the field of view of the robot.
-This type of obstacle is not desired on the map. 
+This type of obstacles should not be represented on a robot's map, since it is very unlikely that they are at the same place when the robot observes it again. 
 
 \subsection{Semi-Static Obstacles}
-Semi-static obstacle are obstacles the might move but not while the robot observes them. In this category there are objects like parked vehicles, pallets and doors. Standing humans could fall into this category if they remain stationary for some time.
+Semi-static obstacle are obstacles that might move, but not while the robot observes them. In this category are objects like parked vehicles, pallets and doors. Standing humans could fall into this category, if they remain stationary for some time.
 Obstacles in this category should be represented in the dynamic map and affect the path planning. 
 
 \subsection{Static Obstacles}
 The last category are the static obstacles. 
-These obstacles are very stationary and never or hardly ever moving. This could be obstacles like walls, heavy machinery and fixedly mounted equipment. 
+These obstacles are very stationary and never or hardly ever move. This could be obstacles like walls, heavy machinery and fixedly mounted equipment. 
 Obstacles in this category are expected, with a very high degree of certainty, to be present at the next observation. 

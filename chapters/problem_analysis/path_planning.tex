@@ -17,9 +17,7 @@ Adapting the internal map representation to accommodate dynamic environments sho
 When navigating based on an internal map the robot calculates a path through the environment, which in its map, is collision free. 
 However as the environment is not static this might not be the case after some time. 
 A path based on the static map might cause the robot to fail completing the path thus having to stop and calculate a new path. 
-This is highly undesirable as it wastes time and causes dissatisfaction from the customer. 
+This is highly undesirable as it wastes time, and the users thinks the robot is stupid, since it cannot learn that the environment has changed. 
 If the map is not updated the same mistakes might be repeated over and over. 
 A simple solution would be to adjust the map with the last observation of different areas but this risks cluttering the map with highly dynamic obstacles, making it useless for planning.
 To properly make the map useful for representing a dynamic environment it must be carefully considered which types of obstacles are included. 
-
-
