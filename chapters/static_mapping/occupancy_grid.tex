@@ -1,8 +1,8 @@
 %!TEX root = ../../report.tex
 \section{Occupancy grid mapping}
 
-An initial decision in mapping is how to represent the environment. A widely used method is the occupancy grid map, described in [REFERENCE, ELFE?]. In this grid map each cell contains an occupancy value describing how occupied it is. Often 0 for completely free and 1 for completely occupied. 
-
+An initial decision in mapping is how to represent the environment. A widely used method is the occupancy grid map, described in [REFERENCE, ELFE?]. It splits the environment into evenly sized cells. Each cell contains an occupancy value describing how occupied the cell is. Often 0 for completely free and 1 for completely occupied.  
+Another widely used representation is the topological map \cite{topologyOrig}. Herein the environment is represented as position or landmark nodes connected by vertices in a graph structure. This representation was created for effective navigation in the environment. A drawback of the topological map is that it contains less metric information than the occupancy grid mapping \cite{mapbuildingSummary}.
 
 
 Why occupancy grid ? (interface, recognised, used through put the community - considerations on other representation)
