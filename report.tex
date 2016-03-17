@@ -1,34 +1,54 @@
-\documentclass{book}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage{csquotes}
-\usepackage[backend=biber,style=numeric]{biblatex}
-\usepackage[hidelinks]{hyperref}
-\usepackage{url}
-\usepackage{tocbibind}
-\usepackage{authblk}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{caption}
-\usepackage{subcaption}
+% Master Thesis Automation and Control DTU Template
+% Remus M. Prunescu rmpr@elektro.dtu.dk
+% 2013
 
-\addbibresource{references.bib}
+\documentclass[a4paper,10pt]{memoir}
 
-\title{Mapping of dynamic environments for effective navigation of mobile robots}
-\date{June 1, 2016}
-\author{Anders Birkehoej Jensen}
-\author{Martin Groth Alboege}
-\affil{Faculty of Engineering\\University of Southern Denmark}
+% Include all settings
+\input{setup}
+
+% Define thesis data
+\def\ThYear{2016}
+
+\def\ThTitleEN{Mapping of dynamic environments for effective navigation of mobile robots}
+%\def\ThSubtitleEN{}
+%\def\ThTitleDK{Min dejlige projekt}
+%\def\ThSubtitleDK{Min super undertitel}
+
+\def\ThAuthors{Anders Birkehøj Jensen\\ Martin Groth Alboege}
+
+\def\ThSupervisors{Lars-Peter Ellekilde, 
+	Lektor at the Mærsk Mc-Kinney Møller Instituttet of SDU\\ Niels Jul Jacobsen, CTO at Mobile Industrial Robots ApS}
+\def\ThDepartment{\textbf{SDU Robot Systems}\\ Mærsk Mc-Kinney Møller Instituttet\\ University of Southern Denmark\\ Campusvej 55\\ 5230 Odense M\\ Denmark\\ Tel: +45 6550 3541}
+
+%\def\ThElektroEmail{studievejledning@tek.sdu.dk}
+\def\ThBeginDate{Septemper 2015}
+\def\ThEndDate{June 2016}
+\def\ThProjectPeriod{\ThBeginDate - \ThEndDate}
+\def\ThECTS{40}
+\def\ThEducation{MSc}
+\def\ThField{Robot Systems}
+%\def\ThClass{Confidential until October 1st, 2016}
+\def\ThRemarks{This report is submitted as partial fulfillment of the requirements for graduation in the above education at the University Southern of Denmark.}
+\def\ThCopyrights{\copyright Remus M. Prunescu, \ThYear}
 
 \begin{document}
-\frontmatter
-\maketitle
-\tableofcontents
-%\listoftables
-%\listoffigures
 
-\include{chapters/preface/abstract}
-\tableofcontents
+\input{titlePage}
+
+\frontmatter
+
+\tableofcontents*
+
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+
+\input{chapters/preface/abstract}
+%\input{resume}
+\printnomenclature
+
 
 \mainmatter
 \include{chapters/introduction/introduction}
@@ -39,11 +59,20 @@
 \include{chapters/evaluation/evaluation}
 \include{chapters/conclusion/conclusion}
 
-\pagebreak
-\pagenumbering{roman}
+
 \appendix
+\appendixpage
 \include{chapters/appendix/appendix}
 
+%\input{appendix01}
+%\input{appendix02}
+%\input{appendix03}
+
 \backmatter
-\printbibliography[heading=bibintoc]
+
+
+\bibliography{references}
+\bibliographystyle{kluwer}
+
+
 \end{document}

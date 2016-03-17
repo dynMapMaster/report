@@ -3,15 +3,12 @@
 One of the problems that arises when using a robot with an  offline map in a dynamic environment is the difficulty of path planning.
 As the environment changes the generated paths might not be collision free when the robot traverses it. 
 
-
 –	Generelt problem – planning I dynamiske miljøer
 
-
 \subsection{Costmap in path planner}
-The planner uses a grid based costmap to calculate the lowest cost path. Obstacles from the static map are added to the costmap as highcost areas and their vicinities are also gradually increased. 
+The planner uses a grid based costmap to calculate the lowest cost path. Obstacles from the static map are added to the costmap as areas with high cost and their vicinities are also gradually increased. 
 Additionally some areas have been assigned a cost by the user which will discourage or encourage planning through a particular area. 
 Adapting the internal map representation to accommodate dynamic environments should retain the capability to represent the user defined ares.  
-
 
 \subsection{Ineffective Global Navigation in Static Maps}
 When navigating based on an internal map the robot calculates a path through the environment, which in its map, is collision free. 
