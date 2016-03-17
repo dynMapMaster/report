@@ -46,7 +46,6 @@
 \listoftables
 
 \input{chapters/preface/abstract}
-%\input{resume}
 \printnomenclature
 
 
@@ -59,20 +58,13 @@
 \include{chapters/evaluation/evaluation}
 \include{chapters/conclusion/conclusion}
 
-
+\pagebreak
+\pagenumbering{roman}
 \appendix
 \appendixpage
 \include{chapters/appendix/appendix}
 
-%\input{appendix01}
-%\input{appendix02}
-%\input{appendix03}
-
 \backmatter
-
-
-\bibliography{references}
-\bibliographystyle{kluwer}
-
+\printbibliography[heading=bibintoc]
 
 \end{document}

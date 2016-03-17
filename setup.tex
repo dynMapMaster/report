@@ -16,7 +16,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{ifthen}
-\usepackage{mathtools}
+%\usepackage{mathtools}\textbf{}
 % subfigures
 \usepackage{booktabs}
 \usepackage{caption}
@@ -41,8 +41,12 @@
 \checkandfixthelayout
 \OnehalfSpacing
 
-\usepackage{natbib} % Bibliography package
-\usepackage{siunitx} % Should stay after \EndPreamble
+%\usepackage[backend=biber,style=numeric]{natbib} % Bibliography package
+\usepackage[backend=biber,style=numeric]{biblatex}
+%\usepackage[hidelinks]{hyperref}
+%\usepackage{url}
+%\usepackage{siunitx} % Should stay after \EndPreamble
+\bibliography{references}
 
 % Create a theorem environment
 \newtheorem{theorem}{Theorem}
