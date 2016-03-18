@@ -1,5 +1,15 @@
 %!TEX root = ../../report.tex
 \section{Laser range sensor}
+The primary navigation sensor on the robot platform, the MIR100, are laser range finders. 
+
+The laser range finders are subject to various forms of noise. In \cite{probRob} four different types of noise are combined for range finders. 
+The four different types of noise are measurement noise around the correct distance, unexpected objects, measurement failures and random measurements.
+
+The first type of noise, the measurement noise around the correct distance, arises from small inaccuracies in the sensor and environment effects. This noise is modeled as a normal distribution and should be taken into account, when a sensor model is devised. 
+The second noise type is from unexpected obstacles. This noise stems from the fact that maps represent a static image of a dynamic environment. When the robot senses the environment, it will occasionally see obstacles that are not present in the map, for instance humans moving around. These highly dynamical objects will be handled in the transition from static map to the dynamic map, and thus are not a concern in the sensor model for static mapping.
+The third type of noise are the measurement failures. In laser range finders these can for instance be cause materials not reflecting the light properly. These failures often cause a maximum range reading and are handled by cutting off earlier than the maximum range.
+The fourth noise type are the random measurements. This type represents entirely random readings and are modeled by uniform distribution and should be taken into account in the sensor model.
+
 
 Basics of sensor
 Forward Sensor Model
