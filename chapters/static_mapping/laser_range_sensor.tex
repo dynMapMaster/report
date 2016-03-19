@@ -1,22 +1,81 @@
 %!TEX root = ../../report.tex
 \section{Laser range sensor}
-The primary navigation sensor on the robot platform, the MIR100, are laser range finders. 
 
-The laser range finders are subject to various forms of noise. In \cite{probRob} four different types of noise are combined for range finders. 
-The four different types of noise are measurement noise around the correct distance, unexpected objects, measurement failures and random measurements.
+The primary sensor on mobile robot platforms used for navigation are laser range finders known as Light Radars(LiDar). 
+
+\subsection{Forward Sensor Model}
+Laser range finders are subject to various forms of noise. In \cite{probRob} four different types of noise are combined for range finders. 
+The four different types of noise are:
+
+\begin{itemize}
+	\item Small Gaussian measurement noise
+	\item Unexpected objects
+	\item Measurement failures
+	\item random measurements
+\end{itemize}
+
 
 The first type of noise, the measurement noise around the correct distance, arises from small inaccuracies in the sensor and environment effects. This noise is modeled as a normal distribution and should be taken into account, when a sensor model is devised. 
-The second noise type is from unexpected obstacles. This noise stems from the fact that maps represent a static image of a dynamic environment. When the robot senses the environment, it will occasionally see obstacles that are not present in the map, for instance humans moving around. These highly dynamical objects will be handled in the transition from static map to the dynamic map, and thus are not a concern in the sensor model for static mapping.
-The third type of noise are the measurement failures. In laser range finders these can for instance be cause materials not reflecting the light properly. These failures often cause a maximum range reading and are handled by cutting off earlier than the maximum range.
-The fourth noise type are the random measurements. This type represents entirely random readings and are modeled by uniform distribution and should be taken into account in the sensor model.
 
+The second noise type is from unexpected obstacles. This noise stems from the fact that maps represent a static image of a dynamic environment. When the robot senses the environment, it will occasionally see obstacles that are not present in the map, for instance humans moving around. These highly dynamical objects will be filtered out in the transition from static map to the dynamic map(see section ???), and thus are not a concern in the sensor model for static mapping.
 
-Basics of sensor
-Forward Sensor Model
-What noise does the sensor introduce. (see prob robotics)
-Ideal Inverse Sensor Model
+The third type of noise are the measurement failures. 
+For laser range finders failures can occur due to insufficient reflectance of the light on the obstacles. 
+These failures often cause a maximum range reading and are handled by cutting off earlier than the maximum range.
 
-Elfes Sensor Model
-Reference to Elfes
-Calculated through kernel density estimation. 
-Considerations on the std deviation
+The fourth noise type are the random measurements. This type represents entirely random readings and are modeled with a uniform distribution and should be taken into account in the sensor model.
+
+Thrun proposed to learn occupancy grids from the forward sensor model with expectation-maximization \cite{probRob}.
+This however demands for storing a batch of measurements and is computational expensive to perform. 
+It is more common to learn occupancy grids with an Inverse Sensor Model where measurements are added incrementally according to equation \ref{eq:log-odds}. 
+
+\subsection{Inverse Sensor Model}
+The inverse sensor model \ref{eq:log-odds}, describes the probability for a cell being occupied in an occupancy grid map given a sensor measurement and location.
+Many different inverse sensor models have been proposed to incorporate Laser range measurements in a occupancy grid map. The individual rays are often assumed narrow and the orientation of it with respect to the robot is assumed ideal.
+The simplest possible inverse sensor model is the 
+ideal inverse sensor model. It assumes zero probability before the measured distance, one at the measured distance, and $0.5$ after. The model shown in figure \ref{fig:sensor_model_std_dev01} is almost ideal.
+
+\subsubsection{Elfes Sensor Model}
+Merali and Barfoot \cite{sensorModelTuning} conducted a comparison and tuning of common inverse sensor models for laser range finders in a one dimensional simulated situation. It showed that the simple model with Gaussian noise proposed by Elfes in \cite{elfes} performed as good using only 2 parameters, as an approximation to the complete solution with 20 parameters. Merali and Barfoot found that the model performed better if the log odds values where limited to -12.9047. This is also used in this work.
+
+Joubert \cite{monteCarloIntegration} derives Elfes model by convolving a Gaussian function on an ideal sensor model. While this can be done analytics, it is chosen to apply the kernel shown in figure \ref{fig:sensor_model_std_dev01} to the ideal sensor model where the cell at the measured distance has a probability on one.
+The distance to the obstacle is $0.275m$ and the standard deviation of the Gaussian kernel is $1cm$. 
+The maximum and minimal log-odds values are out of the scope, but they can be calculated from the probabilities with equation \ref{eq:log-odds}.
+SICK does not indicate a standard deviation in the data-sheet for the sensor,S30B-2011, used for the MIR platform \cite{lidarDatasheet}.
+According to the CTO at MIR a standard deviation of $1cm$ is a good approximation for the expected Gaussian noise around the read distance. 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1.0]{figures/static_mapping/sensor_model_std_dev01}
+	\caption{Elfes inverse sensor model with the expected standard deviation of the sensor.}
+	\label{fig:sensor_model_std_dev01}
+\end{figure}
+
+When increasing the standard deviation the weights of the inverse sensor model is spread more out around the measured distance, as shown in figure \ref{fig:sensor_model_std_dev025}. This indicates less trust in the measured distance. With this model more measurements are needed to learn the same occupancy probability, as would be achieved with the ideal model. It however avoids overconfidence in measurements while still converging to the correct map, if the measurements error is Gaussian distributed.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1.0]{figures/static_mapping/sensor_model_std_dev025}
+	\caption{Elfes inverse sensor model with a larger standard deviation than that of the sensor's.}
+	\label{fig:sensor_model_std_dev025}
+\end{figure}
+
+Even with the sensor noise modeled as shown in figure \ref{fig:sensor_model_std_dev01}, erroneous maps like the one shown in \ref{fig:elfes_ideal_with_poses} are expected, due to localization errors. The degree of the error could be diminished by incorporating the localization errors in the inverse sensor model. 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=1.0]{figures/static_mapping/elfes_ideal_with_poses_no_decay}
+		\caption{Mapped occupancy grid using the sensor model in figure \ref{fig:sensor_model_std_dev01}.}
+		\label{fig:elfes_ideal_with_poses}
+		\end{subfigure}
+		~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+		%(or a blank line to force the subfigure onto a new line)
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[scale=1.0]{figures/static_mapping/map_region_with_poses}
+			\caption{Occupancy grid of the simulated world.}
+			\label{fig:map_region_with_poses}
+		\end{subfigure}
+		\caption{Mapping results gained by simulating a MIR robot with imprecise location.}
+		\label{fig:simulated_location_error}
+\end{figure}
