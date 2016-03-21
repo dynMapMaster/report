@@ -38,11 +38,11 @@ ideal inverse sensor model. It assumes zero probability before the measured dist
 \subsubsection{Elfes Sensor Model}
 Merali and Barfoot \cite{sensorModelTuning} conducted a comparison and tuning of common inverse sensor models for laser range finders in a one dimensional simulated situation. It showed that the simple model with Gaussian noise proposed by Elfes in \cite{elfes} performed as good using only 2 parameters, as an approximation to the complete solution with 20 parameters. Merali and Barfoot found that the model performed better if the log odds values where limited to -12.9047. This is also used in this work.
 
-Joubert \cite{monteCarloIntegration} derives Elfes model by convolving a Gaussian function on an ideal sensor model. While this can be done analytics, it is chosen to apply the kernel shown in figure \ref{fig:sensor_model_std_dev01} to the ideal sensor model where the cell at the measured distance has a probability on one.
+Joubert derives Elfes model in \cite{Joubert2014} by convolving a Gaussian function on an ideal sensor model. While this can be done analytics, it is chosen to apply the kernel shown in figure \ref{fig:sensor_model_std_dev01} to the ideal sensor model where the cell at the measured distance has a probability on one.
 The distance to the obstacle is $0.275m$ and the standard deviation of the Gaussian kernel is $1cm$. 
 The maximum and minimal log-odds values are out of the scope, but they can be calculated from the probabilities with equation \ref{eq:log-odds}.
 SICK does not indicate a standard deviation in the data-sheet for the sensor,S30B-2011, used for the MIR platform \cite{lidarDatasheet}.
-According to the CTO at MIR a standard deviation of $1cm$ is a good approximation for the expected Gaussian noise around the read distance. 
+According to the CTO at MIR, Niels Jul Jacobsen, a standard deviation of $1cm$ is a good approximation for the expected Gaussian noise around the read distance. 
 
 \begin{figure}
 	\centering
@@ -51,7 +51,7 @@ According to the CTO at MIR a standard deviation of $1cm$ is a good approximatio
 	\label{fig:sensor_model_std_dev01}
 \end{figure}
 
-When increasing the standard deviation the weights of the inverse sensor model is spread more out around the measured distance, as shown in figure \ref{fig:sensor_model_std_dev025}. This indicates less trust in the measured distance. With this model more measurements are needed to learn the same occupancy probability, as would be achieved with the ideal model. It however avoids overconfidence in measurements while still converging to the correct map, if the measurements error is Gaussian distributed.
+When increasing the standard deviation the weights of the inverse sensor model is spread more out around the measured distance, as shown in figure \ref{fig:sensor_model_std_dev025}. This indicates less trust in the measured distance. With this model more measurements are needed to learn the same occupancy probability, as would be achieved with the ideal model. It can however be used to avoid overconfidence in measurements while still converging to the correct map, if the measurements error is Gaussian distributed.
 
 \begin{figure}
 	\centering

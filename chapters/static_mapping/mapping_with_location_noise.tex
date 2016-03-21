@@ -2,17 +2,53 @@
 \section{Mapping with Location noise}
 
 \subsection{Monte Carlo localization}
+The robot estimates it's localization with the an adaption of the ROS implementation \cite{ros_amcl} of the adaptive monte carlo localization(AMCL) \cite{Thrun200199}. It uses a particle filter to track the robot's pose in a known map. 
+The estimated uncertainty on the localization is described with a covariance matrix. The covariance matrices for some of the locations the robot visited during navigation in an industrial environment is visualized as contour plots around the robots position(green) in figure \ref{fig:amcl_covariance}. 
+The figure shows that the estimated standard deviation on the positional error generally is around $10cm$. Around the corner the estimated standard deviation however increase to more than twice that. This is reasonably since the map used by AMCL for scan matching was wrong in the top left corner of figure \ref{fig:amcl_covariance}. The estimated angular error also doubles when the robot reaches the corner.
 
-AMCL
+\begin{figure}[tbph]
+\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance}		
+		\label{fig:amcl_covariance}
+	\end{subfigure}
+	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+	%(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[b]{0.2\textwidth}
+		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance_bar}
+		\label{fig:amcl_covariance_bar}
+	\end{subfigure}
+	\caption{Covariances estimated by AMCL in an industrial environment shown with contours marking one standard deviation around the robot's estimated pose(green).}
+\end{figure}
 
-Scan map with location noise and AMCL
-Considerations on noise. What types of noise are present. Estimation of the noise. Comparison between estimation and actual error (of bags) 
-Non-ideal Inverse Sensor Model
+\subsection{Non-ideal Inverse Sensor Model}
 From hector
 
 \subsection{Monte Carlo Integration Inverse Sensor Model}
+\label{monte_carlo_sensor Model}
+The monte carlo integration inverse sensor Model proposed by Joubert, Brink and Herbst \cite{Joubert2014},  uses the fact that particles used in Monte Carlo Localization with their likelihood weights approximates the robots uncertainty. 
+It works by ray-tracing the sensor measurements with a weighted ordinary inverse sensor model from the particles' poses instead of the estimated pose. 
+Equation \ref{eq:monte_carlo_sensor_model} shows how a log-odds occupancy cell is updated with the right most term consistent of a weighted sum of inverse sensor models for $K$ particles.
 
-\cite{monteCarloIntegration}
+\begin{equation}
+log \frac{p(m_i|z_{1:t})}{1-p(m_i|z_{1:t})} = log \frac{p(m_i|z_{1:t-1})}{1-p(m_i|z_{1:t-1})} + \sum_{i=1}^{K} w_t^i log \frac{ p(m_i | z_t^i) }{ 1 - p(m_i | z_t^i) }
+\label{eq:monte_carlo_sensor_model}
+\end{equation}
+
+It can be computational expensive to ray-tracing the often several hundred measurements every tenth of a second from each of the often several hundreds of particles.
+To avoid this only the $K$ top most weighted particles are used.% Jeg tror ikke de skal omvægtes
+
+Figure \ref{fig:particle_sensor} shows how most of the ray-traced inverse sensor models results in similar look maps along the rays. 
+It is represented as a heat map where the black is low probability for occupancy and the white is high. 
+It can however be seen that some of the particles are orientated significantly different from the rest. 
+See how the model have built a map where there are a small probability for occupancy along the rays with similar distance by rotated around the robot's pose (red square). This lack of concurrence ray-traced lines when the particles are misaligned leads to lower confidence in the measurements when the estimated particles are spread out. The degree of this increases with a further spread of particles.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/static_mapping/particle_sensor}
+	\caption{Example map with few LiDar measurements from the five highest (re-weighted/wrong) weighted particles.}
+	\label{fig:particle_sensor}
+\end{figure}
 
 \subsection{Cone based model}
 An attempt to represent the pose uncertainty in the static mapping is model based on a sonar-like cone. The idea is to represent the uncertainty of origin position and angle of each laser ray with a broad centered cone. 
@@ -23,23 +59,15 @@ The width of the center area, w, is determined by the sum of the projection of t
 
 The value of a cell is determined by the distance from the origin line. [For instance the value at the point p in figure \ref{fig:cone_with_noise_top} is determined by the the distance l.] The width, m, of the marking cone is determined by the position error projected onto the ray.
 
-
-
-
 \begin{figure}
 	\centering
-			\includegraphics[width=\textwidth]{figures/static_mapping/cone_noise_top}
-			\caption{Cone representing pose noise}
-			\label{fig:cone_with_noise_top}
-
+	\includegraphics[width=\textwidth]{figures/static_mapping/cone_noise_top}
+	\caption{Cone representing pose noise}
+	\label{fig:cone_with_noise_top}
 \end{figure}
 
-Simulation of Mapping with Location Noise
-Comparison
-Efficiency - Computational price\\ 
- \\
-
-In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the MapScore, first proposed in [REFERENCE TO ELFES MAPSCORE]. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \ref{eq:MapScore}.
+\subsection{Comparison of Inverse Sensor Models}
+In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the map score, first proposed in [REFERENCE TO ELFES MAPSCORE]. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \ref{eq:MapScore}.
 
 \begin{equation}
 \label{eq:MapScore}
@@ -47,29 +75,3 @@ Score = \sum_{n=0}^{N} (m_{n} - o_{n})^2
 \end{equation}
 
 N is all cells in the maps m and o. This gives a simple result that indicates how alike two maps are. However, as most maps contains vastly more free space than occupied space this might skew the result. A map can receive a higher score for asserting strong statements about free cells but not mapping obstacles very accurate. As the obstacles are a vital part of the map this is not desired. To overcome this it is suggested to only use cells where either one of the maps have an occupied probability higher than \(0.5\) [REFERENCE TO EVAL OF MAP METHODOLEGIES]. If the MapScore is to be used to evaluate a mapping algorithm between different maps, it is necessary to normalize the score with the number of cells in the map tested. 
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/static_mapping/particle_sensor}
-	\caption{Example map with few scans from the five highest weighted particles.}
-	\label{fig:particle_sensor}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/static_mapping/map_with_poses}
-		\caption{World represenation}
-		\label{fig:simulated_robot_estimate_total}
-	\end{subfigure}
-	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-	%(or a blank line to force the subfigure onto a new line)
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/static_mapping/amcl_map_with_poses}
-		\caption{Map used by AMCL}
-		\label{fig:simulated_robot_estimate_total_edited}
-	\end{subfigure}
-	\caption{Simulation of a MIR robot moving with imprecise location.}
-	\label{fig:animals}
-\end{figure}
-
