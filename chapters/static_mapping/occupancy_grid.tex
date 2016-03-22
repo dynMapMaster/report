@@ -1,38 +1,33 @@
 %!TEX root = ../../report.tex
 \section{Occupancy grid mapping}
+\label{sec:occupancy_grid_mapping}
+An initial decision in mapping is how to represent the environment. A widely used method is the occupancy grid map, described in \cite{elfesMoravecOccGrid}. It splits the environment into evenly sized cells. 
+Each cell contains a probability, which indicates how plausible it is that the area it spans over contains an obstacle.
+A zero indicates that the cell is free and a one indicates that the cell is occupied.
+An assumption in the occupancy grid map is that each cell is independent, which makes the solution to the equation describing the probability for occupancy, given past measurements and positions traceable for usable sized maps \ref{fig:elfes_compare}. 
 
-An initial decision in mapping is how to represent the environment. A widely used method is the occupancy grid map, described in \cite{elfesMoravecOccGrid}. It splits the environment into evenly sized cells. Each cell contains an occupancy value describing probability the cell being occupied. 0 for completely free and 1 for completely occupied. An assumption in the occupancy grid map is that each cell is independent which is not strictly true but helps reduce the complexity of the mapping [**REFERENCE INSERT HERE***]. This can be expensive in memory as the entire environment is represented in the grid map. The benefit of the grid map is an ease of maintenance and good metric information \cite{mapbuildingSummary}. 
+Large occupancy grid maps take up a lot of memory as the entire environment is represented in the grid map. 
+The benefit of the grid map is an ease of maintenance and clear metric information \cite{mapbuildingSummary}. 
 Another widely used representation is the topological map \cite{topologyOrig}. 
 Herein the environment is represented as position or landmark nodes connected by vertices in a graph structure. 
 This representation was created for effective navigation in the environment. 
 A drawback of the topological map is that it contains less metric information than the occupancy grid mapping \cite{mapbuildingSummary}.
 
-For the static mapping in this project there are other factors influencing the choice of representation. In the ROS system the grid map is already used and therefore the interfacing becomes significantly simpler and thus rendering the proposed mapping more easily integrated in other systems. The availability of metric information and the widespread use and therefore ease of integration makes the occupancy grid a favored choice in this project. 
+For the static mapping in this project there are other factors influencing the choice of representation. In the ROS system the grid map is already used and therefore the interfacing becomes significantly simpler and thus rendering the proposed mapping more easily integrated in other ROS systems. The availability of metric information and the widespread use and thereby ease of integration makes the occupancy grid a favored choice in this project. 
 
-hen mapping with an occupancy grid each observation is treated as independent and thus adds a contribution to the occupancy of the cell. The most simple mapping in occupancy grid will mark a cell in accordance to its last observation with the full value. If the cell is observed as occupied the cell value is set to 1 and 0 if it is observed free. Using this very simple mapping the last observation is fully in control of the cell value. This makes the method very susceptible to any form of noise. To avoid this, values based on a sensor model are often used to compensates for the noise in the sensor. 
+When mapping with an occupancy grid each observation is assumed independent and thus adds a contribution to the occupancy of a cell. The most simple mapping in occupancy grid will mark a cell in accordance to its last observation with the full value. If the cell is observed as occupied the cell value is set to 1 and 0 if it is observed free. 
+With this ideal inverse sensor model, the last observation dictates the cell value. 
+This makes the model very susceptible to any form of noise. 
+To avoid this, inverse sensor models that incorporate the noise of the sensor is often used.
 
-In the occupancy grid a log-odds representation of the probability is used \cite{probRob}. In equation \ref{eq:log-odds} the calculation from probability to log-odds is shown. The value \(p(m_{occ}|z)\) is determined by the sensor model. 
-
-\begin{equation}
-\label{eq:log-odds}
-l_{occ} =  log(\frac{p(m_{occ}|z)}{1-p(m_{occ}|z)} )
-\end{equation}
-
-where \(z\) is the observation and \(m_{occ}\) is the occupied state. 
-\\
-Using the log-odds representation the occupancy value of a cell is calculated by equation \ref{eq:occGrid_occCalc}. 
+In the occupancy grid a log-odds representation of the probability can be used \cite{probRob}. 
+Equation \ref{eq:occupancy_update} descries how the exciting information is updated with the inverse sensor model, furthers to the right. $p(m_i|z_{1:t},x_{1:t})$ indicates the probability for the cell with index $i$ to take on the $m_i \in {occupied,free}$ given all the past measurements $z_{1:t}$ and robot poses $x_{1:t}$. 
 
 \begin{equation}
-\label{eq:occGrid_occCalc}
-cell_{occ} = \sum_{i} log(\frac{p(m_{occ}|z_i)}{1-p(m_{occ}|z_i)} )
+	log \frac{p(m_i|z_{1:t},x_{1:t})}{1-p(m_i|z_{1:t},x_{1:t})} = log \frac{p(m_i|z_{1:t-1},x_{1:t-1})}{1-p(m_i|z_{1:t-1},x_{1:t-1})} + log \frac{ p(m_i | z_t^i,x_t) }{ 1 - p(m_i | z_t^i,x_t) }
+	\label{eq:occupancy_update}
 \end{equation}
-
-
-
-Why occupancy grid ? (interface, recognised, used through put the community - considerations on other representation)
-Mapping by inserting obstacle and free when observed.
-Independence - cells, measurements
-Log odds
-Real world test -> Results in bad maps.
-Propagation of noise to avoid over confidence while still converging to the right solution. (Types of noise)
+The prior knowledge term is excluded since it is zero, when no consistent information about the map is available. 
+This is assumed since the prior is constant unlike the dynamic environments, which this work focuses on.
+It is possible to initialize the first term with initial values and thereby including a prior map and still enabling new measurements to overwrite the prior map. 
 
