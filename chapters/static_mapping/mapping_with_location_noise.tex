@@ -118,22 +118,58 @@ A map can receive a higher score for asserting strong statements about free cell
 As the obstacles are vital parts of the map this is not desired. 
 To overcome this it is suggested to only use cells where either one of the maps have an occupied probability higher than \(0.5\) [REFERENCE TO EVAL OF MAP METHODOLEGIES]. 
 If the MapScore is to be used to evaluate a mapping algorithm between different maps, it is necessary to normalize the score with the number of cells in the map tested. 
+ 
+\subsubsection{Results}
+The methods was tested on a ROS-bag of a path through a simulated environment. 
+As the map used to estimate the robot state was not a perfect representation of the world the estimates contained errors. 
+The world map and the robots representation can be seen in figure \ref{fig:test_map_setup}.
+In figure \ref{fig:comparison_obstacle_error} the Map score for each method is shown. The map score in calculated as equation \ref{eq:MapScore}, but only for cells where either the ground truth or the test map is above unknown, 0.5, and the ground truth value is different from unknown. As the map score represent the error between the true and the tested map, a lower score is advantageous. In this test the reduced ideal model with uncertainty decay received the lowest score. In case of both Elfes and the reduced ideal models perform better when uncertainty decay is used. This suggests using the uncertainty of orientation estimate is preferable. Of the two methods that incorporates both uncertainty for the orientation and position estimate, the Monte Carlo performs best, but it is not on par with the Reduced Ideal model with uncertainty decay.\\
 
-Figure \ref{fig:score_comparison} shows the scores for different sensor models and methods. 
+ 
+Things change, however, when observing the results based on the normalized scores of figure \ref{fig:comparison_obstacle_error_per_cell}. This score is calculated as the scores of figure \ref{fig:comparison_obstacle_error} divided by the number of obstacle cells used, thus representing an error per obstacle cell.
+Using the normalized score the Monte Carlo method outperforms the other methods the other methods, having a score of \(\approx 0.3\) with the closes contestant, the Reduced Ideal model with decay at \(\approx 0.45\).\\
+
 
 \begin{figure}
-	\label{fig:score_comparison}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error}
-		\caption{MapScore - obstacles only}
-		\label{fig:comparison_obstacle_error}
+	\centering
+	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error}
+	\caption{Map score - obstacles only}
+	\label{fig:comparison_obstacle_error}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error_per_cell}
+	\caption{Map score - normalized by number of obstacle cells}
+	\label{fig:comparison_obstacle_error_per_cell}
+\end{figure}
+
+
+The top two in both scoring systems are the Monte Carlo and the Reduced Ideal model with uncertainty decay. As each of the two methods where at the top on one of the scoring methods, determining the best is not straight forward.
+In order to further investigate the differences between the two methods the generated maps are to be compared and contrasted to the ground truth map. Figure \ref{fig:box_region_comparison} show a comparison, of a region, between the methods against the ground truth.
+The Monte Carlo method produces larger occupation areas, due to the pose uncertainty, but succeeds, to a larger extend, in having the true occupation areas covered. Comparing this to the Reduce Ideal method, which has marked sharper edges. 
+These edges, however, are not perfectly located on the outer edge of the obstacles. 
+The center box obstacle is, for instance, offset. 
+This problem stems from not accounting for the position error, thus the mapping is too certain on the occupancy of the cells. 
+
+\begin{figure}[tbph]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=1.5]{figures/static_mapping/color_diff_monte_carlo}		
+		\label{fig:monte_carlo_mapsec1}
+		\caption{Monte Carlo method}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error_per_cell}
-		\caption{MapScore - normalized by number of obstacle cells}
-		\label{fig:comparison_obstacle_error_per_cell}
+	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+	%(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=1.5]{figures/static_mapping/color_diff_ideal_decay}
+		\label{fig:ideal_deacy_mapsec1}
+		\caption{Reduced Ideal with decay}
 	\end{subfigure}
-	\caption{MapScores for different methods}
+	\caption{Region of the generated maps and the ground truth. The ground truth occupancy is represented in green and the generated maps' occupancy in red. Following from that overlaps trend to yellow.}
+	\label{fig:box_region_comparison}
 \end{figure}
