@@ -21,7 +21,7 @@ This makes the model very susceptible to any form of noise.
 To avoid this, inverse sensor models that incorporate the noise of the sensor is often used.
 
 In the occupancy grid a log-odds representation of the probability can be used \cite{probRob}. 
-Equation \ref{eq:occupancy_update} descries how the exciting information is updated with the inverse sensor model, furthers to the right. $p(m_i|z_{1:t},x_{1:t})$ indicates the probability for the cell with index $i$ to take on the $m_i \in {occupied,free}$ given all the past measurements $z_{1:t}$ and robot poses $x_{1:t}$. 
+Equation \ref{eq:occupancy_update} descries how the existing information is updated with the inverse sensor model, furthest to the right. $p(m_i|z_{1:t},x_{1:t})$ indicates the probability for the cell with index $i$ to take on the $m_i \in {occupied,free}$ given all the past measurements $z_{1:t}$ and robot poses $x_{1:t}$. 
 
 \begin{equation}
 	log \frac{p(m_i|z_{1:t},x_{1:t})}{1-p(m_i|z_{1:t},x_{1:t})} = log \frac{p(m_i|z_{1:t-1},x_{1:t-1})}{1-p(m_i|z_{1:t-1},x_{1:t-1})} + log \frac{ p(m_i | z_t^i,x_t) }{ 1 - p(m_i | z_t^i,x_t) }
