@@ -10,11 +10,11 @@ By updating with larger regions with less values all the information is used, wh
 
 \subsection{Monte Carlo localization}
 The robot estimates its localization with an adaption of the ROS implementation \cite{ros_amcl} of the Adaptive Monte Carlo Localization(AMCL) \cite{Thrun200199}. It uses a particle filter to track the robot's pose in a known map. 
-The estimated uncertainty on the localization is described with a covariance matrix. The covariance matrices for some of the locations the robot visited during navigation in an industrial environment is visualized as contour plots around the robots position(green) in figure \ref{fig:amcl_covariance}. 
-The figure shows that the estimated standard deviation on the positional error generally is around $10cm$. Around the corner the estimated standard deviation however increase to more than twice that. This is reasonably since the map used by AMCL for scan matching was wrong in the top left corner of figure \ref{fig:amcl_covariance}. The estimated angular error also doubles when the robot reaches the corner.
-In figure \ref{fig:simulated_small_world} the simulated world is shown. The corresponding map used by AMCL to estimate the robot pose is shown in \ref{fig:simulated_small_amcl_map}.
+The estimated uncertainty on the localization is described with a covariance matrix. The covariance matrices for some of the locations the robot visited during navigation in an industrial environment is visualized as contour plots around the robots position(green) in figure \vref{fig:amcl_covariance}. 
+The figure shows that the estimated standard deviation on the positional error generally is around $10cm$. Around the corner the estimated standard deviation however increase to more than twice that. This is reasonably since the map used by AMCL for scan matching was wrong in the top left corner of figure \vref{fig:amcl_covariance}. The estimated angular error also doubles when the robot reaches the corner.
+In figure \vref{fig:simulated_small_world} the simulated world is shown. The corresponding map used by AMCL to estimate the robot pose is shown in \vref{fig:simulated_small_amcl_map}.
 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[t]{0.75\textwidth}
 		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance}		
@@ -30,10 +30,10 @@ In figure \ref{fig:simulated_small_world} the simulated world is shown. The corr
 \end{figure}
 
 It is clearly visible from the maps that AMCL was missing information about the world. The lack of correspondence between the maps causes the covariance of the pose estimate to increase.
-Marked on figure \ref{fig:simulated_location_error} are the path the robot drove through the world, both the estimated and the true path.
+Marked on figure \vref{fig:simulated_location_error} are the path the robot drove through the world, both the estimated and the true path.
 A ROS bag was created of the run in order to ensure all methods was given the same input. 
 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/simulation_poses_stage_map}
@@ -60,13 +60,13 @@ The ideal inverse sensor model can be modified to avoid over confidence in senso
 	\caption{Reduced ideal inverse sensor model}
 	\label{fig:reduced_ideal_sensor_model}
 \end{figure}
-This model's tendency to remove obstacles due to wrongly estimated orientation is diminished by multiplying the log-odds values with equation \ref{eq:cone-weight}.
+This model's tendency to remove obstacles due to wrongly estimated orientation is diminished by multiplying the log-odds values with equation \vref{eq:cone-weight}.
 
 \subsection{Monte Carlo Integration Inverse Sensor Model}
 \label{monte_carlo_sensor Model}
 The monte carlo integration inverse sensor Model proposed by Joubert, Brink and Herbst \cite{Joubert2014},  uses the fact that particles used in Monte Carlo Localization with their likelihood weights approximates the robots uncertainty. 
 It works by ray-tracing the sensor measurements with a weighted ordinary inverse sensor model from the particles' poses instead of the estimated pose. 
-Equation \ref{eq:monte_carlo_sensor_model} shows how a log-odds occupancy cell is updated with the right most term consisting of a weighted sum of inverse sensor models for $K$ particles.
+Equation \vref{eq:monte_carlo_sensor_model} shows how a log-odds occupancy cell is updated with the right most term consisting of a weighted sum of inverse sensor models for $K$ particles.
 
 \begin{equation}
 log \frac{p(m_i|z_{1:t})}{1-p(m_i|z_{1:t})} = log \frac{p(m_i|z_{1:t-1})}{1-p(m_i|z_{1:t-1})} + \sum_{i=1}^{K} w_t^i log \frac{ p(m_i | z_t^i) }{ 1 - p(m_i | z_t^i) }
@@ -90,14 +90,14 @@ The reason to the methods tendency to remove obstacle is that small difference i
 The figure shows how most of the ray-traced inverse sensor models results in similar looking maps along the rays. 
 See how the model have built a map where there are a small probability for occupancy along the rays with similar distance by rotated around the robot's pose (red square). 
 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1.0]{figures/static_mapping/particle_principle}
 	\caption{Map after ray-tracing with a modified reduced ideal inverse sensor model from 30 particles.}
 	\label{fig:particle_principle}
 \end{figure}
 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=1.0\textwidth]{figures/static_mapping/monte_carlo_map_hector}
@@ -114,7 +114,7 @@ See how the model have built a map where there are a small probability for occup
 	\caption{Mapping in simulation using monte carlo integration inverse sensor Model with different sensor models for ray-traycing.}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\linewidth]{figures/static_mapping/particle_sensor}
 	\caption{Example map with few LiDar measurements from the five highest weighted particles.}
@@ -123,7 +123,7 @@ See how the model have built a map where there are a small probability for occup
 
 \subsection{Cone based model}
 An attempt to represent the pose uncertainty in the static mapping is a model based on a sonar-like cone. 
-The idea is to represent the uncertainty in the localization of the robot on the inverse sensor model by representing it with the model in figure \ref{fig:cone_with_noise_top}.  
+The idea is to represent the uncertainty in the localization of the robot on the inverse sensor model by representing it with the model in figure \vref{fig:cone_with_noise_top}.  
 This cone consist of the center area, the left side cone and right side cone. 
 As the model is based on a sonar cone model \cite{probRob}, the values of a cell is determined by the distance from the origin and the angle to the straight line to the target. The changes from the original sonar model is the center section which splits the two cone halves. 
 
@@ -131,10 +131,10 @@ The angle \(\theta\) is equal to the standard deviation of the orientation estim
 The width of the center area, w, is determined by the sum of the projection of the standard deviation in the x and y directions perpendicular to the ray direction. 
 
 The value of a cell is determined by the distance from the origin line. 
-The value at the point $p$ in figure \ref{fig:cone_with_noise_top} is determined by the the distance l.
+The value at the point $p$ in figure \vref{fig:cone_with_noise_top} is determined by the the distance l.
 The width, m, of the marking cone is determined by the position error projected onto the ray.
 
-It is possible to add a weight to cell value. This weight is given by equation \ref{eq:cone-weight}.
+It is possible to add a weight to cell value. This weight is given by equation \vref{eq:cone-weight}.
 \begin{equation}
 \label{eq:cone-weight}
 weigth = 
@@ -144,7 +144,7 @@ weigth =
 \end{cases}
 \end{equation}
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{figures/static_mapping/cone_noise_top}
 	\caption{Cone representing pose noise}
@@ -152,7 +152,7 @@ weigth =
 \end{figure}
 
 \subsection{Comparison of Inverse Sensor Models}
-In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the map score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \ref{eq:MapScore}.
+In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the map score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \vref{eq:MapScore}.
 
 \begin{equation}
 \label{eq:MapScore}
@@ -170,20 +170,20 @@ If the MapScore is to be used to evaluate a mapping algorithm between different 
 \subsubsection{Results}
 The methods was tested on a ROS-bag of a path through a simulated environment. 
 The localization of the robot was not perfect due to differences between the world representation and the one used by AMCL.
-The world map and the robots representation can be seen in figure \ref{fig:test_map_setup}.
-In figure \ref{fig:comparison_obstacle_error} the Map score for each method is shown. The map score in calculated as equation \ref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the map score represent the error between the true and the estimated map, a lower score is advantageous. In this test the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when uncertainty decay is used. This suggests using the uncertainty of orientation estimate is preferable. Of the two methods that incorporates both uncertainty for the orientation and position estimate, the Monte Carlo performs best, but it is not on par with the Reduced Ideal model with uncertainty decay.\\
+The world map and the robots representation can be seen in figure \vref{fig:test_map_setup}.
+In figure \vref{fig:comparison_obstacle_error} the Map score for each method is shown. The map score in calculated as equation \vref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the map score represent the error between the true and the estimated map, a lower score is advantageous. In this test the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when uncertainty decay is used. This suggests using the uncertainty of orientation estimate is preferable. Of the two methods that incorporates both uncertainty for the orientation and position estimate, the Monte Carlo performs best, but it is not on par with the Reduced Ideal model with uncertainty decay.\\
  
-Things change, however, when observing the results based on the normalized scores of figure \ref{fig:comparison_obstacle_error_per_cell}. This score is calculated as the scores of figure \ref{fig:comparison_obstacle_error} divided by the number of obstacle cells used, thus representing an error per obstacle cell.
+Things change, however, when observing the results based on the normalized scores of figure \vref{fig:comparison_obstacle_error_per_cell}. This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of obstacle cells used, thus representing an error per obstacle cell.
 Using the normalized score the Monte Carlo method outperforms the other methods, having a score of \(\approx 0.3\), with the closes contestant, the Reduced Ideal model with decay, at \(\approx 0.45\) \todo{rephrase}.\\
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error}
 	\caption{Map score - obstacles only}
 	\label{fig:comparison_obstacle_error}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error_per_cell}
 	\caption{Map score - normalized by number of obstacle cells}
@@ -193,14 +193,14 @@ Using the normalized score the Monte Carlo method outperforms the other methods,
 The top two in both scoring systems are the Monte Carlo and the Reduced Ideal model with uncertainty decay. As each of the two methods where at the top in one of the scoring methods, determining the best is not straight forward.
 
 In order to further investigate the differences between the two methods the generated maps are to be compared and contrasted to the ground truth map. 
-Figure \ref{fig:box_region_comparison} show a comparison, of a region, between the methods against the ground truth.
+Figure \vref{fig:box_region_comparison} show a comparison, of a region, between the methods against the ground truth.
 The Monte Carlo method produces larger occupied areas, due to the pose uncertainty, but succeeds, to a larger extend, in having the true occupation areas covered. 
 Comparing this to the Reduce Ideal method, which has marked sharper edges. 
 These edges, however, are not perfectly located on the outer edge of the obstacles. 
 The center box obstacle is, for instance, offset. 
 This problem stems from not accounting for the position error, thus the mapping is too certain on the occupancy of the cells. 
 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[scale=1.5]{figures/static_mapping/color_diff_monte_carlo}		
