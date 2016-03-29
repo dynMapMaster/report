@@ -60,7 +60,33 @@ The ideal inverse sensor model can be modified to avoid over confidence in senso
 	\caption{Reduced ideal inverse sensor model}
 	\label{fig:reduced_ideal_sensor_model}
 \end{figure}
-This model's tendency to remove obstacles due to wrongly estimated orientation is diminished by multiplying the log-odds values with equation \vref{eq:cone-weight}.
+This model's tendency to remove obstacles due to wrongly estimated orientation is diminished by multiplying the log-odds values with equation \vref{eq:angle-weight}.
+
+\begin{equation}
+\label{eq:angle-weight}
+weigth = 
+\begin{cases}
+1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
+0, & \text{otherwise}
+\end{cases}
+\end{equation}
+
+Where \(\theta \) is the standard deviation of the orientation estimate and \(l\) is the measured distance.
+
+In order to account for the uncertainty of the position estimates another weight calculation, shown in \vref{eq:pose-weight}, is also tested.
+
+
+\begin{equation}
+\label{eq:pose-weight}
+weigth = 
+\begin{cases}
+1 - ( 2 \cdot \theta \cdot l + 2 \cdot (\sigma_x + \sigma_y) ), & \text{if } 2 \cdot \theta \cdot l + 2 \cdot (\sigma_x + \sigma_y) < 1\\
+0, & \text{otherwise}
+\end{cases}
+\end{equation}
+
+Where \(\theta \) is the standard deviation of the orientation estimate, \(l\) is the measured distance, \(\sigma_x\) is the standard deviation of the position estimate in the x direction and \(\sigma_x\) is the equivalent in the y direction.
+Both of the weight functions are also to be tested on the Elfes model. 
 
 \subsection{Monte Carlo Integration Inverse Sensor Model}
 \label{monte_carlo_sensor Model}
