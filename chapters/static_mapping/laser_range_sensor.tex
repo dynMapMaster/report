@@ -13,10 +13,10 @@ The inverse sensor model,
 \end{equation*}
 converts these characteristics to describe the probability for occupancy of the map given the measurement. The last term in equation \vref{eq:occupancy_update} is the log-odds version of this value.
 
-The primary sensor on mobile robot platforms used for navigation are laser range finders known as LiDar.
+The primary sensor on mobile robot platforms used for navigation are laser range finders known as LIDAR.
 
 \subsection{Forward Sensor Model}
-Laser range finders are subject to various forms of noise. In \cite{probRob} four different types of noise are combined to a model for range finders. 
+LIDARs are often modeled as a beam with four different types of noise combined to a model for range finders \cite{probRob}.
 The four different types of noise are:
 
 \begin{itemize}
@@ -35,10 +35,6 @@ For laser range finders failures can occur due to insufficient reflectance of th
 These failures often cause a maximum range reading and are handled by cutting off earlier than the maximum range.
 
 The fourth noise type are the random measurements. This type represents entirely random readings and are modeled with a uniform distribution and should be taken into account in the sensor model.
-
-The error on the angle which the laser points in with respect to the sensor is usually negligible \cite{probRob} \todo{Check kilde/find}.
-
-\todo{Insert image of sensor errors, due to nearby measurements tend to have the same distance, kilde niels og forsøg}
 
 Sebasian Thrun proposed to learn occupancy grids from the forward sensor model with expectation-maximization \cite{probRob}.
 This however demands for storing a batch of measurements and is computational expensive to perform. 

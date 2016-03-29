@@ -1,6 +1,7 @@
 %!TEX root = ../../report.tex
 \section{Occupancy grid mapping}
 \label{sec:occupancy_grid_mapping}
+
 An initial decision in mapping is how to represent the environment. A widely used method is the occupancy grid map, described in \cite{elfesMoravecOccGrid}. It splits the environment into evenly sized cells. 
 Each cell contains a probability, which indicates how plausible it is that the area it spans over contains an obstacle.
 A zero indicates that the cell is free and a one indicates that the cell is occupied.
@@ -15,7 +16,7 @@ A drawback of the topological map is that it contains less metric information th
 
 For the static mapping in this project there are other factors influencing the choice of representation. In the ROS system the grid map is already used and therefore the interfacing becomes significantly simpler and thus rendering the proposed mapping more easily integrated in other ROS systems. The availability of metric information and the widespread use and thereby ease of integration makes the occupancy grid a favored choice in this project. 
 
-When mapping with an occupancy grid each observation is assumed independent and thus adds a contribution to the occupancy of a cell. The most simple mapping in occupancy grid will mark a cell in accordance to its last observation with the full value. If the cell is observed as occupied the cell value is set to 1 and 0 if it is observed free. 
+When mapping with an occupancy grid each observation is assumed independent and thus adds a contribution to the occupancy of a cell. The most simple mapping in occupancy grid will mark a cell in accordance to its last observation with the full value. If the cell is observed as occupied the cell value is set to 1 and 0 if it is observed free.
 With this ideal inverse sensor model, the last observation dictates the cell value. 
 This makes the model very susceptible to any form of noise. 
 To avoid this, inverse sensor models that incorporate the noise of the sensor is often used.
@@ -27,7 +28,7 @@ Equation \ref{eq:occupancy_update} descries how the existing information is upda
 	log \frac{p(m_i|z_{1:t},x_{1:t})}{1-p(m_i|z_{1:t},x_{1:t})} = log \frac{p(m_i|z_{1:t-1},x_{1:t-1})}{1-p(m_i|z_{1:t-1},x_{1:t-1})} + log \frac{ p(m_i | z_t^i,x_t) }{ 1 - p(m_i | z_t^i,x_t) }
 	\label{eq:occupancy_update}
 \end{equation}
+
 The prior knowledge term is excluded since it is zero, when no consistent information about the map is available. 
 This is assumed since the prior is constant unlike the dynamic environments, which this work focuses on.
-It is possible to initialize the first term with initial values and thereby including a prior map and still enabling new measurements to overwrite the prior map. 
-
+It is possible to initialize the first term with initial values and thereby including a prior map and still enabling new measurements to overwrite the prior map.

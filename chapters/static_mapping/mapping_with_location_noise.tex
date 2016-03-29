@@ -4,14 +4,17 @@
 
 Traditional approaches to occupancy grid mapping assumes ideal localization \cite{probRob}. 
 Hence the mapping amounts to updating the map with an inverse sensor model, like described in section \vref{sec:laser_range_sensor}.
+
 This section investigates methods to improve mapping by incorporate localization noise.
 While it is unrealistic to map the world exactly without knowing the robots exact pose, it is possible to adjust the sensor model based on the size of the estimated localization error.
 By updating with larger regions with less values all the information is used, which leads to faster convergence to the correct map if the noise model is accurate.
 
 \subsection{Monte Carlo localization}
 The robot estimates its localization with an adaption of the ROS implementation \cite{ros_amcl} of the Adaptive Monte Carlo Localization(AMCL) \cite{Thrun200199}. It uses a particle filter to track the robot's pose in a known map. 
+
 The estimated uncertainty on the localization is described with a covariance matrix. The covariance matrices for some of the locations the robot visited during navigation in an industrial environment is visualized as contour plots around the robots position(green) in figure \vref{fig:amcl_covariance}. 
 The figure shows that the estimated standard deviation on the positional error generally is around $10cm$. Around the corner the estimated standard deviation however increase to more than twice that. This is reasonably since the map used by AMCL for scan matching was wrong in the top left corner of figure \vref{fig:amcl_covariance}. The estimated angular error also doubles when the robot reaches the corner.
+
 In figure \vref{fig:simulated_small_world} the simulated world is shown. The corresponding map used by AMCL to estimate the robot pose is shown in \vref{fig:simulated_small_amcl_map}.
 
 \begin{figure}[htbp]
@@ -20,8 +23,6 @@ In figure \vref{fig:simulated_small_world} the simulated world is shown. The cor
 		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance}		
 		\label{fig:amcl_covariance}
 	\end{subfigure}
-	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-	%(or a blank line to force the subfigure onto a new line)
 	\begin{subfigure}[t]{0.2\textwidth}
 		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance_bar}
 		\label{fig:amcl_covariance_bar}
@@ -40,8 +41,6 @@ A ROS bag was created of the run in order to ensure all methods was given the sa
 		\caption{World represenation}
 		\label{fig:simulated_small_world}
 	\end{subfigure}
-	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-	%(or a blank line to force the subfigure onto a new line)
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/simulation_poses_amcl_map}
 		\caption{Map used by AMCL}
@@ -54,7 +53,7 @@ A ROS bag was created of the run in order to ensure all methods was given the sa
 \subsection{Reduced ideal Inverse Sensor Model}
 \label{sec:reduced_ideal_sensor_model}
 The ideal inverse sensor model can be modified to avoid over confidence in sensor measurements, when the localization is wrong by decreasing the update term. A version of this is shown in figure \vref{fig:reduced_ideal_sensor_model}, where the probability when observing free is $0.4$ and the probability at the end of the measurement is $0.6$. 
-\begin{figure}[tbph]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/reduced_ideal_sensor_model}
 	\caption{Reduced ideal inverse sensor model}
@@ -74,7 +73,7 @@ weigth =
 Where \(\theta \) is the standard deviation of the orientation estimate and \(l\) is the measured distance.
 
 In order to account for the uncertainty of the position estimates another weight calculation, shown in \vref{eq:pose-weight}, is also tested.
-
+\todo{Explain why they look like this}
 
 \begin{equation}
 \label{eq:pose-weight}
@@ -86,12 +85,12 @@ weigth =
 \end{equation}
 
 Where \(\theta \) is the standard deviation of the orientation estimate, \(l\) is the measured distance, \(\sigma_x\) is the standard deviation of the position estimate in the x direction and \(\sigma_x\) is the equivalent in the y direction.
-Both of the weight functions are also to be tested on the Elfes model. 
+Both of the weight functions are also to be tested on the Elfes model.
 
 \subsection{Monte Carlo Integration Inverse Sensor Model}
 \label{monte_carlo_sensor Model}
-The monte carlo integration inverse sensor Model proposed by Joubert, Brink and Herbst \cite{Joubert2014},  uses the fact that particles used in Monte Carlo Localization with their likelihood weights approximates the robots uncertainty. 
-It works by ray-tracing the sensor measurements with a weighted ordinary inverse sensor model from the particles' poses instead of the estimated pose. 
+The monte carlo integration inverse sensor Model proposed by Joubert, Brink and Herbst \cite{Joubert2014},  uses the fact that particles used in Monte Carlo Localization with their likelihood weights(importance factors) approximates the robots uncertainty. 
+It works by ray-tracing the sensor measurements with a weighted ordinary inverse sensor model from the particles' poses instead of the estimate d pose. 
 Equation \vref{eq:monte_carlo_sensor_model} shows how a log-odds occupancy cell is updated with the right most term consisting of a weighted sum of inverse sensor models for $K$ particles.
 
 \begin{equation}
@@ -100,50 +99,51 @@ log \frac{p(m_i|z_{1:t})}{1-p(m_i|z_{1:t})} = log \frac{p(m_i|z_{1:t-1})}{1-p(m_
 \end{equation}
 
 It can be computational expensive to ray-trace the often several hundred measurements every tenth of a second from each of the often several hundreds of particles.
-To avoid this, only the $K$ top most weighted particles are used. 
+To avoid this, only the $K$ top most weighted particles can be used. 
 This has the effect that the total sum of update values is reduced to the total sum of the weights for the used particles.
-Depending on the spread of the distribution of the particles the amount of changes applied to the map per measurement varies.  
+Depending on the spread of the distribution of the particles the amount of changes applied to the map per measurement varies.
+Depending on processing capability and rate of measurements the number of used particles might be increased.
 
-When using 30 particles the map is updated with a sensor measurement on each of the two sensors as shown in figure \vref{eq:monte_carlo_sensor_model}.
+When using $30$ particles the map is updated with a sensor measurement on each of the two sensors as shown in figure \vref{eq:monte_carlo_sensor_model}.
 The sensors' frames are shown around the robots base frame as green and red lines.
 It is clear that it only updates the map weakly since the particles are far spread. 
 The obstacles are updated at different positions since the particles are located at different positions. With the many particles this results in blurred lines, which has the highest value in the center.
 
-The model uses a reduced ideal inverse sensor model similar to the one described in section \vref{sec:reduced_ideal_sensor_model}, where the probability for occupancy at the obstacle is $0.95$. The probability for free is set to $0.2$. 
+The model uses a reduced ideal inverse sensor model similar to the one described in section \vref{sec:reduced_ideal_sensor_model}, where the probability for occupancy at the obstacle is $0.85$. The probability for free is set to $0.45$. 
 It is chosen to optimize the reduced ideal inverse sensor model this way, since it is better at adding obstacles as shown in figure \vref{fig:particle_sensor}.
 
 The reason to the methods tendency to remove obstacle is that small difference in orientation between the particles results in ray-traces going through the obstacles as shown in figure \vref{fig:particle_sensor}. The weight for each used particle has been normalized to making the rays clearly visible. 
 The figure shows how most of the ray-traced inverse sensor models results in similar looking maps along the rays. 
-See how the model have built a map where there are a small probability for occupancy along the rays with similar distance by rotated around the robot's pose (red square). 
+It can be seen how the model have built a map where there are a small probability for occupancy along the rays with similar distance by rotated around the robot's pose (red square). 
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1.0]{figures/static_mapping/particle_principle}
-	\caption{Map after ray-tracing with a modified reduced ideal inverse sensor model from 30 particles.}
+	\caption{Map after ray-tracing with a modified reduced ideal inverse sensor model from all particles.}
 	\label{fig:particle_principle}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1.0\textwidth]{figures/static_mapping/monte_carlo_map_hector}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/static_mapping/monte_carlo_map_hector}
 		\label{fig:particle_hector_sensor-croped}
-		\caption{Reduced ideal inverse sensor model}
+		\caption{Monte Carlo integration using Elfes inverse sensor model shown in figure \ref{fig:sensor_model_std_dev01}.}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1.0\textwidth]{figures/static_mapping/monte_carlo_map_optimized}		
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/static_mapping/monte_carlo_map_optimized}		
 		\label{fig:particle_shot-croped}
 		\caption{Optimized inverse sensor model}
 	\end{subfigure}
 	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
 	%(or a blank line to force the subfigure onto a new line)
-	\caption{Mapping in simulation using monte carlo integration inverse sensor Model with different sensor models for ray-traycing.}
+	\caption{Mapping in simulation using Monte Carlo integration inverse sensor Model with different sensor models for ray-traycing.}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\linewidth]{figures/static_mapping/particle_sensor}
-	\caption{Example map with few LiDar measurements from the five highest weighted particles.}
+	\caption{Example map with few LIDAR measurements from the five highest weighted particles.}
 	\label{fig:particle_sensor}
 \end{figure}
 
@@ -200,7 +200,7 @@ The world map and the robots representation can be seen in figure \vref{fig:test
 In figure \vref{fig:comparison_obstacle_error} the Map score for each method is shown. The map score in calculated as equation \vref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the map score represent the error between the true and the estimated map, a lower score is advantageous. In this test the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when uncertainty decay is used. This suggests using the uncertainty of orientation estimate is preferable. Of the two methods that incorporates both uncertainty for the orientation and position estimate, the Monte Carlo performs best, but it is not on par with the Reduced Ideal model with uncertainty decay.\\
  
 Things change, however, when observing the results based on the normalized scores of figure \vref{fig:comparison_obstacle_error_per_cell}. This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of obstacle cells used, thus representing an error per obstacle cell.
-Using the normalized score the Monte Carlo method outperforms the other methods, having a score of \(\approx 0.3\), with the closes contestant, the Reduced Ideal model with decay, at \(\approx 0.45\) \todo{rephrase}.\\
+The Monete Carlo method's normalized score of approximately $0.3$ is well below that of the ideal model of approximately $0.45$.
 
 \begin{figure}[htbp]
 	\centering
