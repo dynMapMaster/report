@@ -38,7 +38,7 @@ A ROS bag was created of the run in order to ensure all methods was given the sa
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/simulation_poses_stage_map}
-		\caption{World represenation}
+		\caption{World representation}
 		\label{fig:simulated_small_world}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.45\textwidth}
@@ -52,28 +52,33 @@ A ROS bag was created of the run in order to ensure all methods was given the sa
 
 \subsection{Reduced ideal Inverse Sensor Model}
 \label{sec:reduced_ideal_sensor_model}
-The ideal inverse sensor model can be modified to avoid over confidence in sensor measurements, when the localization is wrong by decreasing the update term. A version of this is shown in figure \vref{fig:reduced_ideal_sensor_model}, where the probability when observing free is $0.4$ and the probability at the end of the measurement is $0.6$. 
+The ideal inverse sensor model can be modified to avoid over confidence in sensor measurements, when the localization is wrong by decreasing the update term. 
+A version of this is shown in figure \vref{fig:reduced_ideal_sensor_model}, where the probability when observing free is $0.4$ and the probability at the measured distance($l$) is $0.6$. 
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/reduced_ideal_sensor_model}
-	\caption{Reduced ideal inverse sensor model}
+	\caption{Reduced Ideal inverse sensor model}
 	\label{fig:reduced_ideal_sensor_model}
 \end{figure}
-This model's tendency to remove obstacles due to wrongly estimated orientation is diminished by multiplying the log-odds values with equation \vref{eq:angle-weight}.
+
+Despite the decrease in update values, the model can have tendency to be over confident in long measurements when the orientation is wrong.
+This results in a removal of inserted obstacles when ray-traces wrongly go through them due to localization errors.
+These effects are similar to the once shown in figure \ref{fig:particle_hector_sensor-croped}.
+This is diminished by multiplying the log-odds values with equation \vref{eq:angle-weight}.
 
 \begin{equation}
-\label{eq:angle-weight}
-weigth = 
-\begin{cases}
-1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
-0, & \text{otherwise}
-\end{cases}
+	\label{eq:angle-weight}
+	weigth = 
+	\begin{cases}
+	1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
+	0, & \text{otherwise}
+	\end{cases}
 \end{equation}
 
 Where \(\theta \) is the standard deviation of the orientation estimate and \(l\) is the measured distance.
 
 In order to account for the uncertainty of the position estimates another weight calculation, shown in \vref{eq:pose-weight}, is also tested.
-\todo{Explain why they look like this}
 
 \begin{equation}
 \label{eq:pose-weight}
@@ -135,8 +140,6 @@ It can be seen how the model have built a map where there are a small probabilit
 		\label{fig:particle_shot-croped}
 		\caption{Optimized inverse sensor model}
 	\end{subfigure}
-	~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-	%(or a blank line to force the subfigure onto a new line)
 	\caption{Mapping in simulation using Monte Carlo integration inverse sensor Model with different sensor models for ray-traycing.}
 \end{figure}
 

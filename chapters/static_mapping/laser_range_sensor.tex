@@ -36,7 +36,7 @@ These failures often cause a maximum range reading and are handled by cutting of
 
 The fourth noise type are the random measurements. This type represents entirely random readings and are modeled with a uniform distribution and should be taken into account in the sensor model.
 
-Sebasian Thrun proposed to learn occupancy grids from the forward sensor model with expectation-maximization \cite{probRob}.
+S. Thrun proposed to learn occupancy grids from the forward sensor model with expectation-maximization \cite{probRob}.
 This however demands for storing a batch of measurements and is computational expensive to perform. 
 It is more common to learn occupancy grids with an Inverse Sensor Model where measurements are added incrementally according to equation \vref{eq:occupancy_update}. 
 
