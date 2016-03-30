@@ -4,7 +4,6 @@
 
 Traditional approaches to occupancy grid mapping assumes ideal localization \cite{probRob}. 
 Hence the mapping amounts to updating the map with an inverse sensor model, like described in section \vref{sec:laser_range_sensor}.
-
 This section investigates methods to improve mapping by incorporate localization noise.
 While it is unrealistic to map the world exactly without knowing the robots exact pose, it is possible to adjust the sensor model based on the size of the estimated localization error.
 By updating with larger regions with less values all the information is used, which leads to faster convergence to the correct map if the noise model is accurate.
@@ -68,12 +67,12 @@ These effects are similar to the once shown in figure \ref{fig:particle_hector_s
 This is diminished by multiplying the log-odds values with equation \vref{eq:angle-weight}.
 
 \begin{equation}
-	\label{eq:angle-weight}
-	weigth = 
-	\begin{cases}
-	1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
-	0, & \text{otherwise}
-	\end{cases}
+\label{eq:angle-weight}
+weigth = 
+\begin{cases}
+1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
+0, & \text{otherwise}
+\end{cases}
 \end{equation}
 
 Where \(\theta \) is the standard deviation of the orientation estimate and \(l\) is the measured distance.
@@ -181,7 +180,7 @@ weigth =
 \end{figure}
 
 \subsection{Comparison of Inverse Sensor Models}
-In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the map score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \vref{eq:MapScore}.
+In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the Map Score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \vref{eq:MapScore}.
 
 \begin{equation}
 \label{eq:MapScore}
@@ -193,41 +192,43 @@ This gives a simple result that indicates how alike two maps are.
 However, as most maps contains vastly more free space than occupied space this might skew the result. 
 A map can receive a higher score for asserting strong statements about free cells but not mapping obstacles very accurate. 
 As the obstacles are vital parts of the map this is not desired. 
-To overcome this it is suggested to only use cells where either one of the maps have an occupied probability higher than \(0.5\) \cite{Sullivan2003}. 
-If the MapScore is to be used to evaluate a mapping algorithm between different maps, it is necessary to normalize the score with the number of cells in the map tested. 
+To overcome this it is suggested to only use cells where either one of the maps have an occupied probability higher than \(0.5\) \cite{Sullivan2003}, this will be denoted Sum of Squared Error (SSE).
+As the SSE does not distinguish between the number of cells touched it can be useful to normalize the score with the number of cells in the map tested. This will be denoted the Mean Squared Error (MSE).  
 
 \subsubsection{Results}
 The methods was tested on a ROS-bag of a path through a simulated environment. 
 The localization of the robot was not perfect due to differences between the world representation and the one used by AMCL.
 The world map and the robots representation can be seen in figure \vref{fig:test_map_setup}.
-In figure \vref{fig:comparison_obstacle_error} the Map score for each method is shown. The map score in calculated as equation \vref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the map score represent the error between the true and the estimated map, a lower score is advantageous. In this test the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when uncertainty decay is used. This suggests using the uncertainty of orientation estimate is preferable. Of the two methods that incorporates both uncertainty for the orientation and position estimate, the Monte Carlo performs best, but it is not on par with the Reduced Ideal model with uncertainty decay.\\
+As the world map has obstacle cells completely surrounded by other obstacle cells and therefore impossible for the robot to see the world map was adjusted before the comparison. Only obstacle cells with at least one neighboring free cell is to be considered. Obstacle cells with no free cell neighbors are set to unknown. 
+
+In figure \vref{fig:comparison_obstacle_error} the results for each method is shown. The SSE in calculated as equation \vref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the SSE represent the error between the true and the estimated map, a lower result is advantageous. In this test, the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when angle decay is used. This suggests using the uncertainty of orientation estimate is preferable. Similarly when position uncertainty is added they perform even better. Of the two methods that incorporates both uncertainty for the orientation and position estimate directly in the methods, the Monte Carlo performs best, but no where near as good as the Reduced Model with pose decay. 
  
-Things change, however, when observing the results based on the normalized scores of figure \vref{fig:comparison_obstacle_error_per_cell}. This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of obstacle cells used, thus representing an error per obstacle cell.
-The Monete Carlo method's normalized score of approximately $0.3$ is well below that of the ideal model of approximately $0.45$.
+Things change, however, when observing the results based on the MSE of figure \vref{fig:comparison_obstacle_error_per_cell}. 
+This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of cells with occupancy probability greater than \(0.5\), in either the test maps og the ground truth, thus representing a mean error per obstacle cell.
+Using the MSE the Monte Carlo method outperforms the other methods, having a result of \(\approx 0.38\), with the closes contestant, the Reduced Ideal model with decay, at \(\approx 0.47\).\\
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error}
-	\caption{Map score - obstacles only}
+	\caption{Sum of Squared Error - obstacles only}
 	\label{fig:comparison_obstacle_error}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error_per_cell}
-	\caption{Map score - normalized by number of obstacle cells}
+	\caption{Mean Squared Error}
 	\label{fig:comparison_obstacle_error_per_cell}
 \end{figure}
 
-The top two in both scoring systems are the Monte Carlo and the Reduced Ideal model with uncertainty decay. As each of the two methods where at the top in one of the scoring methods, determining the best is not straight forward.
+The top scorers in both scoring systems are the Monte Carlo and the Reduced Ideal model with pose decay. As each of the two methods where at the top in one of the scoring methods, determining the best is not straight forward.
 
 In order to further investigate the differences between the two methods the generated maps are to be compared and contrasted to the ground truth map. 
 Figure \vref{fig:box_region_comparison} show a comparison, of a region, between the methods against the ground truth.
-The Monte Carlo method produces larger occupied areas, due to the pose uncertainty, but succeeds, to a larger extend, in having the true occupation areas covered. 
+The Monte Carlo method produces larger occupied areas, due to the pose uncertainty. The occupied areas are a blur around the edges of the true obstacles. 
 Comparing this to the Reduce Ideal method, which has marked sharper edges. 
 These edges, however, are not perfectly located on the outer edge of the obstacles. 
-The center box obstacle is, for instance, offset. 
-This problem stems from not accounting for the position error, thus the mapping is too certain on the occupancy of the cells. 
+This problem stems from a consistent pose error that is not perfectly handled by the pose decay. 
 
 \begin{figure}[htbp]
 	\centering
@@ -247,4 +248,4 @@ This problem stems from not accounting for the position error, thus the mapping 
 	\label{fig:box_region_comparison}
 \end{figure}
 
-\todo{Choose a model(s) to use onwards}
+In the further development of the mapping in dynamic environment it is chosen to use the Reduced Ideal model with pose decay. This method is considered most suitable for the task due to its ability to suppress pose uncertainties while still maintaining a fairly accurate representation of the environment. 
