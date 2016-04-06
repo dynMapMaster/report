@@ -20,7 +20,16 @@ The transitions is modeled as Poisson processes and the rate parameters is estim
 
 Another method for learning the map dynamics using Hidden Markov Models (HMM) is described by Meyer-Delius et al. \cite{Meyer-Delius2012}. This method uses the same possible states as the IMAC, but as it is a HMM the states are not directly observable thus it is possible to incorporate sensor uncertainty. In order to learn the parameters of the model two methods are used; an offline and an online approach. The offline approach requires storing all observations and then iteratively learn the parameters using the expectation-maximization algorithm. The online version of the parameter learning algorithm, developed by Mongillo and Deneve \cite{Mongillo2008} eliminates the need for storing the whole observation set. Instead only 16 values has to be stored for each cell and the iterative learning can be done online. The online method is capable of handling changing dynamics by using a forget factor. 
 
-A different approach to mapping the dynamics is the Frequency Map Enhancement (FREMEN) proposed by Krajník et al. \cite{Krajnik2014}. This method models the dynamics of each cell by its primary frequency components. For prediction of future state the frequencies are reconstructed to a signal, which determines the predicted cell value. These uses a limited and constant number of parameters per cell. However, the method also requires the storage of time spans where the prediction went wrong in order to determine when a new model is needed. This significantly increases the memory requirements of the method.
+A different approach to mapping the dynamics is the Frequency Map Enhancement (FREMEN) proposed by Krajník et al. \cite{Krajnik2014}. This method models the dynamics of each cell by its primary frequency components. 
+For prediction of future state the frequencies are reconstructed to a signal, which determines the predicted cell value. 
+These uses a limited and constant number of parameters per cell. However, the method also requires the storage of time spans where the prediction went wrong in order to determine when a new model is needed. This significantly increases the memory requirements of the method.
+
+With the reconstructed signal it is possible to predict infinitely long out in the future if it object moves with that frequency. 
+This is not the case for Markow processes where the predicted probability for being in a state stabilizes on a constant, after many state changes.
+There are also disadvantages with the method.
+The most prominent comes from the fact, that it is impossible to recover a signal with a frequency lower than the Rayleigh-frequency of $1/T$, where $T$ is the period. 
+This demands for storing measurements for the time period in which objects appears, disappears and appears again. This period can everything from hours for vehicles to days or weeks for stocked product parts. 
+It might be possible to degrease the amount of stored information by only storing the average taken over periods, but then it is impossible reconstruct objects moving faster than the period which the average is taken. 
 
 The characteristics of the six methods to improve occupancy grid mapping by learning the dynamics of the environment are outlined in table \ref{tab:learners_characteristics}.
 
@@ -33,10 +42,10 @@ The characteristics of the six methods to improve occupancy grid mapping by lear
 		\textbf{Name} & \textbf{Memory} & \textbf{Dynamic representation} & \textbf{Learning method} & \textbf{Handles dynamics} \\
 		\rowcolor[gray]{0.925}
 		TOG & High & Time averaged OG & Online batch & Yes \\
-		TSM & Hign & Time  averaged OG & Random sample replacement  & Yes\\
+		TSM & High & Time  averaged OG & Random sample replacement  & Yes\\
 		\rowcolor[gray]{0.925}
 		MAC & Low & Markov parameters & Online iterative & Yes \\
-		HMM - Offline & Hign & Markov parameters & Offline batch  & No \\
+		HMM - Offline & High & Markov parameters & Offline batch  & No \\
 		\rowcolor[gray]{0.925} 
 		HMM - Online & Low & Markov parameters & Online iterative & Yes \\
 		FREMEN & Medium & Frequency components & Online batch & Yes\\
