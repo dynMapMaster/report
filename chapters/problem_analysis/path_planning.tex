@@ -8,7 +8,7 @@ As the environment changes the generated paths might not be collision free when 
 \subsection{Costmap in path planner}
 The planner uses a grid based costmap to calculate the lowest cost path. Obstacles from the static map are added to the costmap as areas with high cost and their vicinities are also gradually increased. 
 Additionally some areas have been assigned a cost by the user which will discourage or encourage planning through a particular area. 
-Adapting the internal map representation to accommodate dynamic environments should retain the capability to represent the user defined ares.  
+Adapting the internal map representation to accommodate dynamic environments should retain the capability to represent the user defined areas.  
 
 \subsection{Ineffective Global Navigation in Static Maps}
 When navigating based on an internal map the robot calculates a path through the environment, which in its map, is collision free. 
