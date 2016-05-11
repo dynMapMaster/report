@@ -1,0 +1,7 @@
+\section{Long-term SLAM in dynamic environments}
+A possible solution to handling the changes in the world is continuously running a SLAM algorithm. 
+These algorithms are often used to generate the initial map of the environment but continuing to run them will generate maps that are up-to-date and can encompass the changes in the world. The challenges in using a SLAM approach is associating parts of the newly generated map with previously obtained map. 
+As the world might have changed between the SLAM runs any discrepancy can either be caused by an error in localization or a change in the environment. 
+The problem of data association and the errors it can lead to is described in [REF HMM Lifelong LOC]. 
+Another issue with running SLAM algorithms throughout the operation time is the memory and computational requirements of these algorithms. Using a multi-hypothesis SLAM algorithm a complete map for each hypothesis is required. This can become a problem when the area of operation becomes large. 
+In order for the slam algorithms to generate good scan matching results the speed of the robot is important. If the speed is too high the quality of the map generated might be lowered. It is not desirable to limit the speed of the robot when it is performing its tasks. 

@@ -1,0 +1,6 @@
+\section{Navigation in dynamic environments}
+Navigation in industrial environment is primarily a 2D task as the robots are driven along the floor. For navigation a mobile robot the necessary perception task is often handled by LiDar sensors. These provide by their range measurements the necessary input for basic 2D navigation. 
+
+In navigating an industrial environment it would be beneficial for the robot to take into account various properties for different areas. In industrial settings it is common, as observed at SCAN A/S, for some areas to be designated for certain use. This can be for humans on foot, vehicles and various kind of storage. For navigation the storage aspect is especially important. It might be beneficial to avoid some areas where it is known that these are often blocked or were blocked recently.
+In a situation where path planning and navigation is done purely on a static map, and the preferred path between two points has been blocked for whatever reason, the planner will keep repeating its mistake of planning through an unusable path, thus wasting time. This is one of the tasks for the dynamic map to solve.
+

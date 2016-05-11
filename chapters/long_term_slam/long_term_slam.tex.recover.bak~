@@ -3,10 +3,8 @@
 \label{mapping_of_dynamic_areas}
 This chapter investigates possibilities to use information of objects dynamical behavior to improve localization and navigation.
 %
+\input{chapters/mapping_of_dynamic_areas/characteristics_in_industrial_environments.tex}
 
-\input{chapters/mapping_of_dynamic_areas/learnin_dynamic_env.tex}
-\input{chapters/mapping_of_dynamic_areas/fremen.tex}
-\input{chapters/mapping_of_dynamic_areas/pmac.tex}
 
 
 
