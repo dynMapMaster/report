@@ -1,4 +1,5 @@
-\section{Probabilistic Input  Markov Chain}
+%!TEX root = ../../report.tex
+\section{ Probabilistic Input  Markov Chain}
 \label{sec:pmac}
 \subsection{Developing on independent Markov chains}
 The IMAC method considers an observation to be either occupied or free. In the system setup used in this project, however, the input is the probability that a cell is occupied. To use IMAC it is necessary to determine the state of the observation with one or two thresholds. The simplest choice is placing a threshold at $0.5$ rendering everything above as an occupied observation and everything below a free. This approach will make no distinction between an observation of $0.501$ and $0.999$, which both will be considered occupied and contribute equally in the learning process. This is not desirable as the latter measurement contains immensely more information than the former. 
@@ -81,17 +82,27 @@ The observations from index $7$ to $20$ constitutes more certain changes in the 
 \label{fig:pmac_noise_problem_case}
 \end{figure}
 
-<<<<<<< Updated upstream
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/visualization_of_advantage_long_term_average}
     \caption{}
     \label{fig:visualization_of_advantage_long_term_average}
 \end{figure}
-=======
+
 %INSERT ENTRY FIGURE
 
 
 
 Disucussion on underlying Markov model -> Accuracy, Realism
->>>>>>> Stashed changes
+
+\subsection{Initializing the dynamic map}
+As the dynamic map is the result of a learning process it will not contain any information from the onset. 
+This might be a problem if the localization and navigation systems are relying on the results to perform their tasks.
+To handle this, but also to guide the dynamic map it is possible to initialize the PMAC parameters. 
+This could be done by what has previously been learned by the PMAC or by a static map.
+The initialization value of the PMAC parameters should be set according to the desired output, considering the interpretation, and  the confidence in the initial map.
+If the confidence is high in the obstacles of the initializing map, giving the cells in the dynamic map a strong initialization helps ensure that small errors will have less effect. 
+The same principles go for the free areas but it is likely might become obstructed at some point so initializing them too heavily might reduce the usefulness of the dynamic learner.
+Three different types of initialization is available from a static map; free, occupied and unknown.
+Each type can have different user-defined initialization values in order to accommodate various use-cases.  

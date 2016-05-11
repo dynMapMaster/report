@@ -11,7 +11,7 @@ This will force the robot to replan the path thus wasting time or causing the ro
 The most simple solution to these problems would be to add or remove obstacles based on the last observation. This, however, will likely clutter the map with highly dynamical obstacles like people moving through or vehicles driving by and thus has a high risk of blocking large parts of the map. 
 Therefore it is necessary to consider which obstacle should be included and which should be left out and furthermore how this selection is to be done.
 
-\subsection{Aims}
+\section{Aims}
 This thesis aims to solve the task of representing the world as it changes to uphold a useful representation for navigation and localization purposes. 
 The solution should be based on commonly used on-board sensors thus not requiring additional infrastructure to be established in the area of operation. 
 It is chosen to make the solution easily integratable with existing systems, requiring no hardware changes. 
@@ -33,7 +33,7 @@ Summing up, this project strives to improve navigation with mobile robots throug
 \item Full scale evaluation on the MIR100 platform
 \end{itemize}
 
-\subsection{Thesis core}
+\section{Thesis core}
 The system that has been devised in order to achieve the above mentioned goals can be considered in three main sections; static mapper, dynamic learner and interpretation. 
 Figure \ref{fig:block-overview} shows an overview of the sections and their connections. 
 The static mapper handles the sensor input. This is used to build up a momentary image of the environment. It is in this section the noise is integrated and accounted for. 
