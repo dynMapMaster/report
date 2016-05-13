@@ -19,7 +19,7 @@ In equation \ref{eq:cost_update} the term  \(2 \cdot |p_{occ\_meas} -0.5|\) is t
 
 It is seen in figure \ref{fig:cost_update} that uncertain free values does not cause a great shift in the estimated occupancy value. When the free observations become increasingly certain a significant change is observed. 
 
-The predict steps are performed when a new map is to be generated. At this time all cells are projected forward from their last observed time to the current time. This is done by using the estimated occupancy as the initial distribution and then projecting forward a number of steps according to the time difference between last observation and the current time. If the number of steps projected is large, then the estimate is not used. Instead the stationary distribution in  equation \ref{eq:long_term}  determines the final occupancy probability [REF HMM].
+The predict steps are performed when a new map is to be generated. At this time all cells are projected forward from their last observed time to the current time. This is done by using the estimated occupancy as the initial distribution and then projecting forward a number of steps according to the time difference between last observation and the current time. If the number of steps projected is large, then the estimate is not used. Instead the stationary distribution in  equation \ref{eq:long_term}  determines the final occupancy probability \cite{Meyer-Delius2012}.
 \begin{equation}
 	\label{eq:long_term}
 	p_{stationary} = \frac{1}{\lambda_{entry} + \lambda_{exit}} \cdot \lambda_{entry}
