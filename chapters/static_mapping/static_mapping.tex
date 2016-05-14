@@ -2,10 +2,19 @@
 \chapter{Static mapping}
 % \cite{tdoa_book}
 Static mapping is an essential part of mobile robotics. It forms the basics for allowing the robot to navigate the environment. 
-Also in mapping dynamic environments the static mapping is an integral part. 
+Also in mapping dynamic environments the static mapping is an integral part. Figure \ref{fig:static_map_overview} shows the static mapping module in relation to the rest of the dynamic mapping system.  
+
+\begin{figure}[htbp]
+		\centering
+		\includegraphics[scale=1]{chapters/static_mapping/figures/static_map_overview.eps}
+		\caption{The static mapping in the dynamic mapping system}
+		\label{fig:static_map_overview}
+\end{figure}
+
 In this chapter different sensor models are evaluated. Furthermore the effects of imperfect pose estimation is discussed and methods for incorporating various uncertainties are tested. 
 
 \input{chapters/static_mapping/occupancy_grid.tex}
 \input{chapters/static_mapping/laser_range_sensor.tex}
 \input{chapters/static_mapping/mapping_with_location_noise.tex}
 \input{chapters/static_mapping/mapping_an_industrial_environment.tex}
+\input{chapters/static_mapping/summary.tex}
