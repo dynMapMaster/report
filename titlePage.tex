@@ -6,7 +6,7 @@
 		\vspace*{-1.9cm}
 		\begin{figure} %
 			\centering
-			\includegraphics[width=0.5\textwidth]{figures/front_matter/SDU2013_SDU_Logo}
+			\includegraphics[width=.75\textwidth]{figures/front_matter/sdu_logo_uk-crop}
 		\end{figure}
 
 		\begin{centering}
@@ -22,40 +22,42 @@
 			\vspace{\stretch{2}}
 		\end{centering}
 		\begin{raggedright}
-			\sffamily\LARGE{Mærsk Mc-Kinney Møller Instituttet}
+            \begin{textblock}{6.5}(0,-0.55)
+    			\sffamily\LARGE{Mærsk Mc-Kinney Møller Institute}
+            \end{textblock}
 			\ifthenelse{\equal{\bCompanyLogo}{true}}{%
-				\begin{textblock}{3}(9,-0.85) %
+				\begin{textblock}{4}(6.5,-1.2) %
 					\includegraphics[width=\textwidth]{figures/front_matter/mir_logo}
 				\end{textblock}
 			}{} % End if
 		\end{raggedright}
 	\end{adjustwidth}
 
-	\cleardoublepage
-
-	\thispagestyle{empty}
-	\enlargethispage{1.3cm}
-	\calccentering{\unitlength}
-	\begin{adjustwidth}{\unitlength-0.4cm}{-\unitlength-0.4cm}
-		\begin{center}
-			\vspace{\stretch{1}}
-			\vspace{1.5cm}
-			{\Huge\scshape\ThAuthors}\\[2cm]
-			\begin{Spacing}{3}
-				{\sffamily\HUGE\textbf{\ThTitleEN}}\\[1cm]
-%				{\sffamily\LARGE\textbf{{\ThSubtitleEN}}}\\[1cm]
-				{\sffamily\LARGE{Master's Thesis, \ThEndDate}}\\[2cm]
-			\end{Spacing}
-			\vspace{\stretch{2}}
-			\begin{Spacing}{1.5}
-				{\Large Supervisors:}\\
-				{\Large\ThSupervisors\\}
-			\end{Spacing}
-			\vspace{\stretch{3}}
-			{\sffamily SDU - University of Southern Denmark, Odense - \ThYear}\\[1cm]
-			\vspace{\stretch{4}}
-		\end{center}
-	\end{adjustwidth}
+%	\cleardoublepage
+%	\thispagestyle{empty}
+%	\enlargethispage{1.3cm}
+%	\calccentering{\unitlength}
+%	\begin{adjustwidth}{\unitlength-0.4cm}{-\unitlength-0.4cm}
+%		\begin{center}
+%			\vspace{\stretch{1}}
+%			\vspace{1.5cm}
+%			{\Huge\scshape\ThAuthors}\\[2cm]
+%			\begin{Spacing}{3}
+%				{\sffamily\HUGE\textbf{\ThTitleEN}}\\[1cm]
+%%				{\sffamily\LARGE\textbf{{\ThSubtitleEN}}}\\[1cm]
+%				{\sffamily\LARGE{Master's Thesis, \ThEndDate}}\\[2cm]
+%			\end{Spacing}
+%			\vspace{\stretch{2}}
+%			\begin{Spacing}{1.5}
+%				{\Large Supervisors:}\\
+%				{\Large\ThSupervisors\\}
+%			\end{Spacing}
+%			\vspace{\stretch{3}}
+%			{\sffamily SDU - University of Southern Denmark, Odense - \ThYear}\\[1cm]
+%			\vspace{\stretch{4}}
+%            {\tiny Printed by SDU Print \& Sign}
+%		\end{center}
+%	\end{adjustwidth}
 
 	\cleardoublepage
 	\thispagestyle{empty}
@@ -92,4 +94,7 @@
 %			Copyrights:&\ThCopyrights
 		\end{tabular}}
 	\end{adjustwidth*}
+    \begin{center}
+        \tiny Printed by SDU Print \& Sign
+    \end{center}
 \end{titlingpage}

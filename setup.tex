@@ -104,3 +104,16 @@
 
 % A fix for memoir-kluwer
 \renewcommand{\bf}{\textbf}
+
+\newcommand{\titledate}[2][2.5in]{%
+    \vspace{2 cm}
+    \noindent%
+    \begin{tabular}{@{}p{#1}@{}}
+        \\ \hline \\[-.75\normalbaselineskip]
+        #2
+    \end{tabular} \hspace{0.5in}
+    \begin{tabular}{@{}p{#1}@{}}
+        \\ \hline \\[-.75\normalbaselineskip]
+        Date
+    \end{tabular}
+}
