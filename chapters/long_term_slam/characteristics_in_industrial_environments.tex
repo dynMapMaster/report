@@ -1,13 +1,13 @@
 \section{Characteristics in industrial environments}
 \label{sec:characteristics_in_industrial_environments}
 An investigation of an representative industrial area where mobile robots are used, shows that areas share common dynamical characteristics. 
-During a visit at SCAN A/S a high degree of structure and fixed routines where observed. 
-Different work stations produce different parts of the product and place them in areas for the next station to continue on them.
+During a visit at SCAN A/S, a high degree of structure and fixed routines where observed. 
+Different work stations produce different parts of the product, and place them in areas for the next station to continue on them.
 Part of the production line at SCAN A/S, where a MIR robot is used, are shown in figure \ref{fig:scan-mir}. 
 The machine is fixed to the floor and is almost as static as the walls in the factory.
 Figure \ref{fig:scan-semi-static-obstacles} shows product parts that have been processed by one station, and are ready to be picked up by the next station. 
-It might be possible to take advantage of the fixed routines and steady production rate when building and updating a long term map.
-As seen in the figure objects are only roughly placed and are not aligned carefully, which can influence mapping with a high resolution grid.
+It might be possible to take advantage of the fixed routines and steady production rate, when building and updating a long term map.
+As seen in the figure, objects are only roughly placed and are not aligned carefully, which can influence mapping with a high resolution grid.
 
 \begin{table}[htbp]
 	\caption{Regions of industrial environments}
@@ -32,7 +32,7 @@ The areas can roughly be classified based on dynamics of the obstacles that are 
 	\centering
 	\begin{subfigure}[t]{0.6\textwidth}
 		\includegraphics[width=1.0\textwidth]{chapters/mapping_of_dynamic_areas/figures/scan-mir}	
-		\caption{MIR 100 robot navigating close to heavy machinery.}
+		\caption{MiR-100 robot navigating close to heavy machinery.}
 		\label{fig:scan-mir}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.3875\textwidth}
@@ -45,7 +45,7 @@ The areas can roughly be classified based on dynamics of the obstacles that are 
 
 The information of these areas can be incorporated in the representation of the world to avoid having to re-plan a path and to improve localization. 
 
-The \textit{highly dynamic} objects should not be considered as obstacles, but some re-planning of the plan might be unavoidable due to them. 
+The \textit{highly dynamic} objects should not be considered as obstacles, but some re-planning of the path might be unavoidable due to them. 
 It is beneficial to include \textit{semi-static} obstacles in path planning to avoid having to re-plan, but by assigning them as lethal obstacles it might be impossible to plan a path although one is possible.
 The \textit{static} objects should always be present as lethal obstacles when path planning to avoid navigating along obscure routes.
 
@@ -54,6 +54,6 @@ Since the value of the \textit{semi-static} obstacles as landmarks depends on ho
 The \textit{static} obstacles are very good landmarks.
 
 If the \textit{semi-static} obstacles moves at a constant rate, it might be possible to predict the presence of it in the future by learning its transient behavior.
+It is reasonable to assume a rather constant rate of movements of the production parts, since they are produced at approximately fixed rates and placed in confined areas.
 By predicting the presence of obstacles it is possible to plan around them and use them as landmarks, when they are present.
-This would be a huge improvements, but during the visit at SCAN A/S it became clear that obstacles are not placed exactly the same place, and the product part travel though the production line.
-By steady production pace and fixed areas for product parts, might however introduce similar objects at similar locations and time.
+This would be a huge improvements, but during the visit at SCAN A/S it became clear that obstacles are not placed exactly the same place, which complicates the learning process with a grid representation.
