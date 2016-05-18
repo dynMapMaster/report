@@ -1,6 +1,7 @@
 %!TEX root = ../../report.tex
 \section{ Probabilistic Input  Markov Chain}
 \label{sec:pmac}
+The comparison between IMAC and HMM in figure \ref{fig:markow_learning} shows that incorporating the noise in the learning method has benefits. The HMM approaches the correct value as more observations are added. The HMM learning is slow at converging on a value, unlike IMAC. When there is no noise the IMAC 
 
 \subsection{Developing on independent Markov chains}
 The IMAC method considers an observation to be either occupied or free. In the system setup used in this project, however, the input is the probability that a cell is occupied. To use IMAC it is necessary to determine the state of the observation with one or two thresholds. The simplest choice is placing a threshold at $0.5$ rendering everything above as an occupied observation and everything below a free. This approach will make no distinction between an observation of $0.501$ and $0.999$, which both will be considered occupied and contribute equally in the learning process. This is not desirable as the latter measurement contains immensely more information than the former. 
@@ -92,11 +93,30 @@ The observations from index $7$ to $20$ constitutes more certain changes in the 
     \label{fig:visualization_of_advantage_long_term_average}
 \end{figure}
 
-%INSERT ENTRY FIGURE
 
+\subsection{Comparing PMAC to alternavtives}
+The goal of the developed PMAC learning method is to combine the fast learning under good condition from IMAC while also incorporating the uncertainty of sensor measurements. The uncertainty is represented as a probability from the static mapper that a cell is occupied. In order to compare PMAC to different Markov parameter learning methods, it has been tested in a simulation setup alongside IMAC and the online version of HMM. The test setup is one dimensional and a static mapper is used. The static mapper receives 10 noisy measurements, and determines the resulting occupied probability as learning input. The simulation is run for 200 learning rounds with the noise changing midway through. The initial noise is \(1.2\) grid cells then decreasing to \(0.11\) grid cells, both with zero mean. 
 
+The result of simulation run is shown in figure \ref{fig:markow_learning_pmac_comparison_entry} and \ref{fig:markow_learning_pmac_comparison_exit}. Figure  \ref{fig:markow_learning_pmac_comparison_entry} shows the learning of the \(p_{entry}\) parameter. It is clear that all of the methods has difficulties learning the correct value. But after observation number 100, and the decrease in noise, both IMAC and PMAC increases towards the correct value, with PMAC catching up to IMAC. All the methods underestimate the \(p_{entry}\).
 
-Disucussion on underlying Markov model -> Accuracy, Realism
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/pmac_imac_hmm_entry}
+	\caption{Estimated \(p_{entry}\) values for different learners}
+	\label{fig:markow_learning_pmac_comparison_entry}
+\end{figure}
+
+The learning curves for \(p_{exit}\) is shown in figure \ref{fig:markow_learning_pmac_comparison_exit}. Contrary to the \(p_{entry}\) estimate the \(p_{exit}\) is overestimated, for the majority of the simulation. At observation number 100 it is seen that the decrease in noise has a significant effect on the estimates. PMAC experiences the most significant change when the noise changes. In the simulation shown the PMAC achieves the best result in estimating the \(p_{exit}\), but this is not consistently observed throughout all runs of the simulation. When the number of inputs, used in the static mapper before inputting to the learners, increases the difference between IMAC and PMAC becomes smaller as the static becomes increasingly certain on its output. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/pmac_imac_hmm_exit}
+	\caption{Estimated \(p_{exit}\) values for different learners}
+	\label{fig:markow_learning_pmac_comparison_exit}
+\end{figure}
+
+The simulation shows that the ability of PMAC to learn the Markov parameters is at least comparable to the other learners when used with a static mapper, as intended. It is also observed that the static mapper increases the capabilities of IMAC to handle the zero-mean noise. The problem with IMAC, which were outline in [SECTION REFERENCE!!!!!!!!!!!!!], still remains which is why PMAC gains its credibility. 
+
 
 \subsection{Initializing the dynamic map}
 As the dynamic map is the result of a learning process it will not contain any information from the onset. 
