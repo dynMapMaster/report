@@ -179,7 +179,7 @@ weigth =
 \end{figure}
 
 \subsection{Comparison of Inverse Sensor Models}
-In order to compare the various mapping methods a metric for determining the accuracy of a map. One of the methods for comparing to occupancy maps is the Map Score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \vref{eq:MapScore}.
+In order to compare the various mapping methods a metric, for determining the accuracy of a map, is needed. One of the methods for comparing to occupancy maps is the Map Score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy for each cell in two maps, as seen in equation \vref{eq:MapScore}.
 
 \begin{equation}
 \label{eq:MapScore}
@@ -203,7 +203,7 @@ As the world map has obstacle cells completely surrounded by other obstacle cell
 In figure \vref{fig:comparison_obstacle_error} the results for each method is shown. The SSE in calculated as equation \vref{eq:MapScore}, but only for cells where either the ground truth, or the test map is above the unknown value on $0.5$, and the ground truth value is different from this value. As the SSE represent the error between the true and the estimated map, a lower result is advantageous. In this test, the reduced ideal model with uncertainty decay received the lowest score. Both Elfes and the reduced ideal models perform better when angle decay is used. This suggests using the uncertainty of orientation estimate is preferable. Similarly when position uncertainty is added they perform even better. Of the two methods that incorporates both uncertainty for the orientation and position estimate directly in the methods, the Monte Carlo performs best, but no where near as good as the Reduced Model with pose decay. 
  
 Things change, however, when observing the results based on the MSE of figure \vref{fig:comparison_obstacle_error_per_cell}. 
-This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of cells with occupancy probability greater than \(0.5\), in either the test maps og the ground truth, thus representing a mean error per obstacle cell.
+This score is calculated as the scores of figure \vref{fig:comparison_obstacle_error} divided by the number of cells with occupancy probability greater than \(0.5\), in either the test maps or the ground truth, thus representing a mean error per obstacle cell.
 Using the MSE the Monte Carlo method outperforms the other methods, having a result of \(\approx 0.38\), with the closes contestant, the Reduced Ideal model with decay, at \(\approx 0.47\).\\
 
 \begin{figure}[htbp]
