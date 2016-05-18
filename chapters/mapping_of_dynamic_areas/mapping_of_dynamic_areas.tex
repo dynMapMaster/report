@@ -1,12 +1,20 @@
 %!TEX root = ../../report.tex
 \chapter{Mapping of Dynamic Areas}
 \label{mapping_of_dynamic_areas}
-This chapter investigates possibilities to use information of objects dynamical behavior to improve localization and navigation.
-%
+This chapter investigates possible methods for learning the dynamic properties of an area in order to improve localization and navigation. The dynamic learner module is shown in figure \ref{fig:dynamic_learner_overview} in relation to the rest of the dynamic mapping system. The dynamic learner receives the static map snapshots and uses these as the basis for learning the dynamics.  
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/dynamic_overview.eps}
+	\caption{The static mapping in the dynamic mapping system}
+	\label{fig:dynamic_learner_overview}
+\end{figure}
 
 \input{chapters/mapping_of_dynamic_areas/learnin_dynamic_env.tex}
 \input{chapters/mapping_of_dynamic_areas/fremen.tex}
 \input{chapters/mapping_of_dynamic_areas/pmac.tex}
+\input{chapters/mapping_of_dynamic_areas/summary.tex}
 
 
 
