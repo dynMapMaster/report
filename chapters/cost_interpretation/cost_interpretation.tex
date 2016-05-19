@@ -1,7 +1,14 @@
 %!TEX root = ../../report.tex
 \chapter{Cost interpretation}
+This chapter describes how the learned dynamic behavior of the environment can be converted to a map of good features and a map of areas to avoid when navigating. Specifically the following aim is considered:
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Improved localization with a continuously adapted map of good features
+\end{enumerate}
+
 The dynamic learner represents the dynamic map of the environment by the parameters in PMAC. These parameters are not directly usable by the localization and navigation systems so in order to provide a usable map to these subscribers an interpretation of the parameter values is necessary. The Interpretation in relation to the rest of the system is shown in figure \ref{fig:cost_overview}.
-\\
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{chapters/cost_interpretation/figures/cost_overview.eps}

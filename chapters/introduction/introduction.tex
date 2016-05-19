@@ -18,20 +18,22 @@ It is chosen to make the solution easily integratable with existing systems, req
 In order to maintain an up-to-date representation of the world it is necessary to determine an effective way of representing the changes and to continuously learn the dynamics of the environment. 
 The learning must be able to account for changes in the dynamics. 
 This is due to the fact that it can not be expected for the dynamics to remain on the same level throughout time. The method must be able to cope with both the differentiating between static and dynamics and changes in the level of dynamics in an area. 
-As various sources of noise are expected in a real world scenario, these should be integrated into the learning system to provide a better basis for learning. One of the sources that should be considered is the sensor noise, which could degrade the perception of the environment. Another is the localisation noise.
-As the system should run without extra infrastructure, whatever localisation uncertainty is within any onboard localisation system used, this should be taken into account.
-In learning the dynamics it is also necessary to convert the learned dynamics into a usable map for navigation and localisation systems. Rules for this conversion will have to take into account the desired types of obstacles to be represented. 
+As various sources of noise are expected in a real world scenario, these should be integrated into the learning system to provide a better basis for learning. One of the sources that should be considered is the sensor noise, which could degrade the perception of the environment. 
+
+Another is the localization noise.
+As the system should run without extra infrastructure, whatever localization uncertainty is within any on-board localization system used, this should be taken into account.
+In learning the dynamics it is also necessary to convert the learned dynamics into a usable map for navigation and localization systems. Rules for this conversion will have to take into account the desired types of obstacles to be represented. 
 A user might want to only represent static obstacles, for instance walls and heavy machinery, for localization purposes but also more dynamic obstacles when path planning and navigating. 
 As this could vary between users and application it could be beneficial to add this as one of the inevitable parameters necessary to tune the final method for specific uses. 
 
-Summing up, this project strives to improve navigation with mobile robots through continuous learning of the dynamic environment with onboard sensors. Specifically the following problems are considered:
-
-\begin{itemize}
-\item Long-term fast adaptive map representation of dynamic environments
-\item Precise mapping of static environment by incorporation of sensor and localization noise
-\item Learning dynamics in environments
-\item Full scale evaluation on the MIR100 platform
-\end{itemize}
+Summing up, this project strives to improve navigation with mobile robots through continuous learning of the dynamic environment with on-board sensors. 
+Specifically the following are considered:
+\begin{enumerate}
+    \item Precise mapping of static environment by incorporation of sensor and localization noise
+    \item Long-term fast adaptive map representation of dynamic environments
+    \item Improved localization with a continuously adapted map of good features
+    \item Integration and evaluation on the MiR-100 platform
+\end{enumerate}
 
 \section{Thesis core}
 The system that has been devised in order to achieve the above mentioned goals can be considered in three main sections; static mapper, dynamic learner and interpretation. 
@@ -49,27 +51,7 @@ In order to provide a useful output for the navigation and localization systems 
 \end{figure}
 
 \subsection{Thesis outline}
-
-New stuff\\
-Long term navigation dynamic environment
-- Wrong / suboptimal path planning
-- Failed localization
-
-Requirements
-Plasticity
-- Adapt quickly to changes 
-- Avoid insertion errors -> recursion problem (localization on updated map -> new map based on localization)
-- Avoid bad landmarks
-
-Pre- assumption
-2D world
-Lidar sensor only
-Preferably an easy interface 
-Changes in the environment are continuos and partial. Areas are visited more frequently than significant changes. (change per visit?)
-
-It should be able to run online
-Nice: low resource requirements
-
+Refer to the thesis aims by number.
 
 
 
