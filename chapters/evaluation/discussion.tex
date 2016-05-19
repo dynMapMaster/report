@@ -1,0 +1,28 @@
+\section{Discussion}
+
+
+\subsection{Ability to Learn Dynamics of environment}
+The proposed PMAC methods ability to learn the dynamic behavior was investigated by letting it learn from observations of obstacles moving with a controlled Markov process.
+The errors in the estimated Markov parameters when using the PMAC learner described in section \ref{sec:learning_markov_evaluation} most likely stems from unmodeled localization errors and insufficient number of observations. 
+
+The wrong estimates for lambda $\lambda_{entry}$ might be due to the fact that cells near the edges of obstacles are often wrongly observed free when the end of the ray-traced lines are too long due to errors in the estimated robot pose.
+When the lines are too short due to localization errors the cells further from the laser in the direction of the line are however not counted up as occupied.
+This causes an increase in free count values compared to the ones in the entry event counter, which results in the $\lambda_{entry}$ values being too small.
+The estimated $\lambda_{exit}$ do not suffers from this problem and are also better, but the small amount of measurements is simply not sufficient to achieve accurate estimates for all the boxes.
+
+Despite the fact that it cannot be shown that PMAC learns the dynamics of semi-static obstacles fast,
+the method is useful to improve prediction of future probability for occupied and location of static obstacles.
+
+\subsection{Prediction of Obstacles Location}
+When predicting five minutes out into the future in between updates a better match with the observed observation is achieved when using the proposed predict-update method, than when just predicting with the previously observed probability for occupied.
+It should be noted that these results are not general, since the accuracy of the prediction depends on the time between observations and how dynamic the observed obstacle are.
+
+\subsection{Localization with Dynamic Map}
+The estimation certainty of the localization performed by AMCL is smaller when using a dynamic map.
+
+Jumps in estimated position to an invalid pose is avoided.
+
+The accuracy and precision of the localization is better when using a dynamic map representation.
+The navigation system arrives faster at an accurate pose.
+
+

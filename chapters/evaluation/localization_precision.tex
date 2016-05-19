@@ -1,5 +1,5 @@
 %!TEX root = ../../report.tex
-\section{Accuracy and Precision of Localization with Dynamic Map}s
+\section{Accuracy and Precision of Localization with Dynamic Map}
 The effects of using a dynamic map representation for localization is evaluated by navigating precisely to the same pose multiple times using both a static and dynamic map representation.
 By comparing how closely the robot gets to the target pose it is possible to evaluate the improvements in localization when using a dynamic map representation. 
 \subsection{Test setup} 
@@ -21,7 +21,13 @@ The robot navigates with the planner in the MIR software, which stops when the e
 
 \subsection{Results}
 The poses the robot navigates to while localizing on a static or dynamic map are compared on the amount they differ from the target pose.
-Figure \ref{fig:precision_test_positions} shows the deviation in position using the dynamic map is less spread and that there is much less error in the y-direction. The mean error when using the static map is close to zero although the positions are widely spread.
+Figure \ref{fig:precision_test_positions} shows the deviation in position using the dynamic map is less spread and that there is much less error in the y-direction. 
+
+It should be noted that there are only 32 measurements with the static map compared to the 45 with the dynamic map.
+The reason to this is that it took longer time for the planner to reach the goal position accurately and that it failed to do so in reasonable time five times. 
+In cases with failures the robot was send to the target pose again without making an observation. 
+
+The mean error when using the static map is close to zero although the positions are widely spread.
 This is confirmed with a one-sided F-test which shows that the variance in the x- and in the y-position is smaller when using a dynamic map representation than when using a static map with $p<0.001$ for both of them.
 The improvements in accuracy when using a dynamic map is evident from the one-side Wilcoxon-test for equal median of the norm2 distance from the target position. The test shows that distance is significantly shorter with a $p<0.001$.
 
