@@ -91,7 +91,7 @@ Where \(\theta \) is the standard deviation of the orientation estimate, \(l\) i
 Both of the weight functions are also to be tested on the Elfes model.
 
 \subsection{Monte Carlo Integration Inverse Sensor Model}
-\label{monte_carlo_sensor Model}
+\label{sec:monte_carlo_sensor Model}
 The monte carlo integration inverse sensor Model proposed by Joubert, Brink and Herbst \cite{Joubert2014},  uses the fact that particles used in Monte Carlo Localization with their likelihood weights(importance factors) approximates the robots uncertainty. 
 It works by ray-tracing the sensor measurements with a weighted ordinary inverse sensor model from the particles' poses instead of the estimate d pose. 
 Equation \vref{eq:monte_carlo_sensor_model} shows how a log-odds occupancy cell is updated with the right most term consisting of a weighted sum of inverse sensor models for $K$ particles.
