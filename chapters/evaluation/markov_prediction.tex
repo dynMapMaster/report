@@ -6,7 +6,7 @@ A use for the dynamic information is to improve the prediction of the occupancy 
 In order to demonstrate the prediction, it has been used on the obstacles. The predict error score is calculated by equation \ref{eq:predict_error_score}. This is calculated for a region of interest around the obstacle position. The number of cells used in the calculation is the number of cell in the region for which the new observation has information. 
 
 \begin{equation}
-	Error_{score} = \frac{\sum\limits_{i=1}^{n_{cells}} (p_{predict}(i)-p_{observation}(i))^2}{n_{cells}}
+	\text{Predict error score} = \frac{\sum\limits_{i=1}^{n_{cells}} (p_{predict}(i)-p_{observation}(i))^2}{n_{cells}}
 	\label{eq:predict_error_score}
 \end{equation} 
 
@@ -29,8 +29,7 @@ An overview of the results of the PMAC and previous observation predictor for al
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[htbp]
 	\centering
-	\label{table:predict_results}
-	\begin{tabular}{llllllllll}
+	\begin{tabular}{lccccccccc}
 		\toprule
 		\rowcolor[gray]{0.925} 
 		\textbf{Obstacle number}                                                        & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
@@ -42,4 +41,5 @@ An overview of the results of the PMAC and previous observation predictor for al
 		\bottomrule
 	\end{tabular}
 	\caption{Results of prediction from previous predictor and PMAC}
+    \label{table:predict_results}
 \end{table}

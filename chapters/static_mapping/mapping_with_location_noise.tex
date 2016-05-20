@@ -24,8 +24,8 @@ In figure \vref{fig:simulated_small_world} the simulated world is shown. The cor
 	\begin{subfigure}[t]{0.2\textwidth}
 		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance_bar}
 	\end{subfigure}
-    \label{fig:amcl_covariance}
 	\caption{Covariances estimated by AMCL in an industrial environment shown with contours marking one standard deviation around the robot's estimated pose(green).}
+    \label{fig:amcl_covariance}
 \end{figure}
 
 It is clearly visible from the maps that AMCL was missing information about the world. The lack of correspondence between the maps causes the covariance of the pose estimate to increase.
@@ -130,13 +130,13 @@ It can be seen how the model have built a map where there are a small probabilit
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/monte_carlo_map_hector}
-		\label{fig:particle_hector_sensor-croped}
 		\caption{Monte Carlo integration using Elfes inverse sensor model shown in figure \ref{fig:sensor_model_std_dev01}.}
+        \label{fig:particle_hector_sensor-croped}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/monte_carlo_map_optimized}		
-		\label{fig:particle_shot-croped}
 		\caption{Optimized inverse sensor model}
+        \label{fig:particle_shot-croped}
 	\end{subfigure}
 	\caption{Mapping in simulation using Monte Carlo integration inverse sensor Model with different sensor models for ray-traycing.}
 \end{figure}
