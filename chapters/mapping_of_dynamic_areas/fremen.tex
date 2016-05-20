@@ -30,7 +30,7 @@ When predicting the state of a cell at time $t$ the signal components are calcul
     \label{eq:fremen_freq_component}
 \end{equation}
 
-Then $ \Omega $ is ordered based $ | \alpha_k | $ to enable calculation of equation \ref{eq:fremen_predict} using only the $m$ most prominent frequency components. As previously described, we use two frequency components ($ m=2 $) for each cell.
+Then $ \Omega $ is ordered based on $ | \alpha_k | $ to enable calculation of equation \ref{eq:fremen_predict} using only the $m$ most prominent frequency components. As previously described, we use two frequency components ($ m=2 $) for each cell.
 
 \begin{equation}
 p(t) = \zeta \left( \alpha_0 \sum_{k=1}^{m} |\alpha_k| cos(\omega_k t + arg(\alpha_k))  \right)
@@ -74,7 +74,14 @@ Figure \ref{fig:fremen_ideal_sim} shows how FreMEn correctly predicts the appear
 Figure \ref{fig:fremen_avg_miss_with_noise} shows a more realistic simulation with Gaussian noise on LIDAR measurements with a standard deviation of one centimeter and localization using AMCL with a static map representation.
 Here some of the obstacles are predicted to have moved while they in fact are still present, as shown in the middle to the right in figure \ref{fig:fremen_avg_miss_with_noise}.
 
-FreMEn's lack of ability to predict future measured obstacles is also apparent in the average correctly predicted observations of obstacles. 
+FreMEn's lack of ability to predict future measured obstacles is also apparent in the average correctly predicted observations of obstacles. This measure is calculated with equation \ref{eq:average_predict_score}, where $s$ is the state that can be occupied, or free, and $n_cells$ is the number of cells that are either observed or predicted as occupied.
+
+\begin{equation}
+    \text{Average correct obstacle prediction} = \left[1- \frac{\sum\limits_{i=1}^{n_{cells}} \left\|s_{predict}(i)-s_{observation}(i)\right\|}{n_{cells}}
+    \right]\cdot 100
+    \label{eq:average_predict_score}
+\end{equation} 
+
 This is shown in figure \ref{fig:fremen_avg_correct_predictions} where the good prediction percent on $74.0\%$ drops to $46.9\%$ with the addition of noise.
 From the experiment without noise it is concluded that the learned periodic appearance of obstacles in a grid with FreMEn is useful for predictions.
 In the presence of noise the signals within the cells becomes more complicated, and the measurements used for comparison is not always correct.
