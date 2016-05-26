@@ -1,13 +1,15 @@
-\section{Characteristics in industrial environments}
+\section{Characteristics in Industrial Environments}
 \label{sec:characteristics_in_industrial_environments}
-An investigation of an representative industrial area where mobile robots are used, shows that areas share common dynamical characteristics. 
-During a visit at SCAN A/S, a high degree of structure and fixed routines where observed. 
+An investigation of a representative industrial area where mobile robots are used, shows that areas share common dynamics. 
+During a visit at SCAN A/S, a high degree of structure and fixed routines were observed. 
 Different work stations produce different parts of the product, and place them in areas for the next station to continue on them.
-Part of the production line at SCAN A/S, where a MIR robot is used, are shown in figure \ref{fig:scan-mir}. 
-The machine is fixed to the floor and is almost as static as the walls in the factory.
-Figure \ref{fig:scan-semi-static-obstacles} shows product parts that have been processed by one station, and are ready to be picked up by the next station. 
-It might be possible to take advantage of the fixed routines and steady production rate, when building and updating a long term map.
-As seen in the figure, objects are only roughly placed and are not aligned carefully, which can influence mapping with a high resolution grid.
+Part of the production line at SCAN A/S, where a MiR-100 robot is used, are shown in figure \ref{fig:scan-mir}. 
+A machine is fixed to the floor and is almost as static as the walls in the factory.
+Figure \ref{fig:scan-semi-static-obstacles} shows product parts that have been processed by one station, and are ready to be picked up by the next.
+Such routines where products part are produced at rather fixed rates and positioned in confined areas results in areas with almost constant dynamics. 
+Considering this, it is reasonable to attempt to learn the dynamics of these areas.
+If the objects moves at a constant rate, it might be possible to predict the presence of them in the future by learning their transient behavior.
+As seen in figure  \ref{fig:scan-semi-static-obstacles}, objects are only roughly placed and are not aligned carefully, which can influence mapping with a high resolution grid.
 
 \begin{table}[htbp]
 	\caption{Regions of industrial environments}
@@ -17,16 +19,16 @@ As seen in the figure, objects are only roughly placed and are not aligned caref
 			\toprule
 			\textbf{Type} & \textbf{Dominated areas} & \textbf{Object types} & \textbf{In navigation} & \textbf{In localization} \\ 
 			\rowcolor[gray]{0.925}
-			\textit{Highly dynamic} & Central corridors & Humans, moving vehicles & Avoid these areas if convenient & Consider avoiding this area \\
+			\textit{Highly dynamic} & Central corridors & Humans, moving vehicles & Avoid these areas if convenient & Consider avoiding these areas \\
 			\textit{Semi-static} & Temporary Storage areas & Pallets with parts or products & Incorporate for next planning with non-lethal & Landmarks value based on degree of dynamics \\ 
 			\rowcolor[gray]{0.925}
-			\textit{Static} & The rest & Walls, heavy machinery & Incorporate in map with lethal & Very good landmark \\			
+			\textit{Static} & Production areas & Walls, heavy machinery & Incorporate in map with lethal & Very good landmarks \\			
 			\bottomrule
 		\end{tabular} 
 	\end{center}
 \end{table}
 
-The areas can roughly be classified based on dynamics of the obstacles that are usually contained within them, as shown in table \ref{tab:regions_of_industrial_environments}. Areas with objects that moves almost constantly like humans are categorized as \textit{highly dynamic}, whereas areas with objects like walls, that never move are categorized as \textit{static}. The remaining \textit{semi-static} objects can be everything from parked vehicles to stored production parts, that moves with minutes or weeks in between. 
+Areas can roughly be classified based on the dynamics of the obstacles that are usually contained within them, as shown in table \ref{tab:regions_of_industrial_environments}. Areas with objects that moves almost constantly like humans are categorized as \textit{highly dynamic}, whereas areas with objects like walls, that never move are categorized as \textit{static}. The remaining objects are classified as \textit{semi-static}. This contains everything from parked vehicles that moves within minutes and production parts that may remain stationary for weeks. 
 
 \begin{figure}[htbp]
 	\centering
@@ -43,17 +45,12 @@ The areas can roughly be classified based on dynamics of the obstacles that are 
 	\caption{Examples of obstacles in the production area at SCAN A/S.}
 \end{figure}
 
-The information of these areas can be incorporated in the representation of the world to avoid having to re-plan a path and to improve localization. 
+The information of these areas can be incorporated into the representation of the world to avoid having to re-plan a path and improve localization. 
 
-The \textit{highly dynamic} objects should not be considered as obstacles, but some re-planning of the path might be unavoidable due to them. 
-It is beneficial to include \textit{semi-static} obstacles in path planning to avoid having to re-plan, but by assigning them as lethal obstacles it might be impossible to plan a path although one is possible.
+While navigating, \textit{highly dynamic} objects should not be considered as obstacles, but some re-planning of the path might be unavoidable due to them. 
+It is beneficial to consider \textit{semi-static} obstacles in path planning to avoid having to re-plan, but by assigning them as lethal obstacles it might be impossible to plan a path although one might exist.
 The \textit{static} objects should always be present as lethal obstacles when path planning to avoid navigating along obscure routes.
 
-The \textit{highly dynamic} objects should not be included as landmarks for the localization, since they are moving almost constantly. 
+For localization, \textit{highly dynamic} objects should not be included as landmarks since they are moving almost constantly. 
 Since the value of the \textit{semi-static} obstacles as landmarks depends on how dynamic they are, they should be weighted in the localization algorithm accordingly. 
 The \textit{static} obstacles are very good landmarks.
-
-If the \textit{semi-static} obstacles moves at a constant rate, it might be possible to predict the presence of it in the future by learning its transient behavior.
-It is reasonable to assume a rather constant rate of movements of the production parts, since they are produced at approximately fixed rates and placed in confined areas.
-By predicting the presence of obstacles it is possible to plan around them and use them as landmarks, when they are present.
-This would be a huge improvements, but during the visit at SCAN A/S it became clear that obstacles are not placed exactly the same place, which complicates the learning process with a grid representation.
