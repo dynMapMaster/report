@@ -2,16 +2,10 @@
 \chapter{Long-term Mapping of Dynamic Environments}
 \label{long_term_mapping}
 
-In order to maintain consistency between the map and the environment it is necessary to continuously update the map. Traditionally a map is build once but maintaining a map of a dynamic environment requires that the mapping process continues throughout the operation. This means a interaction with the localization and navigation. 
+In order to maintain consistency between a map and a dynamic environment it is necessary to continuously update the map. Traditionally a map is build once but maintaining a map of a dynamic environment requires the mapping process to continue throughout the entire time of operation. This implies an interaction with the localization and navigation. 
 
-\\\\
-A dynamic environment can be chaotic with changing levels of dynamics or more ordered with dynamics consistent over time or within areas. In this project the focus in on the industrial environment.
-This chapter will discuss navigation and localization in a dynamic environment. An investigation into the characteristics of an industrial environment is also conducted in order to clarify the relevant properties for a dynamic mapping. Using existing SLAM algorithm for the long-term mapping is also discussed. 
-
-
-For a mobile robot to be able to function in an uncontrolled environment alongside other machines and humans, it is necessary for the robot to be able to sense and avoid the highly dynamic objects. All mobile robots navigating in such an area will have a system to handle these changes. Slower changes, however, that does not pose an immediate problem for the navigation of the environment are often disregarded. This is seen in the fact that often, a the map of the environment is only generated once and then used for an extended period of time. 
-
-The assumption is that the surroundings does not change apart from the highly dynamical objects that should not be included in the map. This assumption can become increasingly flawed as time progressed due to the fact that most real world scenarios are not perfectly static. In an office, furniture might be moved around and in industrial settings, machines might be put up, or moved, or pallets stored in an area. As the discrepancy between the robot's internal representation and the actual environment increases, so does the chance for errors in localization or navigation. In order to overcome this, it is necessary for the robot to continue the process of mapping its environment as it navigates through it.
+A dynamic environment can be chaotic, with changing levels of dynamics or more ordered with dynamics being consistent over time and within areas. In this project the focus is on industrial environments.
+This chapter discusses the challenges relating to navigation and localization in dynamic environments. An investigation into the characteristics of an industrial environment is also conducted in order to clarify the relevant properties for a dynamic mapping. Using existing SLAM algorithms for long-term mapping is also discussed. 
 
 \input{chapters/long_term_slam/navigation.tex}
 \input{chapters/long_term_slam/localization.tex}

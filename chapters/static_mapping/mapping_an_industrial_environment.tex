@@ -1,24 +1,20 @@
 %!TEX root = ../../report.tex
 \section{Mapping an Industrial Environment}
 \label{sec:mapping_at_scan}
-The reduced ideal inverse sensor model superior performance to map static obstacles have been verified by navigating a MiR-100 through the production line at SCAN A/S 19 times.
-Figure \ref{fig:scan_overview_drawing} shows a part of the production area and the map that was created with the robots native Hector SLAM algorithm just before conducting the experiment.
+The reduced ideal inverse sensor model good performance to map static obstacles have been verified by navigating a MiR-100 through the production line at SCAN A/S 19 times.
+Figure \ref{fig:scan_overview_drawing} shows a part of the production area and the map that was created with Hector SLAM \cite{hector_slam} just before conducting the experiment.
 The map is visualized with additive RGB colors where obstacles on the SLAM map is pure red. 
 The map created with the reduced ideal model and the Elfes model shown in figure \ref{fig:sensor_model_std_dev01} is green and blue respectively.
-The amount of color added is proportional to the estimated occupancy probability with none being certainly free and saturated meaning certain occupancy. 
+The amount of color added is proportional to the estimated occupancy probability with none being certain free and saturated meaning certain occupancy. 
 The green and blue colors indicates obstacles that was not present when mapping or wrongly positioned obstacles.
-The green area in the lower left part of the map shows obstacles that was not present when mapping, and the green area within the pallets to the right marks wrong estimates of occupancy.
+The green area in the lower left part of the map shows obstacles that was not present when performing SLAM, and the green area within the pallets to the right marks wrong estimates of occupancy.
 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{chapters/evaluation/figures/scan_overview_drawing}
-    \caption{Mapping results of a region of the SCAN environment, shown with additive RGB color encoding. Red is the SLAM'ed map, green is the OG made with the reduced ideal model and the red is the OG made with Elfes model.}
+    \caption{Mapping results of a region of the SCAN environment, shown with additive RGB color encoding. Red is the SLAM'ed map, green is the OG made with the reduced ideal model and the red is made with Elfes model.}
     \label{fig:scan_overview_drawing}
 \end{figure}
 
 The lack of blue influence on the edges of the pallets is most likely due to the Elfes inverse sensor model's very large clearing update values without consideration for localization errors.
-The fact that the wall in the lower right corner is partly white, and are hence mapped by all the methods, indicates that it is especially the lack to account for the errors in the estimated orientation that causes the problems. 
-The problem is similar to the one experienced with the Monte Carlo integration method described in section \ref{sec:monte_carlo_sensor Model}.
-On these walls there is no free area behind so smaller errors in angle will not result in a clearing of obstacles due to long ray-traces with wrong direction.
-
-The domination of yellow on the edges of the pallets facing towards the corridor where the robot navigated, indicates that the proposed integration of localization noise in the inverse sensor model is appropriate for mapping. 
+The domination of yellow on the edges of the pallets facing towards the corridor where the robot navigated, indicates that the proposed integration of localization noise with the reduced ideal model with pose decay is appropriate for mapping. 
