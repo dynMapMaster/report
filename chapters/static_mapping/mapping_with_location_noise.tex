@@ -20,31 +20,32 @@ Also shown is the true and estimated path the robot followed through the simulat
 
 \begin{figure}[htbp]
 	\centering
-	\begin{subfigure}[t]{0.75\textwidth}
-		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance}		
+	\begin{subfigure}[t]{0.8\textwidth}
+		\includegraphics[scale=1.0]{figures/static_mapping/scan_region_with_poses}		
 	\end{subfigure}
-	\begin{subfigure}[t]{0.2\textwidth}
-		\includegraphics[scale=1.0]{figures/static_mapping/amcl_covariance_bar}
+	\begin{subfigure}[t]{0.15\textwidth}
+		\includegraphics[scale=1.0]{chapters/evaluation/figures/localization_std_color_bar-crop}
 	\end{subfigure}
 	\caption{Covariances estimated by AMCL in an industrial environment shown with contours marking one standard deviation around the robot's estimated pose(green).}
     \label{fig:amcl_covariance}
 \end{figure}
 
-
-
-
 \begin{figure}[htbp]
 	\centering
-	\begin{subfigure}[t]{0.45\textwidth}
+	\begin{subfigure}[t]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/simulation_poses_stage_map}
 		\caption{World representation}
 		\label{fig:simulated_small_world}
 	\end{subfigure}
-	\begin{subfigure}[t]{0.45\textwidth}
+	\begin{subfigure}[t]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{figures/static_mapping/simulation_poses_amcl_map}
-		\caption{Map used by AMCL}
+		\caption{Map used by AMCL with estimation uncertainties shown around the estimated poses.}
 		\label{fig:simulated_small_amcl_map}
 	\end{subfigure}
+   	\begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[scale=1.0]{figures/static_mapping/simulation_poses_amcl_map_bar-crop}
+    \end{subfigure}
 	\caption{Simulation of a MIR robot moving with imprecise location.}
 	\label{fig:test_map_setup}
 \end{figure}
@@ -76,10 +77,6 @@ weigth =
 0, & \text{otherwise}
 \end{cases}
 \end{equation}
-
-
-
-
 
 \begin{equation}
 \label{eq:pose-weight}
@@ -117,9 +114,9 @@ It is clear that it only updates the map weakly since the particles are far spre
 The obstacles are updated at different positions since the particles are located at different positions. With the many particles this results in blurred lines which has the highest value in the center.
 
 The model uses a reduced ideal inverse sensor model similar to the one described in section \vref{sec:reduced_ideal_sensor_model}, where the probability for occupancy at the obstacle is $0.85$. The probability for free is set to $0.45$. 
-It is chosen to optimize the reduced ideal inverse sensor model this way, since it is better at adding obstacles as shown in figure \vref{fig:particle_sensor}.
+It is chosen to optimize the reduced ideal inverse sensor model this way, since it is better at adding obstacles as shown in figure \vref{fig:particle_principle}.
 
-The reason to the methods tendency to remove obstacle is that small differences in orientation between the particles results in ray-traces going through the obstacles as shown in figure \vref{fig:particle_sensor}. The weights for the used particles has been normalized to make the rays clearly visible. 
+The reason to the methods tendency to remove obstacle is that small differences in orientation between the particles results in ray-traces going through the obstacles as shown in figure \vref{fig:particle_principle}. The weights for the used particles has been normalized to make the rays clearly visible. 
 The figure shows how most of the ray-traced inverse sensor models results in similar looking maps along the rays. 
 It can be seen how the model have built a map where there is a small probability for occupancy along the rays with similar distance but rotated around the robot's pose (red square). This results in a wrongful removal of obstacles.
 Even with the optimized inverse sensor model, obstacle details shown in figure \ref{fig:test_map_setup} are lost. 
@@ -147,11 +144,16 @@ Even with the optimized inverse sensor model, obstacle details shown in figure \
 \end{figure}
 
 \begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/static_mapping/particle_sensor}
-	\caption{Example map with few LIDAR measurements from the five highest weighted particles.}
-	\label{fig:particle_sensor}
+    \centering
+    \begin{subfigure}[t]{0.65\textwidth}
+    \includegraphics[height=3.5in]{figures/static_mapping/montecarlo_removing_obstacles}	
+    \end{subfigure}
+    \begin{subfigure}[t]{0.2\textwidth}
+        \includegraphics[scale=1.0]{figures/static_mapping/montecarlo_removing_obstacles_bar-crop}
+    \end{subfigure}
+    \caption{Example map with few LIDAR measurements mapped from the five highest weighted particles with Monte Carlo Integration. Within the green box obstacles are wrongly removed due to different orientation of particles.}
 \end{figure}
+
 \todo{Insert colour scheme bar}
 
 \subsection{Cone Based Model}
@@ -217,17 +219,15 @@ Using the MSE the Monte Carlo method outperforms the other methods with a result
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error}
-	\caption{Sum of Squared Error - obstacles only}
+	\includegraphics[scale=1]{figures/static_mapping/static_mapping_sse}
+	\caption{SSE for differences between all estimated obstacle cells and all ground truth cells without a occupancy probability of $0.5$.}
 	\label{fig:comparison_obstacle_error}
 \end{figure}
 
-\todo{correct method names -> not capital }
-
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=1]{figures/static_mapping/comparison_obstacle_error_per_cell}
-	\caption{Mean Squared Error}
+	\includegraphics[scale=1]{figures/static_mapping/static_mapping_mse}
+	\caption{Mean of the SSEs shown in figure \ref{fig:comparison_obstacle_error}.}
 	\label{fig:comparison_obstacle_error_per_cell}
 \end{figure}
 
