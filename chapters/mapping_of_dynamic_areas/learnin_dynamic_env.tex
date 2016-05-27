@@ -3,7 +3,7 @@
 
 \subsection{Previous work}
 Learning the dynamics of an environment is a subject with ongoing research.
-An early system for mapping the dynamics of the environment in a occupancy grid was the Temporal Occupancy Grid (TOG) proposed by Arbucle et al. \cite{Arbuckle2002}. The TOG system maintains several occupancy grids based on different time scales. This requires storing the observations for the time the longest TOG spans. It can be difficult to determine the time scales needed to estimate the differently and changing dynamic behaviors in the environment.
+An early system for mapping the dynamics of the environment in a occupancy grid was the Temporal Occupancy Grid (TOG) proposed by Arbucle et al. \cite{Arbuckle2002}. The TOG system maintains several occupancy grids based on different time scales. This requires storing the observations for the time the longest TOG spans. It can be difficult to determine the time scales needed to estimate the different and changing dynamic behaviors in the environment.
 
 Biber and Duckett \cite{Biber2005} proposes a method for mapping environment dynamics with maps that represent observations taken over different periods of time. The method is here denoted as Temporal Sample Map (TSM). The maps are updated by incorporating measurements using different recency weighted running average functions. These functions are estimated by removing random observations. The highly dynamic obstacles are considered as outliers and up to $50\%$ of them are removed by using the median measurement.
 
