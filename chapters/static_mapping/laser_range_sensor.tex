@@ -16,17 +16,15 @@ This principle is applicable for multiple sensors but in this project it is used
 
 
 \subsection{Forward Sensor Model}
-LIDARs are often modeled as multiple independent beams with four different types of noise combined into one model \cite{probRob}.
-The four different types is shown in figure [XXXXXX].
+LIDARs are often modeled as multiple independent beams with four different types of noise models mixed together by a weighted average \cite{probRob}.
+The areas under the noise models and the combined model is illustrated in figure \ref{fig:sensor_noise_model}.
+\begin{figure}
+\centering
+\includegraphics[scale=1]{figures/static_mapping/sensor_noise_model}
+\caption{The beam sensor model for range finders is a mixture of noise models for different error types.}
+\label{fig:sensor_noise_model}
+\end{figure}
 
-\begin{itemize}
-	\item Gaussian measurement noise
-	\item Unexpected objects
-	\item Measurement failures
-	\item Random measurements
-\end{itemize}
-
-\todo{Figure of noise, list to legend}
 
 The small Gaussian measurement noise around the correct distance, arises from limited resolution of the sensor, atmospheric effects, etc. This noise is modeled as a normal distribution and should be taken into account when a sensor model is devised. 
 
