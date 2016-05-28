@@ -2,7 +2,7 @@
 \chapter{Introduction}
 
 Mobile robot navigation is highly based on offline generated maps of the environment. 
-This is adequate in a lot of applications, but this approach has issues\todo{issues: psykologi problemer}. 
+This is adequate in a lot of applications, but this approach can be insufficient in changing environments. 
 As the discrepancy between the robot's internal map and the true state of the environment increases, tasks like path planning and localization will be based on increasingly erroneous data. 
 To overcome these challenges, it would be beneficial to incorporate changes into the map.
 
@@ -45,9 +45,8 @@ Specifically the following are considered:
 \section{Thesis core}
 The system that has been devised in order to achieve the above mentioned goals can be considered in three main sections; static mapper, dynamic learner and cost interpretor. 
 Figure \ref{fig:block-overview} shows an overview of the sections and their connections. 
-The static mapper builds a occupancy grid map based on the sensor input received during a short time span. It is in this section the noise is integrated \todo{precisering} and accounted for. 
-These short term maps are provided to the dynamics learner, which uses them to learn the dynamics of the world. 
-The learner maintains a grid based representation of the dynamics. \todo{Cosider elaborating the explanation} 
+The static mapper builds a occupancy grid map based on the sensor input received during a short time span. It is in this section the noise is handled by integrating a noise representation in the mapping method.
+These short term maps are provided to the dynamics learner, which uses them to learn the dynamics of the world. The learner maintains a grid based representation of the dynamics. 
 In order to provide a useful output for the navigation and localization systems the cost interpretor section handles the conversion from the dynamic representation. 
 
 \begin{figure} [htbp]

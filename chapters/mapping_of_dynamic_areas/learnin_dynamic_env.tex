@@ -23,8 +23,8 @@ Transitions between states are modeled as two Poisson processes. The transition 
 The parameters are given by the number of state changes divided by the number possible state changes as shown in equation \ref{eq:imac_learning}.
 
 \begin{align}
-	P_{exit} \sim \hat{\lambda}_{exit} &= \frac{\text{\#events: occupied to free + 1}}{\text{\#observations when occupied + 1}} \label{eq:imac_learning}\\
-	P_{entry} \sim\hat{\lambda}_{entry} &= \frac{\text{\#events: free to occupied + 1}}{\text{\#observations when free + 1}}
+	P_{exit} \sim \hat{\lambda}_{exit} &= \frac{\#events:\; occupied\; to\; free + 1}{\#observations\; when\; occupied + 1} \label{eq:imac_learning}\\
+	P_{entry} \sim\hat{\lambda}_{entry} &= \frac{\#events:\; free\; to\; occupied + 1}{\#observations\; when\; free + 1}
 	\nonumber
 \end{align}
 

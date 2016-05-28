@@ -154,8 +154,6 @@ Even with the optimized inverse sensor model, obstacle details shown in figure \
     \caption{Example map with few LIDAR measurements mapped from the five highest weighted particles with Monte Carlo Integration. Within the green box obstacles are wrongly removed due to different orientation of particles.}
 \end{figure}
 
-\todo{Insert colour scheme bar}
-
 \subsection{Cone Based Model}
 An attempt to represent the pose uncertainty is an inverse sensor model similar to the model used for sonar sensors  \cite{probRob}.  
 The idea is to represent the localization uncertainty in the model by representing it as shown in figure \vref{fig:cone_with_noise_top}.
@@ -185,9 +183,8 @@ weigth =
 	\caption{Cone representing pose noise }
 	\label{fig:cone_with_noise_top}
 \end{figure}
+\todo{Redo the figur: eps, akse beteglnelse}
 \todo{Maybe: show map from cone model}
-
-
 
 \subsection{Comparison of Inverse Sensor Models}
 In order to compare the various mapping methods a metric for determining the accuracy of a map is required. One of the methods for comparing two occupancy maps is the Map Score, first proposed in \cite{MoravecMartin}. The score is calculated as the squared error between the occupancy probability for each cell in two maps, as seen in equation \ref{eq:MapScore}.
