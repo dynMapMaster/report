@@ -1,5 +1,5 @@
 %!TEX root = ../../report.tex
-\section{Monte Carlo localization with dynamic map representation}
+\section{Monte Carlo Localization with Dynamic Map Representation}
 \label{sec:amcl_dyn_map}
 The effect of performing localization with AMCL on an updated map representation in the form of the costmap described in section \ref{sec:localzation_feature_map} is evaluated by comparing the estimated pose covariances with the ones achieved when using a static map representation. 
 The sizes of the elements of the covariance matrix indicates the certainty of the estimated pose of the robot with respect to the map frame. 
@@ -63,9 +63,10 @@ In the third environments \ref{fig:location_environment3} even more changes are 
 In the forth environment shown in figure \ref{fig:location_environment4} some of the boxes are moved and a whiteboard is moved out of sight. 
 This results in fewer changes to the environment since the map was created than in the third environment.
 
-\subsection{Estimation uncertainty with dynamic map representation}
-During navigation the covariance and robot pose estimated by AMCL is logged. 
-The covariances in positions is ignored here to keep the data analysis simple while still enabling a comparison of the estimations achieved while using a static- and dynamic map.
+\subsection{Estimation Uncertainty with Dynamic Map Representation}
+During navigation the covariance and robot pose, estimated by AMCL is logged. 
+The covariances in positions are ignored here to keep the data analysis simple while still enabling a comparison of the estimations achieved while using a static- and dynamic map.
+\todo{Bad argument}
 
 Figure \ref{fig:location_data_angle} shows the estimated standard deviation on the estimated orientation of the robot while navigating with a static- and dynamic map representation in the four different environments.
 It shows that the estimation variates less when using a dynamic map representation.
@@ -92,7 +93,7 @@ The one-sided student-T test with unequal variance shows that the estimated stan
 \end{figure}
 
 Figure \ref{fig:location_data_x} and \ref{fig:location_data_y} shows the estimated standard deviation of the estimated x- and y position receptively, while navigating with a static- and dynamic map in the four different environments. 
-It is clear that the estimated deviation variates less when using a dynamic map representation.
+It is clear that the estimated deviation varies less when using a dynamic map representation.
 Where the estimated deviation remains almost constant throughout the four experiments, it is often much larger when using a static map representation. 
 These tendencies are especially profound in the last environment in the x direction and in the first in the y direction. 
 The estimations are not normal distributed as seen in figure \ref{fig:location_data_hist_x} and \ref{fig:location_data_hist_y}.
@@ -133,12 +134,12 @@ While the histograms over the position deviations indicates that the estimated d
 	\label{fig:location_y_evaluation}
 \end{figure}
 
-\subsection{Jumps in position estimation with dynamic map representation}
+\subsection{Jumps in Position Estimation with Dynamic Map Representation}
 The AMCL localizations with a static map makes large jumps between estimated localization when the robot is located close to the box standing by the net furthest from the camera in figure \ref{fig:robolab_mayhem}. 
-In all four environments the estimated position soddenly jumps to be much closer to the net. 
+In all four environments the estimated position suddenly jumps to be much closer to the net. 
 The effect is probably due to multiple consecutive laser scans hitting the boxes, but scoring the particles as if they had hit the net behind them.
 Figure \ref{fig:amcl_covariance_static1} shows this jump in the estimated position of the robot superimposed on the map as it is observed by the robot.
-Considering that the robot cannot physically be located so close to the robot the correct robot pose is more closely estimated with the dynamic map representation as shown in figure \ref{fig:amcl_covariance_dynamic1}.
+Considering that the robot cannot physically be located so close to the boxes, the correct robot pose is more closely estimated with the dynamic map representation as shown in figure \ref{fig:amcl_covariance_dynamic1}.
 The estimated robot pose is superimposed on the dynamic map representation used by AMCL.
 
 \begin{figure}[htbp]
@@ -153,8 +154,8 @@ The estimated robot pose is superimposed on the dynamic map representation used 
     \label{fig:amcl_covariance_static1}
 \end{figure}
 
-The estimated deviation is generally higher in the third environment where fewer of the laser scans matches with the static map representation as shown in figure \ref{fig:amcl_covariance_dynamic1}. 
-The reason to the fewer matches is that the dynamic obstacles blocks for the light beams. 
+The estimated deviation is generally higher in the third environment where fewer of the laser scans match with the static map representation as shown in figure \ref{fig:amcl_covariance_dynamic1}. 
+The reason for the fewer matches is that the dynamic obstacles block for the light beams. 
 When using the dynamic map representation shown in figure \ref{fig:amcl_covariance_static3} the estimated deviation is smaller, since the obstacles that has consistently been present while navigating with the dynamic map in the first and second environment.
 By comparing the maps in figure  \ref{fig:amcl_covariance_static1} and \ref{fig:amcl_covariance_static3} it is evident that only the obstacles that was present in the first environment is considered static enough to be included in the dynamic map in figure \ref{fig:amcl_covariance_dynamic3}.
 
