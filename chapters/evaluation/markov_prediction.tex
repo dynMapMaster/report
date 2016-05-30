@@ -1,6 +1,6 @@
 %!TEX root = ../../report.tex
 
-\subsection{Predicting with Markov model}
+\subsection{Predicting with Markov Model}
 
 A use for the dynamic information is to improve the prediction of the occupancy of a cell. The prediction mechanism used with PMAC is based on an estimated occupancy value. This value is determined through the update-predict method described in section \vref{sec:cost_interpretation_path_planning}. 
 In order to demonstrate the prediction, it has been used on the obstacles. The predict error score is calculated by equation \ref{eq:predict_error_score}. This is calculated for a region of interest around the obstacles' position. The number of cells used in the calculation is the number of cells ($n_{cells}$) in the region for which the Map snapshot from the Static mapper has information. 
@@ -45,6 +45,7 @@ For more static obstacles with lower \(\lambda\) values, the previous observatio
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[htbp]
 	\centering
+	\caption{Results of prediction from previous predictor and PMAC.}
 	\begin{tabular}{lccccccccc}
 		\toprule
 		\rowcolor[gray]{0.925} 
@@ -56,6 +57,5 @@ For more static obstacles with lower \(\lambda\) values, the previous observatio
 		\\			
 		\bottomrule
 	\end{tabular}
-	\caption{Results of prediction from previous predictor and PMAC}
     \label{table:predict_results}
 \end{table}

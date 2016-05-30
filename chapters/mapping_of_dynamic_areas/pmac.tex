@@ -114,7 +114,7 @@ The observations from index $7$ to $20$ constitutes more certain changes in the 
 \end{figure}
 
 
-\subsection{Comparing PMAC to alternavtives}
+\subsection{Comparing PMAC to Alternavtives}
 The goal of the developed PMAC learning method is to combine the fast learning under good condition from IMAC while also incorporating the uncertainty of sensor measurements. The uncertainty is represented as a probability from the static mapper that a cell is occupied. In order to compare PMAC to different Markov parameter learning methods, it has been tested in a simulation setup alongside IMAC and the online version of HMM. The test setup is one dimensional and a static mapper is used. The static mapper receives 10 noisy measurements, and determines the resulting occupancy probability as learning input. The simulation is run for 200 learning rounds with the noise changing midway through. The initial noise is \(1.2\) grid cells then decreasing to \(0.11\) grid cells, both with zero mean. 
 
 The result of simulation run is shown in figure \ref{fig:markow_learning_pmac_comparison_entry} and \ref{fig:markow_learning_pmac_comparison_exit}. Figure  \ref{fig:markow_learning_pmac_comparison_entry} shows the learning of the \(p_{entry}\) parameter. It is clear that all of the methods has difficulties learning the correct value. But after observation number 100, and the decrease in noise, both IMAC and PMAC increases towards the correct value, with PMAC catching up to IMAC. All the methods underestimate the \(p_{entry}\).

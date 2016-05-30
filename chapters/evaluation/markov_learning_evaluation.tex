@@ -18,36 +18,28 @@ The PMAC methods ability to learn the Markov parameters; $\hat{\lambda}_{entry}$
     \label{fig:flexlab_path_with_covariance_with_cleaned_map}
 \end{figure}
 
-Once every minute the boxes shown in figure \ref{fig:cells_used_for_evaluation_with_identification} are moved from  the initial pose (blue) to the alternative one (red). 
-The boxes are however only moved if a random number between one and zero is above the probability for the box changing state from it current state.
+Once every minute the boxes shown in figure \ref{fig:cells_used_for_evaluation_with_identification} are moved from  the initial pose to the alternative one. 
+The boxes are however only moved if a random number between one and zero is above the probability for the box changing state from its current state.
 The probability for a box moving away from its initial pose is hence given by $\lambda_{exit}$ and the probability for it moving back to its initial pose is given by $\lambda_{entry}$.
-These values are shown in yellow in figure \ref{fig:compare_learned_markov_entry} and \ref{fig:compare_learned_markov_exit} compared with the mean of the learned ones for each box.
+These values are shown in blue in figure \ref{fig:compare_learned_markov_entry} and \ref{fig:compare_learned_markov_exit} compared with the mean of the learned ones for each box.
 
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.6]{chapters/evaluation/figures/cells_used_for_evaluation_with_identification}
-    \caption{Map of PMAC cells with an occupied count value larger than $0.5$, where the cells used for evaluation is indicated at their initial (blue) and alternative (red) positions.}
+    \caption{Map of PMAC cells with an occupied count value larger than $8$, where the cells used for evaluation is indicated at their initial (blue) and alternative (red) positions.}
     \label{fig:cells_used_for_evaluation_with_identification}
 \end{figure}
 
-The PMAC is updated with probabilities from the Static mapper once every minute, so the parameters for the cells are estimated using only around $60$ updates for the cells at the boxes poses for the boxes that are always visible to the robot when it moves past them.
+The PMAC is updated with probabilities from the Static mapper once every minute, so the parameters for the cells are estimated using only around $60$ updates for the cells at the boxes' poses for the boxes that are always visible to the robot when it moves past them.
 This is for example not the case for box number one and six, so they are observed fewer times.
-
+For comparison, learning was also done with IMAC on the real world dataset. 
 A simulation matching the real world setup was made with the Stage simulator. 
 The simulation ran for more than 12 hours. 
-The Markov parameters learned from the simulated data are shown in figure \ref{fig:compare_learned_markov_entry} and \ref{fig:compare_learned_markov_exit}.
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=1]{chapters/evaluation/figures/learning_curve}
-	\caption{Estimated }
-	\label{fig:compare_learned_markov_exit}
-\end{figure}
 
 \subsection{Results}
-By comparing the learned $\lambda_{entry}$ with the actual once in figure \ref{fig:compare_learned_markov_entry} it is clear that the estimations are generally too low except for all the boxes except number five.
-As box number five was far away to little data is available.
+By comparing the learned $\lambda_{entry}$ with the actual ones in figure \ref{fig:compare_learned_markov_entry} it is clear that the estimations are generally too low for all the boxes.
+As box number five and six was far away it was impossible to learn the parameters.
 
 \begin{figure}
     \centering
@@ -56,13 +48,25 @@ As box number five was far away to little data is available.
     \label{fig:compare_learned_markov_entry}
 \end{figure}
 
-The estimated $\lambda_{exit}$ values are much closer to the actual  parameters of the Markov processes governing the movements of the obstacles.
+The estimated $\lambda_{exit}$ values, shown in figure \ref{fig:compare_learned_markov_exit}, are closer to the actual parameters of the Markov processes governing the movements of the obstacles.
+The learner curves in figure \ref{fig:learning_curve} shows how the learned state transition parameters settles after only around $100$ Map snapshots.
+Learning curves for the remaining obstacles can be found in appendix \ref{appendix:learning_curves}. 
+It should be noted that the learning curve is evaluated for all cells observed in each Map snapshot within an area around obstacle number two. 
+Only cells where all state and event scores were above $0.5$ were used. 
+\todo{Remove long simulation -> its useless}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{chapters/evaluation/figures/compare_learned_markov_exit}
     \caption{Comparison of the mean estimated $\lambda_{exit}$ with the ones governing the Markov process for the boxes.}
     \label{fig:compare_learned_markov_exit}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{chapters/evaluation/figures/learning_curve}
+	\caption{Estimated Markov parameter for obstacle two, learned from simulated data.}
+	\label{fig:learning_curve}
 \end{figure}
 
 
@@ -75,3 +79,7 @@ The wrong estimates for lambda $\lambda_{entry}$ might be due to the fact that c
 When the lines are too short due to localization errors the cells further from the laser in the direction of the line are however not counted up as occupied.
 This causes an increase in free count values compared to the ones in the entry event counter, which results in the $\lambda_{entry}$ values being too small.
 The estimated $\lambda_{exit}$ do not suffers from this problem and are also better.
+
+Comparing the performance of IMAC and PMAC for the real world data no large differences are observed. Generally it is observed that PMAC performs as good or better than IMAC.
+
+The simulation shows that PMAC converges quite fast which is also seen in \ref{fig:learning_curve}.

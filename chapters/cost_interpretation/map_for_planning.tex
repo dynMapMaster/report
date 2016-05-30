@@ -25,12 +25,20 @@ The correction value is the difference between the new measurement and the previ
 This is weighted according to the certainty in the new observation.  
 Figure \ref{fig:cost_update} shows an example of the update method for the \(\hat{p}_{occ}\). 
 \begin{figure}[htbp]
-	\centering
-	\includegraphics[width=1\linewidth]{chapters/cost_interpretation/figures/update}
+
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{chapters/cost_interpretation/figures/update}
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[scale=1]{chapters/cost_interpretation/figures/the_t}
+	\end{subfigure}
+	\vspace{10pt}
 	\caption{Update of the estimated occupancy. Sign in weight indicates free or occupied, positive is occupied. }
 	\label{fig:cost_update}
 \end{figure}
-\todo{axis x -> t}
+
 It is seen in figure \ref{fig:cost_update} that the uncertain free values does not cause a great shift in the estimated occupancy value. When the free observations become increasingly certain a significant change is observed. 
 
 \subsection{Occupancy Prediction}

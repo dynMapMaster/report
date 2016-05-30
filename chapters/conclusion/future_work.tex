@@ -1,0 +1,46 @@
+\section{Future Work}
+
+The static mapper currently incorporates the various noise by reducing the update values in the map. 
+A possible improvement to the weighting could be considering the entire covariance matrix instead of the individual standard deviation. 
+Using the noise more proactive could also improve the mapping results and should help converging faster towards the correct result.
+Seen as the localization noise is a significant influence on the mapping any improvement in the accuracy would also benefit the mapping.
+
+
+The learner showed unbalanced learning of the two transition probabilities.
+It is believed that the origins of these problems stems from the static mapping. 
+A mapping method that more accurately incorporates the noise could help solve this challenge. 
+
+
+The classification for converting the dynamics into maps for the localization was handled by a manually designed classifier.
+By obtaining vast amounts of data it might be possible to improve the classification through machine learning techniques. 
+
+
+To continue the development of the Dynamic mapping system it would be beneficial to evaluate the long term performance of the system. 
+This should investigate the long-term effects of the feedback between the localization and the dynamic mapping.
+
+
+
+\subsection{future notes}
+
+Precise mapping of static environment by incorporation of sensor and localization noise
+Separation of sensor and localisation noise?
+Used aktively instead of just towards unknown?
+Use of feedback from further on, maybe a blueprint map
+Brug principle component scores af covariance istedet for bare summen af std afvigelser i reduced ideal inverse sensor model. Det andet underestimate ved kun at se på projektionerne ind i akserne. Muligvis kan determinanten(arealet i en standard afvigelses konfidens elipse.)
+Korrekt Indkorporering af sensorstøj burde resultere i hurtigere convergering mod korrekt kort. Sådan en burde laves.
+2. Long-term fast adaptive map representation of dynamic environments
+
+3. Improved localization with a continuously adapted map of good features
+The classification
+More data -> better classification
+Machine learning techniques?
+
+A better use (future work)
+Localization -> use more values
+Planner -> balancing the the cost
+
+
+4. Integration and evaluation on the MiR-100 platform
+Evaluation methods
+Evaluation only for hours, but a large scale evaluation in industrial for weeks is required to show long term adaptation to changes and learning real obstacles dynamic
+

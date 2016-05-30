@@ -1,11 +1,11 @@
 %!TEX root = ../../report.tex
 \section{Accuracy and Precision of Localization with Dynamic Map}
-The effects of using a map generated with the Dynamic mapper system for localization is evaluated on the MiR-100.
-The localization error is evaluated by comparing the robots estimated pose with the actual pose measured with the camera. 
+The effects of using a map generated with the Dynamic mapping system for localization is evaluated on the MiR-100.
+The localization error is evaluated by comparing the robots estimated pose with the actual pose measured with a camera. 
 
 \subsection{Test setup} 
-The robot navigated, with the planner in the MiR software along the paths shown in figure  \ref{fig:amcl_covariance_static1} using a both a adjusted static map representation and a dynamic, for one hour each.
-The software used to navigate and locate is based on the MiR software version 1.5.1. 
+The robot navigated, with the planner in the MIR software along the paths shown in figure  \ref{fig:amcl_covariance_static1} using a both a adjusted static and a dynamic map, for one hour each.
+The software used to navigate and locate is based on the MIR software version 1.5.1. 
 The robot stops in the lower left corner on the path during each cycle, where a camera is mounted almost parallel to and approximately $3.3$ meters above the floor.
 
 \begin{figure}[htbp]
@@ -29,14 +29,15 @@ The robot stops in the lower left corner on the path during each cycle, where a 
     \label{fig:test_map_setup}
 \end{figure}
 
-The adjusted map shown in figure \ref{fig:localization_on_adjusted} is edited manually to simulate changes of the environment. These changes could symbolize pallets with product parts being moved. 
+The adjusted map shown in figure \ref{fig:localization_on_adjusted} is edited manually to simulate changes in the environment. These changes could symbolize pallets with product parts being moved. 
 The obstacles located to the left, above and below the robot, has been moved approximately $60$ centimeters away from the robot's path.
 Furthermore the pallet the robot drives around is moved approximately $45cm$ towards the top left corner.
-Obstacles to the left of the robot's path is moved around $25cm$ towards it.
+Obstacles to the left of the robot's path is moved about $25cm$ towards it.
 
 The map shown in green in figure \ref{fig:static_classified_localization_test-crop} indicates obstacles that are classified as static using the Dynamic mapping system.
-The systems learns from data collected for an hour, where AMCL is used for localization with the adjusted map
-It is only the cells that are observed by the robot during the evaluation that are learned. The rest originates from a initialization with the map in figure \ref{fig:localization_on_adjusted}.
+The systems learns from data collected for an hour, where AMCL is used for localization with the adjusted map.
+It is only the cells that are observed by the robot during the evaluation that are learned. 
+The rest originates from a initialization with the map in figure \ref{fig:localization_on_adjusted}.
 Figure \ref{fig:static_classified_localization_test-crop} shows that the static obstacles are primarily learned correctly in the regions where the estimation uncertainty in figure \ref{fig:localization_on_adjusted} is low.
 
 \begin{figure}
@@ -46,50 +47,48 @@ Figure \ref{fig:static_classified_localization_test-crop} shows that the static 
     \label{fig:static_classified_localization_test-crop}
 \end{figure}
 
-On top of the robot a chessboard marker is posed such that the marker frame is positioned on top of the robots base link frame between the wheels.
+On top of the robot a chessboard marker is placed such that the marker frame is positioned on top of the robots base link frame between the wheels.
 The chessboard marker is detected using the MATLAB function detectCheckerboardPoints, which detects it with subpixel accuracy \cite{matlab_detect_checkerboard}.
 Considering that one pixel is measured to be equivalent to a distance of $2.8mm$ on top of the robot, it is evident that the pose of the marker is detected rather accurate.
-The pose of the chessboard on the robot relative to a camera posed above it is detected using MATLAB with the extrinsics function \cite{matlab_extrinsics} after calibrating the camera with MATLAB's Camera Calibrator App  \cite{camera_calibrator_app}. 
-The camera calibration resulted in a mean reprojection error taken over all the images on $0.15pixels$, which is definitely acceptable.
+The pose of the chessboard on the robot relative to a camera located above it is detected using MATLAB with the extrinsics function \cite{matlab_extrinsics} after calibrating the camera with MATLAB's Camera Calibrator App  \cite{camera_calibrator_app}. 
+The camera calibration resulted in a mean reprojection error taken over all the images of $0.15pixels$, which is definitely acceptable.
 
 \subsection{Results}
-The estimated poses of the robot while localizing on a static, or dynamic, map are compared on how much they differ from the pose detected with the camera.
-In order to compare to robot pose estimated with AMCL with the pose estimated with the camera, the pose of the marker relative to the camera was converted to represent the pose of the robot.
+The estimated poses of the robot while localizing on a static or dynamic map are compared on how much they differ from the pose detected with the camera.
+In order to compare the robot pose estimated by AMCL with the pose estimated by the camera. The pose of the marker relative to the camera was converted to represent the pose of the robot.
 
-An estimate of the localization error for each of the poses is achieved by subtracting the accurate robot pose estimated with the camera from the pose achieved with AMCL.
-Figure \ref{fig:precision_test_positions} shows the deviation in position using the dynamic map is less spread and that the accuracy is much higher.
-This is also evident for norm2 distance of the localization error shown in figure \ref{fig:localization_position_error_distance-crop}. 
-It shows a significant lower median localization position error when using a dynamic map representation, which is confirmed by the one-side Wilcoxon-test with a $p<0.001$.
-The mean localization position error is actual $60.0\%$ less when using a dynamic map then with the static map.
-
-Figure \ref{fig:localization_position_error_distance-crop} also shows a significant changes in localization precision. 
-The standard deviation is actually $70.0\%$ lower when using a dynamic map compared to when using a static.
+An estimate of the localization error for each of the poses is obtained by subtracting the accurate robot pose estimated by the camera from the pose estimated by AMCL.
+Figure \ref{fig:precision_test_positions} shows the deviation in position using the dynamic map is less spread, and that the accuracy is much higher.
+This is also evident for the euclidean distance of the localization error shown in figure \ref{fig:localization_position_error_distance-crop}. 
+It shows a significant lower median of the position error when using the dynamic map, which is confirmed by the one-side Wilcoxon-test with a $p<0.001$.
+The mean localization position error is actual $60.0\%$ less when using the dynamic map than with the static map.
+Figure \ref{fig:localization_position_error_distance-crop} also shows significant changes in localization precision. 
+The standard deviation is actually $70.0\%$ lower when using the dynamic map compared to when using the static.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{chapters/evaluation/figures/Localization_position_errors}
-    \caption{Deviation in estimated robot position when using a static or dynamic map.}
+    \caption{Deviation in estimated robot position when using a static and dynamic map.}
     \label{fig:precision_test_positions}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{chapters/evaluation/figures/localization_position_error_distance-crop}
-    \caption{Norm2 deviation in estimated robot position when using a static or dynamic map.}
+    \caption{Euclidean deviation in estimated robot position when using a static and dynamic map.}
     \label{fig:localization_position_error_distance-crop}
 \end{figure}
 
 The estimated angle deviates less, as show in figure \ref{fig:precision_test_angles}. 
-There is no significant difference in mean, or median, angle error, when using a dynamic map compared to a static.
-
-The precision of the estimated angle is however significantly smaller when using a dynamic map, as shown with the one-sided F-test for equal variance, which is rejected with $p<0.001$.
-The improvement amounts to $56.7\%$ lower standard deviation when using a dynamic map instead of a static.
+There is no significant difference in the median angle error when using the dynamic map compared to the static.
+The precision of the estimated angle is however significantly smaller when using a dynamic map, as shown by the one-sided F-test for equal variance, which is rejected with $p<0.001$.
+The improvement amounts to a $56.7\%$ lower standard deviation when using the dynamic map instead of the static.
 
 The statistics for the localization errors when using a static and dynamic map are summarized in table \ref{tab:localization_errors}. It shows improved accuracy and precision in the position estimation when using a dynamic map. The precision is also radically improved for the orientation estimation, but there is only a small difference in the accuracy.
 \begin{figure}
     \centering
     \includegraphics[scale=1]{chapters/evaluation/figures/localization_angle_error-crop}
-    \caption{Deviation in estimated robot orientation when using a static or dynamic map.}
+    \caption{Deviation in estimated robot orientation when using a static and dynamic map.}
     \label{fig:precision_test_angles}
 \end{figure}
 

@@ -1,0 +1,60 @@
+\section{Discussion}
+
+ 
+
+\subsection{Precise Mapping of Static Environments by Incorporating Sensor and Localization Noise}
+Tests and real world observations clearly showed the necessity of taking different noise sources into account. 
+The developed method of incorporating noise was by a degradation of the update value for each observation. 
+In order to account for the sensor noise the chosen sensor model is a reduced version of the ideal sensor model. 
+This sensor model was chosen over the commonly used Elfes model due to its better evaluation scores. 
+The Elfes model was developed to account for sensor noise but the localization noise present in the system overshadowed the effect of the sensor noise. 
+The Elfes model was also tested with the same localization uncertainty weighting as the reduced ideal model and this improved the results of the Elfes model, but did not surpass the reduced ideal model. 
+The simulation that the static mapping comparisons was based on might differ from real world experience due to differences in sensor noise and localization noise. 
+The localization system used in the simulation is prior to version 1.5.1. of the MIR software. 
+Version 1.5.1. introduced improvements to the localization system which may cause different results. 
+
+\subsection{Long-term, Fast, Adaptive Map Representation of Dynamic Environments}
+The representation of the dynamics in the environment is a Markov grid. 
+Each cell contains an independent Markov process used to represent the probability that changes in state occur. 
+The assumption that the process contained in each grid cell is independent is questionable. 
+As most obstacles are larger than one cell it will cover multiple cells which will then enter and exit states together. 
+Furthermore cells close to each other will probably have correlating states and changes due to the specific use of an area. 
+
+In order to learn the parameters of the Markov processes the PMAC method was developed. 
+This method was based on IMAC but with added incorporation of the static mapper, used in this project. 
+The primary difference is the scores used to estimate the probability for a state being observed and a state change occurring.
+As the Markov model operates with discrete states, and the Static mapper maps with continues occupancy probabilities, the scores are used to model the probability of a state. 
+The probability for the cell being in a certain state now and a different state previously determines the probability for a state change.
+The probability for a state change occurring must exist and the state and event scores are used to estimate this.  
+
+The scores were developed to handle observations with widely varying certainty. 
+In tests PMAC had mixed results. 
+A difference in the accuracy of the two different transition probabilities was observed. 
+The cause of the disparity might be an unbalance that stems from the sensor model. 
+The sensor will clear multiple cells and only mark one. 
+This is due to the model modelling the physical properties of a laser ray. 
+The model found to be best at mapping static environments uses balanced values, the values of marking and clearing are equal but with opposite signs. 
+
+Over all - The system
+Is it reasonable to Static-> dynamic -> interpret
+
+Learning -> unbalanced
+The true probability that the state observed is the true state of the cell depends on multiple parameters and may not be possible to determine generally. 
+
+
+The PMAC learning -> not perfect learning. Depending on noise parameters. 
+
+\subsection{Improved Localization with a Continuously Adapted Map of Good Features}
+
+In the evaluation test it was seen that the obstacles learned as static occupied helped increase the accuracy and precision of the localization compared to using an imperfect static map. 
+
+A threat to the continued reliability of the dynamic mapping is the possible feedback from bad localization estimates. 
+If the localization is consistently wrong in an area the features learned might be offset which could cause further degradation of the pose estimate.
+This scenario will partly violate an assumption in the dynamic mapping system. 
+It is assumed that the world changes slowly enough to provide reasonably accurate pose estimates until an updated map is provided. 
+If the robot only rarely observes areas slower changes might over time cause enough discrepancy between the map and the environment to cause localization failure.
+In such cases a full SLAM solution is required.
+In industrial settings it is likely that a robot operates along fixed routes or within certain areas. This means that that area of operation will be frequently visited and thus reduce the risk of these failures.
+
+Even if a local area has not been closely mapped for some time, if it is within sight areas where updated maps are available this can improve the localization. 
+This was seen in the localization test where better localization was achieved by using the learned map, even though the map was learned under imprecise localization.
