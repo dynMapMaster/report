@@ -1,21 +1,54 @@
 %!TEX root = ../../report.tex
 \section{Accuracy and Precision of Localization with Dynamic Map}
-The effects of using a dynamic map representation for localization is evaluated by navigating a MiR-100, with a marker on top, to a pose under a camera multiple times using both a static and dynamic map representation.
+The effects of using a map generated with the Dynamic mapper system for localization is evaluated on the MiR-100.
 The localization error is evaluated by comparing the robots estimated pose with the actual pose measured with the camera. 
-\subsection{Test setup} 
-The robot navigated, with the planner in the MIR software, along a path similar to the one shown in \ref{fig:amcl_covariance_static1} using a static map representation and a dynamic, for one hour each.
-The robot stops in the lower left corner on the path during each cycle, where a camera is mounted almost parallel to and approximately $3.3$ meters above the floor.
-\todo{Display static map, path and covariance.}
-\todo{Display dynamic map, path and covariance.}
 
+\subsection{Test setup} 
+The robot navigated, with the planner in the MiR software along the paths shown in figure  \ref{fig:amcl_covariance_static1} using a both a adjusted static map representation and a dynamic, for one hour each.
 The software used to navigate and locate is based on the MiR software version 1.5.1. 
-While navigating for one hour on a static map with serious difference between the environment and the map used by AMCL, a map is created using the PMAC algorithm.
-The map is converted to a map of static obstacles using the cost interpreter.
+The robot stops in the lower left corner on the path during each cycle, where a camera is mounted almost parallel to and approximately $3.3$ meters above the floor.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=1]{chapters/evaluation/figures/localization_on_adjusted_static_map}
+        \caption{Adjusted map representation superimposed with uncertainties estimated while using it.}
+        \label{fig:localization_on_adjusted}
+    \end{subfigure}
+    \hspace{2mm}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=1]{chapters/evaluation/figures/localization_on_ground_truth__map}
+        \caption{SLAM'ed map superimposed with uncertainties estimated while using the Dynamic Mapper System.}
+        \label{fig:simulated_true_map}
+    \end{subfigure}
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[scale=1.0]{chapters/evaluation/figures/localization_bar-crop}
+    \end{subfigure}
+    \caption{The path followed by the MiR-100 to a stop in the top left corner under a camera.}
+    \label{fig:test_map_setup}
+\end{figure}
+
+The adjusted map shown in figure \ref{fig:localization_on_adjusted} is edited manually to simulate changes of the environment. These changes could symbolize pallets with product parts being moved. 
+The obstacles located to the left, above and below the robot, has been moved approximately $60$ centimeters away from the robot's path.
+Furthermore the pallet the robot drives around is moved approximately $45cm$ towards the top left corner.
+Obstacles to the left of the robot's path is moved around $25cm$ towards it.
+
+The map shown in green in figure \ref{fig:static_classified_localization_test-crop} indicates obstacles that are classified as static using the Dynamic mapping system.
+The systems learns from data collected for an hour, where AMCL is used for localization with the adjusted map
+It is only the cells that are observed by the robot during the evaluation that are learned. The rest originates from a initialization with the map in figure \ref{fig:localization_on_adjusted}.
+Figure \ref{fig:static_classified_localization_test-crop} shows that the static obstacles are primarily learned correctly in the regions where the estimation uncertainty in figure \ref{fig:localization_on_adjusted} is low.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{chapters/evaluation/figures/static_classified_localization_test-crop}
+    \caption{Static obstacles learned with the Dynamic mapping system compared with the SLAM'ed map.}
+    \label{fig:static_classified_localization_test-crop}
+\end{figure}
 
 On top of the robot a chessboard marker is posed such that the marker frame is positioned on top of the robots base link frame between the wheels.
 The chessboard marker is detected using the MATLAB function detectCheckerboardPoints, which detects it with subpixel accuracy \cite{matlab_detect_checkerboard}.
 Considering that one pixel is measured to be equivalent to a distance of $2.8mm$ on top of the robot, it is evident that the pose of the marker is detected rather accurate.
-
 The pose of the chessboard on the robot relative to a camera posed above it is detected using MATLAB with the extrinsics function \cite{matlab_extrinsics} after calibrating the camera with MATLAB's Camera Calibrator App  \cite{camera_calibrator_app}. 
 The camera calibration resulted in a mean reprojection error taken over all the images on $0.15pixels$, which is definitely acceptable.
 
