@@ -1,13 +1,13 @@
 %!TEX root = ../../report.tex
-\chapter{Cost interpretation}
-This chapter describes how the learned dynamic behavior of the environment can be converted to a map of good features and a map of areas to avoid when navigating. Specifically the following aim is considered:
+\chapter{Cost Interpretation}
+This chapter describes how the learned dynamic behaviors of the environment can be converted to a map of good features and areas to avoid when navigating. Specifically the following aim is considered:
 
 \begin{enumerate}
     \setcounter{enumi}{2}
     \item Improved localization with a continuously adapted map of good features
 \end{enumerate}
 
-The dynamic learner represents the dynamic map of the environment by the parameters in PMAC. These parameters are not directly usable by the localization and navigation systems so in order to provide a usable map to these subscribers an interpretation of the parameter values is necessary. The Interpretation in relation to the rest of the system is shown in figure \ref{fig:cost_overview}.
+The dynamic learner represents the dynamic map of the environment by the parameters in PMAC. These parameters are not directly usable by the localization and navigation systems. In order to provide a usable map to these subscribers an interpretation of the parameters is necessary. This is handled by the Cost interpretor which is shown in relation to the rest of the Dymamic mapping system in figure \ref{fig:cost_overview}.
 
 \begin{figure}[htbp]
 	\centering
@@ -16,12 +16,10 @@ The dynamic learner represents the dynamic map of the environment by the paramet
 	\label{fig:cost_overview}
 \end{figure}
 
-In the test platform used in this project the output required by the subscribing systems is a costmap. This grid represents the world as cells, each with a value for the cost of traversing it. 
-The costmap is used for both navigation and localization but the type of obstacle used by the two systems are not entirely identical. The localization requires static obstacles while the navigation needs static as well as semi-static obstacles. 
-
 \input{chapters/cost_interpretation/map_on_mir.tex}
 \input{chapters/cost_interpretation/map_for_localisation.tex}
 \input{chapters/cost_interpretation/map_for_planning.tex}
+\input{chapters/cost_interpretation/summary.tex}
 
 
 

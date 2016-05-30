@@ -1,17 +1,17 @@
 %!TEX root = ../../report.tex
-\section{Dynamic map on the MiR-100}
-
-The system is built to be run with the MIR100 robot. This involves constructing and interfacing the dynamic map system with the Robot Operating System (ROS) used by the robot. In figure \ref{fig:mir_interface} is shown the developed system along with the existing nodes that interacts with it. 
+\section{The Dynamic Mapping on MiR-100}
+In the test platform used in this project the output required by the subscribing systems is a costmap. This grid represents the world as cells, each with a value for the cost of traversing it. 
+The system is built to be run with the MiR-100 robot. This involves constructing and interfacing the Dynamic mapping system with the ROS setup on the robot. The developed system is shown in figure \ref{fig:mir_interface} along with the ROS nodes it interacts with. 
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1\linewidth]{chapters/cost_interpretation/figures/dynamic_map_mir_interface.eps}
-	\caption{The Dynamic Map Server with connected nodes and interface}
+	\caption{The Dynamic mapping system with connected nodes and interface.}
 	\label{fig:mir_interface}
 \end{figure}
 
-The dynamic map server receives a static map from the static map server in order to initialize the dynamic learner. This is only done at startup. The primary input for the dynamic map server is the laser scan data provided by the SICK node and the position of the scanners in the world, provided by the SICK and AMCL nodes in conjunction. The position of the scanners on the robot is provided by the SICK system and the robot position in the world is published by AMCL. 
-The Dynamic Map Server is based on the ROS of Layered costmap \cite{lu2014layered}. Each layer in the layered costmap maintains its own costmap and these are combined to produce the final costmap. Figure \ref{fig:dynamic_map_server_internal} shows the elements of the Dynamic Map Server and their dataflow. The layered costmap in the Dynamic Map Server contains two layers: The Activity Layer and the Blueprint Layer. 
+The Dynamic mapping system receives a static map from the Static Map Server in order to initialize the Dynamic learner. This is only done at startup. The primary input for the Dynamic mapping system is the laser scan data provided by the SICK node and the pose of the robot in the world provided by AMCL. The pose of the scanners on the robot is provided by the SICK system. 
+The Dynamic mapping system is based on the ROS implementation of the Layered costmap \cite{lu2014layered}. Each layer maintains its own costmap and these are combined to produce the output costmap. Figure \ref{fig:dynamic_map_server_internal} shows the elements of the Dynamic mapping system and the flow of data. The layered costmap in the Dynamic mapping system contains three layers; Activity, User priority and Blueprint layer. 
 
 \begin{figure}[htbp]
 	\centering
@@ -20,4 +20,15 @@ The Dynamic Map Server is based on the ROS of Layered costmap \cite{lu2014layere
 	\label{fig:dynamic_map_server_internal}
 \end{figure}
 
-The Activity Layer is the primary layer and handles the mapping, learning of the dynamics and interpretation of the dynamics. It delivers a costmap that should contain the learned static obstacles with a high cost and dynamic obstacles with a cost appropriate to its dynamic. The second layer that is currently available in the Dynamic Map Server is the Blueprint Layer. This layer is designed to specify minimum costs associated with a cell. This could be used to ensure that certain areas would be avoided or avoid any possible erosion, of the walls in the map representation, due to erroneous localization. Because the Dynamic Map Server is implemented as a layered costmap it is possible add new layers to it for specific use-cases by means of a simple ROS API.
+
+The Activity Layer is the primary layer and handles the mapping, learning of the dynamics and interpretation of the dynamics. It delivers a costmap that should contain the learned static obstacles with a high cost and dynamic obstacles with a cost appropriate to its dynamic. 
+
+The second layer in the Dynamic Map Server is the User priority layer. This layer is designed override the cost of certain cells. This could be used to ensure that selected areas are avoided or preferred based on the user requirements. 
+
+The Blueprint layer can contain walls and structural elements of the environment.
+These elements are expected to be absolutely stationary for the entire time of operation.
+This can be used to avoid any possible erosion, of the walls in the map representation, due to erroneous localization.
+Another benefit of the Blueprint layer is to limit the risk of unintended feedback by wrong mapping due to  erroneous localization.
+The Blueprint layer is implemented as an instantiation of the Static Map Layer \cite{lu2014layered}. 
+
+Because the Dynamic mapping system is implemented as a layered costmap it is possible add new layers by means of a simple ROS API \cite{plugin_lib}. This could be layers for other sensors, like SONAR \cite{range_sensor_layer} or 3D cameras.
