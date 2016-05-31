@@ -1,0 +1,75 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{$\alpha_0$}]\begingroup $0Hz$ componen of a signal\nomeqref {0}
+		\nompageref{1}
+  \item [{$\alpha_k$}]\begingroup Complex number denoting part of signal described by frequency component $k$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\beta_k$}]\begingroup Complex number describing the $0Hz$ part of frequency component $k$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\gamma_k$}]\begingroup Complex number describing the frequncy component $k$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\hat{\lambda}_{exit}$}]\begingroup Estimated probability that an exit event happens\nomeqref {0}
+		\nompageref{1}
+  \item [{$\hat{\mu}$}]\begingroup Average of state scores from previous opposite state\nomeqref {0}
+		\nompageref{1}
+  \item [{$\kappa$}]\begingroup Cost determine by Markov projection\nomeqref {0}
+		\nompageref{1}
+  \item [{$\Omega$}]\begingroup Set of frequencies described by angular speed\nomeqref {0}
+		\nompageref{1}
+  \item [{$\omega_k$}]\begingroup Angular speed of frequency component $k$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\phi$}]\begingroup Function converting occupancy probabilities into costmap costs\nomeqref {0}
+		\nompageref{1}
+  \item [{$\psi$}]\begingroup Sum of consequtive state scores for current state\nomeqref {0}
+		\nompageref{1}
+  \item [{$\sigma_x$}]\begingroup Statndard deviation of the position estimate in the x-direction\nomeqref {0}
+		\nompageref{1}
+  \item [{$\theta$}]\begingroup Standard deviation of the orientation\nomeqref {0}
+		\nompageref{1}
+  \item [{$\zeta$}]\begingroup Function rounding to zero or one\nomeqref {0}
+		\nompageref{1}
+  \item [{$e_{score}$}]\begingroup PMAC event score\nomeqref {0}
+		\nompageref{1}
+  \item [{$K$}]\begingroup Number of particles used by Monte Carlo sensor model\nomeqref {0}
+		\nompageref{1}
+  \item [{$k$}]\begingroup Number of frequency components\nomeqref {0}
+		\nompageref{1}
+  \item [{$l_i$}]\begingroup Lengt i\nomeqref {0}\nompageref{1}
+  \item [{$lethal$}]\begingroup A cost that prevents the planner from entering a cell\nomeqref {0}
+		\nompageref{1}
+  \item [{$m_i$}]\begingroup A cell in map $m$\nomeqref {0}
+		\nompageref{1}
+  \item [{$o_i$}]\begingroup A cell in map $o$\nomeqref {0}
+		\nompageref{1}
+  \item [{$p$}]\begingroup Probability\nomeqref {0}\nompageref{1}
+  \item [{$p_{occ}$}]\begingroup Occupancy probability\nomeqref {0}
+		\nompageref{1}
+  \item [{$s(i)$}]\begingroup State of cell $i$\nomeqref {0}
+		\nompageref{1}
+  \item [{$t$}]\begingroup Time\nomeqref {0}\nompageref{1}
+  \item [{$T_k$}]\begingroup Period of frequency component k\nomeqref {0}
+		\nompageref{1}
+  \item [{$w_t^j$}]\begingroup Weight at time $t$ for index $j$\nomeqref {0}
+		\nompageref{1}
+  \item [{$x_t$}]\begingroup Robot pose at time $t$\nomeqref {0}
+		\nompageref{1}
+  \item [{$z_t$}]\begingroup Measurement at time $t$\nomeqref {0}
+		\nompageref{1}
+  \item [{FreMEn}]\begingroup Frequency Map Enhancement\nomeqref {0}
+		\nompageref{1}
+  \item [{HMM}]\begingroup Hidden Markov Models\nomeqref {0}
+		\nompageref{1}
+  \item [{IMAC}]\begingroup Independent Markov Chains\nomeqref {0}
+		\nompageref{1}
+  \item [{PMAC}]\begingroup Probability input Markov Chains\nomeqref {0}
+		\nompageref{1}
+  \item [{ROS}]\begingroup Robot Operating System\nomeqref {0}
+		\nompageref{1}
+  \item [{TOG}]\begingroup Temporal Occupancy Grid\nomeqref {0}
+		\nompageref{1}
+  \item [{TSM}]\begingroup Temporal Sample Map\nomeqref {0}
+		\nompageref{1}
+
+\end{thenomenclature}

@@ -16,7 +16,7 @@ The parameters available for classification are:
 \item \(\hat{\lambda}_{entry}\) - estimated by entry event and free state scores
 \end{itemize}
 
-We propose a simple classifier that bases its decisions on \(\lambda_{exit}\) and the ratio between sum of sate scores for both occupied and free as shown in equation \ref{eq:classifier}. 
+We propose a simple classifier that bases its decisions on \(\lambda_{exit}\) and the ratio between sum of state scores for both occupied and free as shown in equation \ref{eq:classifier}. 
 Cells that have been classified as static occupied are given a lethal cost in the costmap. Alternatively the cost is assigned the Markov projection cost $\kappa$ described in section \ref{sec:cost_interpretation_path_planning}. 
 
 \begin{equation}

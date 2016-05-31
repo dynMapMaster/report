@@ -20,7 +20,12 @@ The Dynamic mapping system is based on the ROS implementation of the Layered cos
 	\label{fig:dynamic_map_server_internal}
 \end{figure}
 
-The Activity Layer is the primary layer and handles the mapping, learning of the dynamics and interpretation of the dynamics. It delivers a costmap that should contain the learned static obstacles with a high cost and dynamic obstacles with a cost appropriate to its dynamic. 
+The Activity Layer is the primary layer and handles the mapping, learning of the dynamics and interpretation of the dynamics in three sections. 
+The sections are implemented to enable easy replacement.
+Particularly the Static mapper is loosely coupled to the Dynamic learner.
+This is done by having a well defined interface between the sections which allows changing the Static mapper and Dynamic learner separately.
+It delivers a costmap that should contain the learned static obstacles with a high cost and dynamic obstacles with a cost appropriate to its dynamic.
+ 
 
 The second layer in the Dynamic Map Server is the User priority layer. This layer is designed override the cost of certain cells. This could be used to ensure that selected areas are avoided or preferred based on the user requirements. 
 

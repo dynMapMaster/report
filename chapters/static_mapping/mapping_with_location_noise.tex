@@ -69,18 +69,18 @@ This is diminished by multiplying the log-odds values with equation \vref{eq:ang
 Where \(\theta \) is the standard deviation of the orientation estimate and \(l\) is the measured distance.
 \begin{equation}
 \label{eq:angle-weight}
-weigth = 
+w_{angle} = 
 \begin{cases}
-1 - ( 2 \cdot \theta \cdot l ), & \text{if } 2 \cdot \theta \cdot l < 1\\
+1 - ( 2 \cdot \theta \cdot z ), & \text{if } 2 \cdot \theta \cdot l < 1\\
 0, & \text{otherwise}
 \end{cases}
 \end{equation}
 
 \begin{equation}
 \label{eq:pose-weight}
-weigth = 
+w_{pose} = 
 \begin{cases}
-1 - ( 2 \cdot \theta \cdot l + 2 \cdot (\sigma_x + \sigma_y) ), & \text{if } 2 \cdot \theta \cdot l + 2 \cdot (\sigma_x + \sigma_y) < 1\\
+1 - ( 2 \cdot \theta \cdot z + 2 \cdot (\sigma_x + \sigma_y) ), & \text{if } 2 \cdot \theta \cdot z + 2 \cdot (\sigma_x + \sigma_y) < 1\\
 0, & \text{otherwise}
 \end{cases}
 \end{equation}
@@ -159,7 +159,7 @@ For each laser range measurement the log-odds representation of the cone shown i
 It shows the cone consisting of the center area, the left and right side cones. 
 As the model is based on a sonar cone model, the values of a cell is determined by the distance \(l\) from the sensor's origin and the angle \(\theta\). 
 The angle \(\theta\) is equal to the standard deviation of the orientation estimate. 
-The width of the center area $w$ is determined by the sum of the position standard deviations $\sigma_x$ and $\sigma_y$ projected onto the line $b$. 
+The width of the center area $l_2$ is determined by the sum of the position standard deviations $\sigma_x$ and $\sigma_y$ projected onto the line $b$. 
 
 The value of a cell is determined by the distance from the line $b$. 
 The value at the point $p$ in figure \vref{fig:cone_with_noise_top} is determined by the the distance \(l\).
@@ -170,7 +170,7 @@ It is possible to add a weight to each update value in the model. This weight is
 \label{eq:cone-weight}
 weigth = 
 \begin{cases}
-1 - ( 2 \cdot \theta \cdot l + w), & \text{if } 2 \cdot \theta \cdot l + w < 1\\
+1 - ( 2 \cdot \theta \cdot l + l_2), & \text{if } 2 \cdot \theta \cdot l + l_2 < 1\\
 0, & \text{otherwise}
 \end{cases}
 \end{equation}

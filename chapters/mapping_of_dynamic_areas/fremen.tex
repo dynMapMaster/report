@@ -34,7 +34,7 @@ The real and imaginary part of $\gamma_k$ and $\beta_k$ are updated as the runni
 
 When predicting the state of a cell at time $t$ the signal components are calculated with equation \ref{eq:fremen_freq_component}.
 Then $ \Omega $ is ordered based on $ \left\| \alpha_k \right\| $ to enable calculation of equation \ref{eq:fremen_predict} using only the $m=order-1=2$ most prominent frequency components.
-The function $\zeta$ clamps the expected signal to one if it is above $0.5$ and zero else. The $arg$-function returns the angle of the complex number with respect to the real axis.
+The function $\zeta$ clamps the expected signal to one if it is above $0.5$ and zero else.
 The occupancy state at time $t$ is predicted as occupied if $s(t)$ is one and as free if it is zero.
 
 \begin{equation}
@@ -79,10 +79,10 @@ Figure \ref{fig:fremen_ideal_sim} shows how FreMEn correctly predicts the appear
         \caption{Predicted map with realistic sensor and localization noise.}
         \label{fig:fremen_sim_with_noise}
     \end{subfigure}
-    \caption{Robot navigating on the map predicted with FreMEn where the the green dots marks ends of LIDAR readings. The colors; Black, red and white, represents free, unknown and obstacle.}
+    \caption{Robot navigating on the map predicted with FreMEn where the green dots marks ends of LIDAR readings. The colors; Black, red and white, represents free, unknown and obstacle.}
 \end{figure}
 
-Figure \ref{fig:fremen_avg_miss_with_noise} shows a more realistic simulation with Gaussian noise on LIDAR measurements with a standard deviation of one centimeter, and localization using AMCL with a static map representation of the black walls in figure \ref{fig:simulated_environment}.
+Figure \ref{fig:fremen_sim_with_noise} shows a more realistic simulation with Gaussian noise on LIDAR measurements with a standard deviation of one centimeter, and localization using AMCL with a static map representation of the black walls in figure \ref{fig:simulated_environment}.
 Here some of the obstacles are predicted to have moved while they in fact are still present, as shown in the middle to the right in figure \ref{fig:fremen_avg_miss_with_noise}.
 
 FreMEn's lack of ability to predict future measured obstacles is also apparent in the average correctly predicted observations of obstacles. This measure is calculated with equation \ref{eq:average_predict_score}, where $s$ is the state that can be; occupied or free, and $n_{cells}$ is the number of cells that are either observed or predicted as occupied.
