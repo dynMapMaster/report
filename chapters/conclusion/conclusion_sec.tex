@@ -1,1 +1,67 @@
 \section{Conclusion}
+The overall aim of the thesis is to develop a mapping system capable of maintaining a consistent map of a changing environment, which facilitates improved navigation of mobile robots.
+The designed Dynamic mapping system achieves this by representing dynamics learned from LIDAR measurements while considering the associated uncertainties.
+By separating system into the components; Static mapper, Dynamic learner and Cost interpretor, it is possible to develop them based on widely used principles. 
+The components are implemented to enable easy exchange for different requirements, while maintaining a general interface.
+
+Previous methods for mapping dynamics are often based on a full SLAM algorithm, which requires extended amount of resources and can result in suboptimal maps due to problems with data association.
+Instead we propose to separate the mapping from localization, which is viable due to AMCL's ability to handle moderate changes. 
+By incorporating the estimated localization errors in the mapping it is possible to maintain a consistent representation of slowly changing environments despite localization errors.
+
+\begin{enumerate}
+    \setcounter{enumi}{0}
+    \item Precise mapping of static environments by incorporating sensor and localization noise
+\end{enumerate}
+
+The establish method to map static environments is by learning probability for occupancy with inverse sensor models.
+Traditionally these models incorporate the measurement noise of the sensor.
+Test with the widely used model with Gaussian noise showed overconfidence in observations made with wrong localization. 
+This results in maps with too few obstacles represented.
+By decreasing the update values in the inverse sensor model according to the estimated localization uncertainty, it is possible to avoid updating wrongly and still quickly mapping when the localization is good.
+Two methods where the localization uncertainty is used to update regions was tested.
+In principle incorporation of all available information should result in faster and better mapping. 
+This was however not the case in the performed simulation tests, where too few obstacles was inserted.
+Instead a reduced version of the ideal inverse sensor model was chosen due to superior performance in simulation.
+These results was validated on real world data.
+
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item Long-term, fast, adaptive map representation of dynamic environments
+\end{enumerate}
+
+A survey of ways to represent and learn dynamic environments revealed that methods where parameters are continuously learned online are preferred over batch learning methods.
+An investigation showed that Markov models are more appropriate than frequency based representations.
+Simulations showed that the frequency representation was susceptible to noise. 
+Considering the characteristics of production areas where the system are to be used, showed that the extensive assumption about periodic signals is not applicable with a high resolution grid.
+
+For the Markov representation., various method for learning the parameters was tested. It is found that online learning with the HMM is possible, but it takes a considerable amount of time.
+By estimating rate parameters by counting observations and events with IMAC a much higher learning rate is achieved.
+We propose to learn the parameters by summing uncertainty weighted scores called PMAC. This is designed to learn as fast as IMAC from confident observations and avoid overconfidence in wrong measurements.
+Evaluation on real world data showed that PMAC learns Markov parameters at least as good as IMAC.
+A number of cases were identified where IMAC would make erroneous updates due to uncertain observations was shown to be avoided by PMAC. 
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Improved localization with a continuously adapted map of good features
+\end{enumerate}
+The learned dynamics is converted to a usable map for localization by widely used systems.
+The map for localization includes only static features where the probability for them to remain stationary is high.
+It was demonstrated that using the dynamic map improved the localization certainty compared to an imperfect static map.
+Discontinuities in the estimated pose was shown to be suppressed by using the learned dynamic map.
+An improvement of $60\%$ decrease in position error by using a dynamic map compared to an imperfect static map. 
+The precision was increased by $70\%$ for the position and $57\%$ for the orientation. 
+The dynamic map was learned when navigating with the imperfect static map which proves the systems ability to improve localization even based on uncertain estimates. 
+
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Integration and evaluation on the MiR-100 platform
+\end{enumerate}
+When the MiR-100 navigates in a dynamic environment with a static map it risks having to replan due to discrepancies between the map en the world.
+To overcome this the learned dynamics could be used to estimate the expected occupancy of the map.
+We propose a predict-update method based on the Markov grid.
+An estimate of the occupancy is updated with new measurements based on their certainty.
+This value is used as initial input for a traditional Markov projection from the last update to the time of planning.
+
+To ease integration the Dynamic mapping system is proposed as a stand alone map server. 
+This maintains clean interfaces and enables easy integration with a wide range of existing ROS systems. 
+

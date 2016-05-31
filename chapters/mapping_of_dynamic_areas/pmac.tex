@@ -66,6 +66,24 @@ e_{score}(t)=min(\hat{\mu}_{s},\psi)
 \end{equation}
 
 Both the state and event score behave as IMAC counters when the certainty is perfect, thus fulfilling the first requirement. The second requirement is achieved by the state score scaling with the occupancy probability distance from $0.5$, and the event score basing its value on the state score.
+In order to handle multiple uncertain observations as shown in figure \ref{fig:pmac_noise_problem_case} the $\hat{\mu}_s$ is not only controlled by the average of the previous sum of consecutive state scores of the opposite state, but also a long term average of that state.
+This avoids under estimating $\lambda$ in cases with multiple very uncertain values, as demonstrated by figure \ref{fig:pmac_noise_problem_case} and \ref{fig:visualization_of_advantage_long_term_average}.
+For a detailed description of PMAC the pseudocode is available in appendix \ref{appendix:pmac_pseudo_code}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/pmac_noise_problem_case}
+    \caption{}
+    \label{fig:pmac_noise_problem_case}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/visualization_of_advantage_long_term_average}
+    \caption{}
+    \label{fig:visualization_of_advantage_long_term_average}
+\end{figure}
 
 \subsection{Case Studies}
 The PMAC learning method is illustrated through a couple of case scenarios in the following. 
@@ -97,22 +115,6 @@ The observations from index $7$ to $20$ constitutes more certain changes in the 
 \end{figure}
 
 \todo{Write about improved pmac handling noise problem}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/pmac_noise_problem_case}
-\caption{}
-\label{fig:pmac_noise_problem_case}
-\end{figure}
-
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=1]{chapters/mapping_of_dynamic_areas/figures/visualization_of_advantage_long_term_average}
-    \caption{}
-    \label{fig:visualization_of_advantage_long_term_average}
-\end{figure}
-
 
 \subsection{Comparing PMAC to Alternavtives}
 The goal of the developed PMAC learning method is to combine the fast learning under good condition from IMAC while also incorporating the uncertainty of sensor measurements. The uncertainty is represented as a probability from the static mapper that a cell is occupied. In order to compare PMAC to different Markov parameter learning methods, it has been tested in a simulation setup alongside IMAC and the online version of HMM. The test setup is one dimensional and a static mapper is used. The static mapper receives 10 noisy measurements, and determines the resulting occupancy probability as learning input. The simulation is run for 200 learning rounds with the noise changing midway through. The initial noise is \(1.2\) grid cells then decreasing to \(0.11\) grid cells, both with zero mean. 

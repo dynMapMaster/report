@@ -1,2 +1,10 @@
 %!TEX root = ../../report.tex
 \chapter*{Abstract}
+This thesis deals with the problems of wrong localization and useless planned paths arising when navigating with mobile robots in dynamic environments with static maps.
+We propose to solve this with a mapping server that maintains a consistent map by learning  dynamics from LIDAR measurements while considering uncertainties.
+The mapping server is easily integrated as an addition to systems using a static map representation.
+The mapping is done by incorporating measurements made over a short period with an inverse sensor model into a temporary occupancy grid.
+The amount the inverse sensor model updates with is adjusted to represent the estimated pose uncertainty.
+The temporary maps are used to estimate the parameters for the dynamics, which is represented as a grid of binary Markov processes.
+The state transition parameters are estimated online by summing observations and events while considering the certainties in the temporary map.
+Evaluation on a MiR-100 robot shows significantly improved localization when adding the proposed map server.
